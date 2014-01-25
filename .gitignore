@@ -11,3 +11,11 @@ source/_stash
 source/stylesheets/screen.css
 vendor
 node_modules
+*.swp
+.preview-mode
+
+# Custom
+.rbenv-version
+.ruby-version
+*.!sync
+.idea/

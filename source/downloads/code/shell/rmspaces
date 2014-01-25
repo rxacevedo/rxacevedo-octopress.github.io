@@ -1,0 +1,5 @@
+#!/bin/bash
+
+arg="$1"
+
+mv "$arg" "$(echo $arg | tr ' ' '_' | tr '-' '_')"
