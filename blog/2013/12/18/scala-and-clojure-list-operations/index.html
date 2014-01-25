@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Scala and Clojure List Operations - Roberto Acevedo</title>
+  <meta name="author" content="Roberto Acevedo">
+
+  
+  <meta name="description" content="Functional programming is an incredibly powerful paradigm that empowers developers to be more flexible in the ways that they devise and implement &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://rxacevedo.github.io/blog/2013/12/18/scala-and-clojure-list-operations">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Roberto Acevedo" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Roberto Acevedo</a></h1>
+  
+    <h2>Navel-gazing</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:rxacevedo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/shell">Shell</a></li>
+  <li><a href="/links">Links</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Scala and Clojure List Operations</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-18T19:32:00-05:00" pubdate data-updated="true">Dec 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Functional programming is an incredibly powerful paradigm that empowers developers to be more flexible in the ways that they devise and implement solutions to problems. One of the most powerful features of functional programming, regardless of language, is the manner in which it allows us to interact with data structures. Provided here are some examples of &ldquo;list functions&rdquo; in both Scala and Clojure:</p>
+
+<h2>Creating a list:</h2>
+
+<h4>Scala</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+</span><span class='line'><span class="c1">// res10: List[Int] = List(1, 2, 3, 4, 5)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>List() is a constructor, it takes varargs and returns an immutable list (scala.collection.immutable.List). If you want a mutable list, you should use an ArrayBuffer(scala.collection.mutable.ArrayBuffer).</p>
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="c1">;; (1 2 3 4 5)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Clojure embraces the use of literals for lists and maps.</p>
+
+<h2>Filling a list:</h2>
+
+<p>Sometimes you&rsquo;ll want to fill a list with repeated values, i.e. if you are using a list to record, say, the initial state of a game. The game state would be based on how many pieces are on the board in this case, which we represent as strings inside of a list.</p>
+
+<h4>Scala</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="nb">val </span><span class="nv">gamePieces</span><span class="err">:</span> <span class="nv">List</span><span class="p">[</span><span class="nv">String</span><span class="p">]</span> <span class="nb">= </span><span class="nv">List.fill</span><span class="p">(</span><span class="mi">10</span><span class="p">)(</span><span class="s">&quot;piece&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nv">//</span> <span class="nv">gamePieces</span><span class="err">:</span> <span class="nv">List</span><span class="p">[</span><span class="nv">String</span><span class="p">]</span> <span class="nb">= </span><span class="nv">List</span><span class="p">(</span><span class="nf">piece</span>, <span class="nv">piece</span>, <span class="nv">piece</span>, <span class="nv">piece</span>, <span class="nv">piece</span>, <span class="nv">piece</span>, <span class="nv">piece</span>, <span class="nv">piece</span>, <span class="nv">piece</span>, <span class="nv">piece</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">repeat </span><span class="mi">10</span> <span class="s">&quot;piece&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">;; (&quot;piece&quot; &quot;piece&quot; &quot;piece&quot; &quot;piece&quot; &quot;piece&quot; &quot;piece&quot; &quot;piece&quot; &quot;piece&quot; &quot;piece&quot; &quot;piece&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Acquiring a range:</h2>
+
+<p>In Java, one might write something like this to get a list of integers 0 &ndash; 10 exclusive:</p>
+
+<h4>Java</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">int</span><span class="o">[]</span> <span class="n">myInts</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">10</span><span class="o">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">myInts</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">myInts</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Scala or Clojure, we can simplify our approach as follows:</p>
+
+<h4>Scala</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="nc">List</span><span class="o">.</span><span class="n">range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+</span><span class='line'><span class="c1">// res13: List[Int] = List(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">range </span><span class="mi">0</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="c1">;; (0 1 2 3 4 5 6 7 8 9)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Applying functions to lists with map</h2>
+
+<p>Most of the time, we will want to do more than just create lists,  we want to interact with the data inside of our lists, applying changes to them, etc. To do this, we can use the map function. Map takes a list and applies some function to each element in the list. Provided here are some map usage examples:</p>
+
+<h4>Scala</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">gamePieces</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">a</span> <span class="k">=&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+</span><span class='line'><span class="c1">// res17: List[String] = List(piece1, piece1, piece1, piece1, piece1, piece1, piece1, piece1, piece1, piece1)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>Notice how in Scala, the value of 1 is coerced to a String. This is a noteworthy difference between the two. Clojure will happily compile the equivalent code for us, but will throw a ClassCastException (RuntimeException) when we attempt to invoke the method or evaluate the var:</em></p>
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">pieces</span> <span class="p">(</span><span class="nb">repeat </span><span class="mi">10</span> <span class="s">&quot;piece&quot;</span><span class="p">)]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">map </span><span class="o">#</span><span class="p">(</span><span class="nb">+ </span><span class="nv">%</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">pieces</span><span class="p">))</span>
+</span><span class='line'><span class="c1">;; ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.lang.Numbers.add (Numbers.java:126)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can get around this using the str function, which will coerce its args to Strings and combine them into a single string:</p>
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">pieces</span> <span class="p">(</span><span class="nb">repeat </span><span class="mi">10</span> <span class="s">&quot;piece&quot;</span><span class="p">)]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">map </span><span class="o">#</span><span class="p">(</span><span class="nb">str </span><span class="nv">%</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">pieces</span><span class="p">))</span>
+</span><span class='line'><span class="c1">;; (&quot;piece1&quot; &quot;piece1&quot; &quot;piece1&quot; &quot;piece1&quot; &quot;piece1&quot; &quot;piece1&quot; &quot;piece1&quot; &quot;piece1&quot; &quot;piece1&quot; &quot;piece1&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In both examples, you can see that I have passed some instruction to the map function, similar to a method. These are referred to as anonymous functions, or lambdas. Here we make all of our list members scream loudly:</p>
+
+<h4>Scala</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">gamePieces</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">a</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">toUpperCase</span><span class="o">)</span>
+</span><span class='line'><span class="c1">// res21: List[String] = List(PIECE, PIECE, PIECE, PIECE, PIECE, PIECE, PIECE, PIECE, PIECE, PIECE)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">pieces</span> <span class="p">(</span><span class="nb">repeat </span><span class="mi">10</span> <span class="s">&quot;piece&quot;</span><span class="p">)]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">map </span><span class="nv">clojure.string/upper-case</span> <span class="nv">pieces</span><span class="p">))</span>
+</span><span class='line'><span class="c1">;; (&quot;PIECE&quot; &quot;PIECE&quot; &quot;PIECE&quot; &quot;PIECE&quot; &quot;PIECE&quot; &quot;PIECE&quot; &quot;PIECE&quot; &quot;PIECE&quot; &quot;PIECE&quot; &quot;PIECE&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Getting relevant data with filter</h2>
+
+<p>There will come a time when you will have a list and you will want to extract certain values from it. For this, we can use the filter functions that Scala and Clojure provide to slice and dice our data. Lets have some fun with an example involving Hobbits (inspired by <a href="https://twitter.com/nonrecursive">nonrecursive</a> at <a href="http://www.braveclojure.com/6-do-things/#3_10__Hobbit_Violence">braveclojure</a>):</p>
+
+<h4>Scala</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">val</span> <span class="n">names</span><span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">&quot;Bilbo Baggins&quot;</span><span class="o">,</span>
+</span><span class='line'>                <span class="s">&quot;Frodo Baggins&quot;</span><span class="o">,</span>
+</span><span class='line'>                <span class="s">&quot;Samwise Gamgee&quot;</span><span class="o">,</span>
+</span><span class='line'>                <span class="s">&quot;Peregrin &#39;Pippin&#39; Took&quot;</span><span class="o">,</span>
+</span><span class='line'>                <span class="s">&quot;Meradoc &#39;Merry&#39; Brandybuck&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="c1">// hobbits: List[String] = List(Bilbo Baggins, Frodo Baggins, Samwise Gamgee, Peregrin &#39;Pippin&#39; Took, Meradoc &#39;Merry&#39; Brandybuck)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">[</span><span class="s">&quot;Bilbo Baggins”</span>
+</span><span class='line'><span class="s"> &quot;</span><span class="nv">Frodo</span> <span class="nv">Baggins</span><span class="s">&quot;</span>
+</span><span class='line'><span class="s"> &quot;</span><span class="nv">Samwise</span> <span class="nv">Gamgee</span><span class="s">&quot;</span>
+</span><span class='line'><span class="s"> &quot;</span><span class="nv">Peregrin</span> <span class="ss">&#39;Pippin</span><span class="o">&#39;</span> <span class="nv">Took</span><span class="s">&quot;</span>
+</span><span class='line'><span class="s"> &quot;</span><span class="nv">Meriadoc</span> <span class="ss">&#39;Merry</span><span class="o">&#39;</span> <span class="nv">Brandybuck</span><span class="s">&quot;]</span>
+</span><span class='line'><span class="s">;; [&quot;</span><span class="nv">Bilbo</span> <span class="nv">Baggins</span><span class="s">&quot; &quot;</span><span class="nv">Frodo</span> <span class="nv">Baggins</span><span class="s">&quot; &quot;</span><span class="nv">Samwise</span> <span class="nv">Gamgee</span><span class="s">&quot; &quot;</span><span class="nv">Peregrin</span> <span class="ss">&#39;Pippin</span><span class="o">&#39;</span> <span class="nv">Took</span><span class="s">&quot; &quot;</span><span class="nv">Meriadoc</span> <span class="ss">&#39;Merry</span><span class="o">&#39;</span> <span class="nv">Brandybuck</span><span class="err">&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we have a list of famous hobbits, great! Chance has it that I&rsquo;m throwing a special hobbit party, but only the Bagginses are invited. We need to get rid of everyone that&rsquo;s not a Baggins. Let&rsquo;s filter out the Bagginses and get with the merriment already!</p>
+
+<h4>Scala</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">names</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">a</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;Baggins&quot;</span><span class="o">))</span>
+</span><span class='line'><span class="c1">// res77: List[String] = List(Bilbo Baggins, Frodo Baggins)</span>
+</span><span class='line'><span class="c1">// Party time</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">names</span> <span class="p">[</span><span class="s">&quot;Bilbo Baggins&quot;</span>
+</span><span class='line'>             <span class="s">&quot;Frodo Baggins&quot;</span>
+</span><span class='line'>             <span class="s">&quot;Samwise Gamgee&quot;</span>
+</span><span class='line'>             <span class="s">&quot;Peregrin &#39;Pippin&#39; Took&quot;</span>
+</span><span class='line'>             <span class="s">&quot;Meriadoc &#39;Merry&#39; Brandybuck&quot;</span><span class="p">]</span>
+</span><span class='line'>      <span class="nv">bagginses</span> <span class="p">(</span><span class="nb">filter </span><span class="o">#</span><span class="p">(</span><span class="nb">re-find </span><span class="o">#</span><span class="s">&quot;.*Baggins&quot;</span> <span class="nv">%</span><span class="p">)</span> <span class="nv">names</span><span class="p">)]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">map </span><span class="o">#</span><span class="p">(</span><span class="nb">str </span><span class="nv">%</span> <span class="s">&quot; is soOOOOOO DRUNK!!&quot;</span><span class="p">)</span> <span class="nv">bagginses</span><span class="p">))</span>
+</span><span class='line'><span class="c1">;; (&quot;Bilbo Baggins is soOOOOOO DRUNK!!&quot; &quot;Frodo Baggins is soOOOOOO DRUNK!!&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Awesome! Now let&rsquo;s turn to a slightly more complex example &ndash; let&rsquo;s take on the role of Gollum and hunt for The Ring. The goal is to kill the hobbit with the precious and take it back for us. Let&rsquo;s find and kill the dirty lying hobbitses that has our precious!</p>
+
+<h4>Scala</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">val</span> <span class="n">hobbits</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">Any</span><span class="o">]]</span> <span class="k">=</span> <span class="n">names</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">a</span> <span class="k">=&gt;</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;name&quot;</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="o">,</span> <span class="s">&quot;height&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;small&quot;</span><span class="o">,</span> <span class="s">&quot;hairyFeet&quot;</span> <span class="o">-&gt;</span> <span class="kc">true</span><span class="o">,</span> <span class="s">&quot;hasPrecious?&quot;</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="n">startsWith</span> <span class="s">&quot;Frodo&quot;</span><span class="o">)</span> <span class="kc">true</span> <span class="k">else</span> <span class="kc">false</span><span class="o">)))</span>
+</span><span class='line'><span class="c1">// res83: List[scala.collection.immutable.Map[String,Any]] = </span>
+</span><span class='line'><span class="c1">// List(Map(name -&gt; Bilbo Baggins, height -&gt; small, hairyFeet? -&gt; true, hasPrecious? -&gt; false), </span>
+</span><span class='line'><span class="c1">//      Map(name -&gt; Frodo Baggins, height -&gt; small, hairyFeet? -&gt; true, hasPrecious? -&gt; true), </span>
+</span><span class='line'><span class="c1">//      Map(name -&gt; Samwise Gamgee, height -&gt; small, hairyFeet? -&gt; true, hasPrus? -&gt; false), </span>
+</span><span class='line'><span class="c1">//      Map(name -&gt; Peregrin &#39;Pippin&#39; Took, height -&gt; small, hairyFeet? -&gt; true, hasPrecious? -&gt; false), </span>
+</span><span class='line'><span class="c1">//      Map(name -&gt; Meradoc &#39;Merry&#39; Brandybuck, height -&gt; small, hairyFeet? -&gt; true, hasPrecious? -&gt; false))</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">hobbits</span><span class="o">.</span><span class="n">filter</span><span class="o">((</span><span class="n">a</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">Any</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;hasPrecious?&quot;</span><span class="o">)</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="kc">false</span><span class="o">))</span>
+</span><span class='line'><span class="c1">// res84: List[Map[String,Any]] = </span>
+</span><span class='line'><span class="c1">// List(Map(name -&gt; Bilbo Baggins, height -&gt; small, hairyFeet -&gt; true, hasPrecious? -&gt; false), </span>
+</span><span class='line'><span class="c1">//      Map(name -&gt; Samwise Gamgee, height -&gt; small, hairyFeet -&gt; true, hasPrecious? -&gt; false), </span>
+</span><span class='line'><span class="c1">//      Map(name -&gt; Peregrin &#39;Pippin&#39; Took, height -&gt; small, hairyFeet -&gt; true, hasPrecious? -&gt; false), </span>
+</span><span class='line'><span class="c1">//      Map(name -&gt; Meradoc &#39;Merry&#39; Brandybuck, height -&gt; small, hairyFeet -&gt; true, hasPrecious? -&gt; false))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Having to deal with Some() is kind of ugly, so instead of a mixed-value map, we’ll switch to a case class. Here is the full implementation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">object</span> <span class="nc">KillHobbits</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">Hobbit</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">height</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">hairyFeet</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">,</span> <span class="n">hasPrecious</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">val</span> <span class="n">names</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">&quot;Bilbo Baggins&quot;</span><span class="o">,</span>
+</span><span class='line'>                                   <span class="s">&quot;Frodo Baggins&quot;</span><span class="o">,</span>
+</span><span class='line'>                                   <span class="s">&quot;Samwise Gamgee&quot;</span><span class="o">,</span>
+</span><span class='line'>                                   <span class="s">&quot;Peregrin &#39;Pippin&#39; Took&quot;</span><span class="o">,</span>
+</span><span class='line'>                                   <span class="s">&quot;Meradoc &#39;Merry&#39; Brandybuck&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">val</span> <span class="n">hobbits</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Hobbit</span><span class="o">]</span> <span class="k">=</span> <span class="n">makeHobbits</span><span class="o">(</span><span class="n">names</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="s">&quot;Before killing off the one holding the ring...&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">hobbits</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">a</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">a</span><span class="o">))</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">killTheRingKeeper</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Hobbit</span><span class="o">]</span> <span class="k">=</span> <span class="n">hobbits</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">a</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">hasPrecious</span> <span class="o">==</span> <span class="kc">false</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="s">&quot;\nDie dirty hobbitses!&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">killTheRingKeeper</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">a</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">a</span><span class="o">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">makeHobbits</span><span class="o">(</span><span class="n">names</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Hobbit</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">names</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">a</span> <span class="k">=&gt;</span>
+</span><span class='line'>      <span class="nc">Hobbit</span><span class="o">(</span><span class="n">name</span> <span class="k">=</span> <span class="n">a</span><span class="o">,</span>
+</span><span class='line'>             <span class="n">height</span> <span class="k">=</span> <span class="s">&quot;hobbit-sized&quot;</span><span class="o">,</span>
+</span><span class='line'>             <span class="n">hairyFeet</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
+</span><span class='line'>             <span class="n">hasPrecious</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="n">startsWith</span> <span class="s">&quot;Frodo&quot;</span><span class="o">)</span> <span class="kc">true</span> <span class="k">else</span> <span class="kc">false</span><span class="o">))</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>Clojure</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">names</span> <span class="p">[</span><span class="s">&quot;Bilbo Baggins&quot;</span>
+</span><span class='line'>             <span class="s">&quot;Frodo Baggins&quot;</span>
+</span><span class='line'>             <span class="s">&quot;Samwise Gamgee&quot;</span>
+</span><span class='line'>             <span class="s">&quot;Peregrin &#39;Pippin&#39; Took&quot;</span>
+</span><span class='line'>             <span class="s">&quot;Meriadoc &#39;Merry&#39; Brandybuck&quot;</span><span class="p">]</span>
+</span><span class='line'>      <span class="nv">hobbits</span> <span class="p">(</span><span class="nf">vec</span> <span class="p">(</span><span class="nb">map </span><span class="o">#</span><span class="p">(</span><span class="nb">hash-map </span><span class="ss">:name</span> <span class="nv">%</span>
+</span><span class='line'>                                   <span class="ss">:height</span> <span class="s">&quot;hobbit-sized&quot;</span>
+</span><span class='line'>                                   <span class="ss">:hairy-feet?</span> <span class="nv">true</span>
+</span><span class='line'>                                   <span class="ss">:has-precious?</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">%</span> <span class="s">&quot;Frodo Baggins&quot;</span><span class="p">)</span> <span class="nv">true</span>
+</span><span class='line'>                                                      <span class="nv">false</span><span class="p">))</span> <span class="nv">names</span><span class="p">))]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">filter </span><span class="ss">:has-precious?</span> <span class="nv">hobbits</span><span class="p">))</span>
+</span><span class='line'><span class="c1">;; ({:name &quot;Frodo Baggins&quot;, :hairy-feet? true, :has-precious? true, :height &quot;hobbit-sized&quot;})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Roberto Acevedo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-18T19:32:00-05:00" pubdate data-updated="true">Dec 18<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rxacevedo.github.io/blog/2013/12/18/scala-and-clojure-list-operations/" data-via="rxacevedo" data-counturl="http://rxacevedo.github.io/blog/2013/12/18/scala-and-clojure-list-operations/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/20/a-tale-of-two-languages/" title="Previous Post: A Tale of Two Languages">&laquo; A Tale of Two Languages</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/01/07/first-class-functions/" title="Next Post: First-class Functions">First-class Functions &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+  I'm a 24-year-old computer programmer who enjoys running, coffee, programming languages and their design/semantics.
+  </p>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/rxacevedo">@rxacevedo</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'rxacevedo',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Roberto Acevedo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

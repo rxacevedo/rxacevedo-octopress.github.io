@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Fp | Roberto Acevedo]]></title>
+  <link href="http://rxacevedo.github.io/blog/categories/fp/atom.xml" rel="self"/>
+  <link href="http://rxacevedo.github.io/"/>
+  <updated>2014-01-24T20:34:06-05:00</updated>
+  <id>http://rxacevedo.github.io/</id>
+  <author>
+    <name><![CDATA[Roberto Acevedo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[First-class Functions]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/01/07/first-class-functions/"/>
+    <updated>2014-01-07T19:25:44-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/01/07/first-class-functions</id>
+    <content type="html"><![CDATA[<p>Functions that take functions as arguments and functions that return functions
+as their results can be a tricky concept to grasp and apply coming from a
+purely object-oriented style of programming. I will say up front that higher-order
+functions are mostly useful for list-processing, but we will soon see
+that this enables us to affect changes on data (or data structures) without
+actually modifying state.</p>
+
+<p><code>clojure Le map
+map
+;; #&lt;core$map clojure.core$map@17448423&gt;
+</code></p>
+
+<p>Map? That&rsquo;s it? Yes, map is a function that takes a function and a number of
+collections and will apply that function in one of two ways</p>
+
+<ol>
+<li>To each element of the collection &ndash; f(element)</li>
+<li>To the group of elements that are at equal positions in the collections &ndash;
+f(element1, element2, element3)</li>
+</ol>
+
+
+<p>One can easily observe the usefulness of higher-order functions (or HOFs) in this sense.
+Here is a contrived example of mapping an anonymous function:</p>
+
+<p>``` clojure Our first HOF
+(map #(assoc % :cry (condp = (:type %)</p>
+
+<pre><code>                  :cat "Meow"
+                  :dog "Woof"
+                  "HELP"))
+ [{:name "Spot" :type :dog} 
+  {:name "Whiskers" :type :cat}                                     
+  {:name "Leila" :type :dog} 
+  {:name "Geronimo" :type :cat}
+  {:name "Izolda the Russian mail-order bride"}])
+</code></pre>
+
+<p>;; ({:cry &ldquo;Woof&rdquo;, :name &ldquo;Spot&rdquo;, :type :dog}
+;;  {:cry &ldquo;Meow&rdquo;, :name &ldquo;Whiskers&rdquo;, :type :cat}
+;;  {:cry &ldquo;Woof&rdquo;, :name &ldquo;Leila&rdquo;, :type :dog}
+;;  {:cry &ldquo;Meow&rdquo;, :name &ldquo;Geronimo&rdquo;, :type :cat}
+;;  {:cry &ldquo;HELP&rdquo;, :name &ldquo;Izolda the Russian mail-order bride&rdquo;})
+```</p>
+
+<p><em>Ok, we get it Roberto, there are some neat functions available in Scala and
+Clojure that let us pass functions in, but why would we ever want to write our
+own?</em></p>
+
+<p>We need to think about our functions not just in terms of what they do, but how
+they do it, the order that it&rsquo;s done in, and the types returned by each function
+application. Let&rsquo;s write a function to obfuscate text as an example:</p>
+
+<p>``` clojure Not so HOF
+(defn obfuscate [text]
+  (clojure.string/join (interleave (rest (iterate rand-int 42))</p>
+
+<pre><code>(reverse (seq text)))))
+</code></pre>
+
+<p>```</p>
+
+<p>Or, using a threading macro for clarity (hey, some people don&rsquo;t like
+the parentheses):</p>
+
+<p>``` clojure Still not so HOF
+(defn obfuscate [text]
+  (&ndash;>> text</p>
+
+<pre><code>    seq
+    reverse
+    (interleave (rest (iterate rand-int 42)))
+    clojure.string/join))
+</code></pre>
+
+<p>```</p>
+
+<p>There are some components to this function that we would like to keep, i.e. the
+call to seq to convert the string into a list of chars. But what about about the
+call to reverse? We could easily omit this or replace it with another function.
+We might also want to join the string back together using a character, and we
+might not want to interleave with numbers, but rather with symbols. How could
+we do this? We can remove these components and replace them with variables, and
+then pass functions in that will be bound to those variables.</p>
+
+<p>``` clojure A higher-order function that takes a String and returns a function
+(defn make-obfuscator [text]
+  (ƒ [f g h]</p>
+
+<pre><code>  (f (g (h (seq text))))))
+</code></pre>
+
+<p>```</p>
+
+<p>There are a variety of ways that one can achieve this in Scala, I am using function
+currying here (each function takes a single parameter).</p>
+
+<p><code>scala A higher-order function that takes a String and returns a function
+def makeObfuscator(f: String =&gt; List[Char])(g: List[Char] =&gt; String)(s:String) = {
+  val lambda = (a: String) =&gt; g(f(a))
+  lambda(s)
+}
+</code></p>
+
+<p>We can call this function and directly pass in the functions that we want like
+this:</p>
+
+<p><code>clojure Passing functions as arguments
+((make-obfuscator clojure.string/join #(interleave (rest (iterate rand-int 42))
+%) reverse) "Hello")
+;; "12o7l2l1e0H"
+</code></p>
+
+<p>We can also harness the power of this higher-order function now, to define
+multiple obfuscation functions (note: these are just examples, they are not meant to provide any sort of security):</p>
+
+<p>``` clojure MOAR OBFUSCATORS!
+(defn scramble [text]
+  ((make-obfuscator clojure.string/join #(interleave (rest (iterate rand-int 42)) %) reverse) text))</p>
+
+<p>(defn jumble [text]
+  ((make-obfuscator #(clojure.string/join &ldquo;_&rdquo; %) #(shuffle (seq %)) clojure.string/upper-case) text))</p>
+
+<p>(defn move-yo-chars-every-every-char [text]
+  ((make-obfuscator #(apply str (shuffle %)) #(interleave (map char (iterate inc 33)) %) reverse) text))
+```</p>
+
+<p>Let&rsquo;s test that they work:</p>
+
+<p>``` clojure I&rsquo;m writing stuff
+(scramble &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;27.11o1t0u0l0a0s0 0e0t0 0s0u0r0u0t0i0r0o0M&rdquo;</p>
+
+<p>(jumble &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;S<em> _ </em>\<em>\</em>P_P<em> </em>\<em>C</em> _ <em>E</em> <em>E</em> _ <em>\</em> <em>U</em> <em>S_A</em>)<em> </em>.<em>\</em>\<em>R</em>\<em>U</em>\<em>L__S</em>\<em>\</em>O_A<em>\</em> _ <em>\</em> <em>E_R</em> <em>O_C</em>\<em>T</em>\<em>T_T</em>\<em>\</em>U<em> </em>\<em>I</em>(<em>S</em>\<em>\</em>M_A_\__ &rdquo;</p>
+
+<p>(move-yo-chars-every-every-char &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;a1t # $o2ie30%.u)sr!*&ndash;,tu&amp;.Mu/t4o'\"r(sl+&rdquo;
+```
+As you can see, higher-order functions can be used to generate many new
+functions that share a common behavior pattern.</p>
+
+<p>Here is less complex version in Scala that uses case classes to switch on message
+types:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (Obfuscate.scala)</span> <a href='/downloads/code/scala/Obfuscate.scala'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">object</span> <span class="nc">Obfuscate</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">case</span> <span class="k">class</span> <span class="nc">WikiLeaks</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="k">class</span> <span class="nc">NSA</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="k">class</span> <span class="nc">InstantMessage</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="k">class</span> <span class="nc">Password</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="n">scramble</span><span class="o">(</span><span class="s">&quot;Hello!&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="n">jumble</span><span class="o">(</span><span class="s">&quot;Moriturus te saluto.&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="n">mungeString</span><span class="o">(</span><span class="s">&quot;I&#39;m typing words&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="s">&quot;Case classes\n&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">val</span> <span class="o">(</span><span class="n">wklks</span><span class="o">,</span> <span class="n">nsa</span><span class="o">,</span> <span class="n">im</span><span class="o">,</span> <span class="n">pw</span><span class="o">)</span> <span class="k">=</span> <span class="o">(</span><span class="nc">WikiLeaks</span><span class="o">(</span><span class="s">&quot;Julian Assange&quot;</span><span class="o">),</span> <span class="c1">// This is a tuple</span>
+</span><span class='line'>                                <span class="nc">NSA</span><span class="o">(</span><span class="s">&quot;Edward Snowden&quot;</span><span class="o">),</span>
+</span><span class='line'>                                <span class="nc">InstantMessage</span><span class="o">(</span><span class="s">&quot;OMG GUESS WHO SAID WHAT&quot;</span><span class="o">),</span>
+</span><span class='line'>                                <span class="nc">Password</span><span class="o">(</span><span class="s">&quot;puppyKisses123&quot;</span><span class="o">))</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="s">&quot;The secrets are: \n&quot;</span> <span class="o">+</span>
+</span><span class='line'>      <span class="n">dispatch</span><span class="o">(</span><span class="n">wklks</span><span class="o">)</span> <span class="o">+</span>
+</span><span class='line'>      <span class="s">&quot;\n&quot;</span> <span class="o">+</span>
+</span><span class='line'>      <span class="n">dispatch</span><span class="o">(</span><span class="n">nsa</span><span class="o">)</span> <span class="o">+</span>
+</span><span class='line'>      <span class="s">&quot;\n&quot;</span> <span class="o">+</span>
+</span><span class='line'>      <span class="n">dispatch</span><span class="o">(</span><span class="n">im</span><span class="o">)</span> <span class="o">+</span>
+</span><span class='line'>      <span class="s">&quot;\n&quot;</span> <span class="o">+</span> <span class="n">dispatch</span><span class="o">(</span><span class="n">pw</span><span class="o">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">dispatch</span><span class="o">(</span><span class="n">message</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span><span class="k">=</span> <span class="n">message</span> <span class="k">match</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nc">WikiLeaks</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">scramble</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">toString</span><span class="o">)</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nc">NSA</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">jumble</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">toString</span><span class="o">)</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nc">InstantMessage</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">mungeString</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">toString</span><span class="o">)</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nc">Password</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">scramble</span><span class="o">(</span><span class="n">jumble</span><span class="o">(</span><span class="n">scramble</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">toString</span><span class="o">)))</span>
+</span><span class='line'>      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="s">&quot;None&quot;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Old and boring</span>
+</span><span class='line'>  <span class="c1">// def obfuscate(text: String): String = {</span>
+</span><span class='line'>  <span class="c1">//   util.Random.shuffle(List.concat(text)).mkString</span>
+</span><span class='line'>  <span class="c1">// }</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">makeObfuscator</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=&gt;</span> <span class="nc">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">])(</span><span class="n">g</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">composed</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">g</span><span class="o">(</span><span class="n">f</span><span class="o">(</span><span class="n">a</span><span class="o">))</span>
+</span><span class='line'>    <span class="n">composed</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">scramble</span><span class="o">(</span><span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">f</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">util</span><span class="o">.</span><span class="nc">Random</span><span class="o">.</span><span class="n">shuffle</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="n">concat</span><span class="o">(</span><span class="n">a</span><span class="o">))</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">mkString</span>
+</span><span class='line'>    <span class="n">makeObfuscator</span><span class="o">(</span><span class="n">f</span><span class="o">)(</span><span class="n">g</span><span class="o">)(</span><span class="n">text</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">jumble</span><span class="o">(</span><span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">f</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">List</span><span class="o">.</span><span class="n">concat</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">mkString</span><span class="o">(</span><span class="s">&quot;:&gt;&gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">makeObfuscator</span><span class="o">(</span><span class="n">f</span><span class="o">)(</span><span class="n">g</span><span class="o">)(</span><span class="n">text</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">mungeString</span><span class="o">(</span><span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">f</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">List</span><span class="o">.</span><span class="n">concat</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">mkString</span><span class="o">(</span><span class="s">&quot;666&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">makeObfuscator</span><span class="o">(</span><span class="n">f</span><span class="o">)(</span><span class="n">g</span><span class="o">)(</span><span class="n">text</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

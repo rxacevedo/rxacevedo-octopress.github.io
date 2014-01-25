@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Recursion in Scala - Roberto Acevedo</title>
+  <meta name="author" content="Roberto Acevedo">
+
+  
+  <meta name="description" content="I&rsquo;ve been going through Martin Odersky&rsquo;s free course on Coursera, Functional
+Programming Principles in Scala, and
+I must say that it& &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://rxacevedo.github.io/blog/2013/04/08/recursion-in-scala">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Roberto Acevedo" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Roberto Acevedo</a></h1>
+  
+    <h2>Navel-gazing</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:rxacevedo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/shell">Shell</a></li>
+  <li><a href="/links">Links</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Recursion in Scala</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-08T19:33:00-04:00" pubdate data-updated="true">Apr 8<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&rsquo;ve been going through Martin Odersky&rsquo;s free course on Coursera, <a href="https://www.coursera.org/course/progfun">Functional
+Programming Principles in Scala</a>, and
+I must say that it&rsquo;s prompted me to think in ways that I&rsquo;ve never had to before.
+The course starts off teaching by teaching you how basic logic and arithmetic
+operators work in Scala, but then quickly dives into recursive functions and
+how to use them. In order to help me develop a more concrete
+understanding of the concept, and to help anyone else that may be
+struggling with it themselves, I&rsquo;ve decided to write this blog post to share
+what I have learned so far.</p>
+
+<p>Recursive functions are functions that call themselves. This post will focus on
+what is called tail-recursion, altough there are also head-recursive functions.
+Basically (as far as I understand it), tail-recursion is when a function <em>does
+stuff</em> and then calls itself as the last step of it&rsquo;s defintion. Head
+recursion, on the other hand, is when a function calls itself at the beginning
+of its defition, saving that iterations state when the call is made, then
+executing any other instructions when the recursive call returns (this would
+then happen for each recursive call). A better explanation can be found
+<a href="http://www.cs.cmu.edu/~adamchik/15-121/lectures/Recursions/recursions.html">here</a>.</p>
+
+<p>Consider the following function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">sum</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="o">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">a</span> <span class="o">+</span> <span class="n">sum</span><span class="o">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that the last thing that this function does is call itself. This is a
+recursive function in the sense that it is calling itself. As the name
+implies, this function will return the sum of parameters a and b. Since the
+execution of this wasn&rsquo;t initially evident to me, let&rsquo;s trace it out:</p>
+
+<pre><code>Call 1: a = 1, b = 5 =&gt; sum(1, 5) =&gt; (a == b) ? false =&gt; 1 + sum(1 + 1, 5) 
+Call 2: a = 2, b = 5 =&gt; sum(2, 5) =&gt; (a == b) ? false =&gt; 2 + sum(2 + 1, 5) 
+Call 3: a = 1, b = 5 =&gt; sum(3, 5) =&gt; (a == b) ? false =&gt; 3 + sum(3 + 1, 5) 
+Call 4: a = 1, b = 5 =&gt; sum(4, 5) =&gt; (a == b) ? false =&gt; 4 + sum(4 + 1, 5) 
+Call 5: a = 1, b = 5 =&gt; sum(5, 5) =&gt; (a == b) ? true =&gt; 5 
+</code></pre>
+
+<p>The evaluation of a and b&rsquo;s equality is the exit condition, or <strong>base
+case</strong>. This is necessary with recursive functions, or else execution will go
+on forever. Try omitting that and see what happens if you&rsquo;d like (it&rsquo;ll blow up
+in your face). We can see that at the fifth call, our exit condition
+evaluates to true, so we return a itself, which is in this case 5. Where do we
+return it? To the previous call. Let&rsquo;s further simplify:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">sum</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">5</span><span class="o">)</span>
+</span><span class='line'><span class="mi">1</span> <span class="o">+</span> <span class="n">sum</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+</span><span class='line'><span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sum</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">))</span>
+</span><span class='line'><span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="mi">2</span> <span class="o">+</span> <span class="o">(</span><span class="mi">3</span> <span class="o">+</span> <span class="n">sum</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)))</span>
+</span><span class='line'><span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="mi">2</span> <span class="o">+</span> <span class="o">(</span><span class="mi">3</span> <span class="o">+</span> <span class="o">(</span><span class="mi">4</span> <span class="o">+</span> <span class="n">sum</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">5</span><span class="o">))))</span>
+</span><span class='line'><span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="mi">2</span> <span class="o">+</span> <span class="o">(</span><span class="mi">3</span> <span class="o">+</span> <span class="o">(</span><span class="mi">4</span> <span class="o">+</span> <span class="o">(</span><span class="mi">5</span><span class="o">))))</span> <span class="o">==</span> <span class="mi">15</span> <span class="c1">// True statement</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So now we have computed the sum of the numbers between 1 through 5. What if we
+wanted to compute the product of these numbers? The key here is that our
+function drills down until it reaches the termination condition, then it
+&ldquo;shoots back up&rdquo; and does an operation on the returned value for each call.
+Because we are already returning 5, 4 + (return), 3 + (return), 2 + (return),
+and 1 + (return), we already have the basic layout that we want. We want to get
+to here: 5, 4 * (return), 3 * (return), 2 * (return), 1 * (return). This is
+already starting to look like a factorial function, but we&rsquo;re not quite there
+yet. Let&rsquo;s redefine our function to calculate the <strong>product</strong> of the integers
+in range (a, b):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">product</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="o">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">a</span> <span class="o">*</span> <span class="n">product</span><span class="o">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The same thing will happen, only when we reach our termination condition, we
+will multiply that by our current <em>a</em> value instead of adding it. Let&rsquo;s test that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">scala</span><span class="o">&gt;</span> <span class="n">product</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+</span><span class='line'><span class="n">res21</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">120</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So now we have the product, and we only had to change the operator that we
+used. Since we are so close, let&rsquo;s go ahead implement a factorial function. We want our
+factorial function to take one argument instead of two, we&rsquo;ll call it x:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">factorial</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">???</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Some caveats here, we want to give the function our maxiumum argument, and
+calculate recursively going <strong>down</strong>. We&rsquo;ll have to tweak the function a little
+bit to do that. We know that:</p>
+
+<ul>
+<li>We have to decrement our argument for each recursive call</li>
+<li>We&rsquo;ll want to terminate at some point</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">factorial</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span><span class="o">(???)</span> <span class="o">???</span> <span class="k">else</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial</span><span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We want to multiply our inital value by what is returned by the recursive call,
+that call being on the current argument decremented by 1. When should we
+terminate though, and what should we return? I have a habit of checking if a
+value is 0, and one <em>could</em> return 1 when this is met , but that would give us
+an extra one, 5 * 4 * 3 * 2 * 1 * 1, which is an innocuous value to multiply
+by, but increases the depth of our call stack nonetheless. In this case it&rsquo;s not
+necessary, since 5 * 4 * 3 * 2 * 1 will give us our answer. We should check
+when we have reached 1 (and that our input is not negative), and return 1 (to multiply by) in that case. Our new
+definition looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">factorial</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="o">)</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial</span><span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s run that puppy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">scala</span><span class="o">&gt;</span> <span class="n">factorial</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</span><span class='line'><span class="n">res22</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">120</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And we get what we expected.</p>
+
+<p>Now, this <em>looks</em> very elegant, doesn&rsquo;t it? Well, we can further simplify.
+If you look back up at the execution of the method, you&rsquo;ll see that we have to
+remember the value of every single iteration, all the way up the
+chain. Our expression grows with each execution, not so much for the sum of 15,
+but you can imagine how quickly it would grow for factorial(200) (well, that returns
+infinity using type Double). What we need is a function that doesn&rsquo;t depend on
+all previous iterations, one that is given every value that it needs to compute
+the value for that iteration, instead of having to run all the way up the
+heirarchy, doing a sum (or multiplication) for each call (within the arguments).
+We can do this by defining an inner function and supplying it with a seed value.
+Lets start with our sum function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">sum</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">inner</span><span class="o">(</span><span class="n">acc</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">)</span> <span class="n">acc</span> <span class="k">else</span> <span class="n">inner</span><span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">a</span><span class="o">,</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">inner</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this implementation, we define an inner function that takes three arguments:
+our two previous arguments, and an accumulator. Accumulator is your friend,
+because by passing him into the function each time, we avoid having to keep
+track of what&rsquo;s going on in the call hierarchy above us, we have everything we
+need because accumulator is storing a running total. Also notice that our
+function does not have to do any calculations upon returning, unlike the
+previous implementation that needed to add a to the return value. This function
+is <strong>tail recursive</strong>. We can take advantage of the accumulator and use the
+same approach with our product and factorial functions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">product</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">inner</span><span class="o">(</span><span class="n">acc</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">)</span> <span class="n">acc</span> <span class="k">else</span> <span class="n">inner</span><span class="o">(</span><span class="n">acc</span> <span class="o">*</span> <span class="n">a</span><span class="o">,</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">inner</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that we seed 1 to this function instead of 0 since we don&rsquo;t want to
+multiply by zero.</p>
+
+<p>Factorial is just as easy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">factorial</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">inner</span><span class="o">(</span><span class="n">acc</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="n">acc</span> <span class="k">else</span> <span class="n">inner</span><span class="o">(</span><span class="n">acc</span> <span class="o">*</span> <span class="n">a</span><span class="o">,</span> <span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">inner</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">a</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By doing this, we can reuse the same stack frame for each call. This is in
+contrast to our previous approaches, which required that we push onto the stack
+for each consecutive calculation and call, then pop each return off the
+stack in order to arrive at our final value. The first approach is a <strong>recursive process</strong>, whereas the second is called an <strong>iterative process.</strong></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Roberto Acevedo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-08T19:33:00-04:00" pubdate data-updated="true">Apr 8<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming/'>programming,</a>, <a class='category' href='/blog/categories/scala/'>scala</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rxacevedo.github.io/blog/2013/04/08/recursion-in-scala/" data-via="rxacevedo" data-counturl="http://rxacevedo.github.io/blog/2013/04/08/recursion-in-scala/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/03/socket-server/" title="Previous Post: Multi-threaded Socket Server">&laquo; Multi-threaded Socket Server</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/10/20/a-tale-of-two-languages/" title="Next Post: A Tale of Two Languages">A Tale of Two Languages &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+  I'm a 24-year-old computer programmer who enjoys running, coffee, programming languages and their design/semantics.
+  </p>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/rxacevedo">@rxacevedo</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'rxacevedo',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Roberto Acevedo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
