@@ -4,7 +4,7 @@
   <title><![CDATA[Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-01-27T06:53:04-05:00</updated>
+  <updated>2014-01-27T06:58:48-05:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -18,7 +18,15 @@
     <link href="http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times/"/>
     <updated>2014-01-26T19:47:29-05:00</updated>
     <id>http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+    <content type="html"><![CDATA[<p>In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a>
+course on <a href="https://www.coursera.org/">Coursera</a>, we are walked through the process
+of doing some mathematical analysis on an algorithm to arrive at an equation that
+allows the prediction of the running time over a larger data set. This seems like
+an incredibly valuable skill to me, so I wanted to walk through the example myself
+so that I could fully understand the process. I started by figuring out how to
+spawn system processes from within Clojure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -151,31 +159,22 @@
 <span class='line-number'>131</span>
 <span class='line-number'>132</span>
 <span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;; In the first week of the [Algorithms I](https://www.coursera.org/course/algs4partI) </span>
-</span><span class='line'><span class="c1">;; course on [Coursera](https://www.coursera.org/), we are walked through the process</span>
-</span><span class='line'><span class="c1">;; of doing some mathematical analysis on an algorithm to arrive at an equation that</span>
-</span><span class='line'><span class="c1">;; allows the prediction of the running time over a larger data set. This seems like</span>
-</span><span class='line'><span class="c1">;; an incredibly valuable skill to me, so I wanted to walk through the example myself</span>
-</span><span class='line'><span class="c1">;; so that I could fully understand the process. I started by figuring out how to </span>
-</span><span class='line'><span class="c1">;; spawn system processes from within Clojure:</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;; Using Java:</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Using Java:</span>
 </span><span class='line'><span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">ProcessBuilder.</span> <span class="p">[</span><span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span> <span class="s">&quot;.:stdlib.jar&quot;</span> <span class="s">&quot;ThreeSum&quot;</span>
 </span><span class='line'>                      <span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/1Kints.txt&quot;</span><span class="p">])</span>
 </span><span class='line'>    <span class="p">(</span><span class="nf">.directory</span> <span class="p">(</span><span class="nf">java.io.File.</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">))</span>
 </span><span class='line'>    <span class="p">(</span><span class="nf">.start</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">(</span><span class="nf">.getInputStream</span><span class="p">)</span>
 </span><span class='line'>    <span class="nv">slurp</span><span class="p">)</span>
-</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'>
 </span><span class='line'><span class="c1">;; More simply, using Clojure constructs:</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">p</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span> <span class="s">&quot;.:stdlib.jar&quot;</span> <span class="s">&quot;ThreeSum&quot;</span>
 </span><span class='line'>            <span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/1Kints.txt&quot;</span>
 </span><span class='line'>            <span class="ss">:dir</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">)]</span>
 </span><span class='line'>  <span class="p">(</span><span class="ss">:out</span> <span class="nv">p</span><span class="p">))</span>
-</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'>
 </span><span class='line'><span class="c1">;; With that out of the way, all that&#39;s left is parse the numbers from</span>
 </span><span class='line'><span class="c1">;; the output and run the same procedure over a variety of inputs.</span>
 </span><span class='line'><span class="c1">;; Once we&#39;ve acquired the data, we can tabulate and/or plot it in Incanter:</span>
@@ -183,6 +182,7 @@
 </span><span class='line'><span class="c1">;; Using this command, we can get a lazy sequence of vectors, each</span>
 </span><span class='line'><span class="c1">;; containing the filename and the amount of time it took for the</span>
 </span><span class='line'><span class="c1">;; process to run:</span>
+</span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;1Kints.txt&quot;</span>
 </span><span class='line'>         <span class="s">&quot;2Kints.txt&quot;</span>
 </span><span class='line'>         <span class="s">&quot;4Kints.txt&quot;</span><span class="p">]</span>
@@ -198,11 +198,11 @@
 </span><span class='line'>
 </span><span class='line'><span class="c1">;; Now that we have the data, we can create an Incanter dataset from</span>
 </span><span class='line'><span class="c1">;; it that can be used for plotting purposes.</span>
+</span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nf">to-dataset</span>
 </span><span class='line'> <span class="p">[[</span><span class="mi">1000</span> <span class="mf">0.294</span><span class="p">]</span>
 </span><span class='line'>  <span class="p">[</span><span class="mi">2000</span> <span class="mf">2.357</span><span class="p">]</span>
 </span><span class='line'>  <span class="p">[</span><span class="mi">4000</span> <span class="mf">18.424</span><span class="p">]])</span>
-</span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; | :col-0 | :col-1 |</span>
 </span><span class='line'><span class="c1">;; |--------+--------|</span>
 </span><span class='line'><span class="c1">;; |   1000 |  0.294 |</span>
@@ -212,12 +212,13 @@
 </span><span class='line'>
 </span><span class='line'><span class="c1">;; If we do a log-log plot, we get a straight line, here are the</span>
 </span><span class='line'><span class="c1">;; log-log data points (log base 2):</span>
+</span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nf">with-data</span> <span class="p">(</span><span class="nf">to-dataset</span> <span class="p">(</span><span class="nf">log2</span> <span class="p">(</span><span class="nf">to-matrix</span> <span class="p">(</span><span class="nf">to-dataset</span>
 </span><span class='line'>                                         <span class="p">[[</span><span class="mi">1000</span> <span class="mf">0.294</span><span class="p">]</span>
 </span><span class='line'>                                          <span class="p">[</span><span class="mi">2000</span> <span class="mf">2.357</span><span class="p">]</span>
 </span><span class='line'>                                          <span class="p">[</span><span class="mi">4000</span> <span class="mf">18.424</span><span class="p">]]))))</span>
 </span><span class='line'>  <span class="nv">$data</span><span class="p">)</span>
-</span><span class='line'><span class="c1">;; |              :ints |               :time |</span>
+</span><span class='line'><span class="c1">;; |             :col-0 |              :col-1 |</span>
 </span><span class='line'><span class="c1">;; |--------------------+---------------------|</span>
 </span><span class='line'><span class="c1">;; |  9.965784284662087 | -1.7661119398257226 |</span>
 </span><span class='line'><span class="c1">;; | 10.965784284662087 |  1.2369517585880805 |</span>
@@ -240,6 +241,7 @@
 </span><span class='line'><span class="c1">;; lg(T(n)) = b lg(n) + c </span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">;; The slope of the line (b) is:</span>
+</span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="mf">1.2369517585880805</span><span class="p">)</span>
 </span><span class='line'>   <span class="p">(</span><span class="nb">- </span><span class="mf">11.965784284662087</span> <span class="mf">10.965784284662087</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;; 2.9665626525426774</span>
@@ -249,6 +251,7 @@
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; We can plug in a data point to solve for c:</span>
 </span><span class='line'><span class="c1">;; 4.203514411130758 = 2.97 (11.965784284662087) + c</span>
+</span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="p">(</span><span class="nb">* </span><span class="mf">2.97</span> <span class="mf">11.965784284662087</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;; -31.33486491431564</span>
 </span><span class='line'><span class="c1">;;</span>
@@ -277,6 +280,7 @@
 </span><span class='line'><span class="c1">;; 144.84633044665534 (seconds)</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; And when we run it to test our theory:</span>
+</span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;8Kints.txt&quot;</span><span class="p">]</span>
 </span><span class='line'>      <span class="ss">:let</span> <span class="p">[</span><span class="nv">t</span> <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">(</span><span class="ss">:out</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span>
 </span><span class='line'>                             <span class="s">&quot;.:stdlib.jar&quot;</span>

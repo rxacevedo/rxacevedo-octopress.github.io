@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-01-27T06:53:04-05:00</updated>
+  <updated>2014-01-27T06:58:48-05:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -18,16 +18,17 @@
     <link href="http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times/"/>
     <updated>2014-01-26T19:47:29-05:00</updated>
     <id>http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times</id>
-    <content type="html"><![CDATA[<p>``` clojure
-;; In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a>
-;; course on <a href="https://www.coursera.org/">Coursera</a>, we are walked through the process
-;; of doing some mathematical analysis on an algorithm to arrive at an equation that
-;; allows the prediction of the running time over a larger data set. This seems like
-;; an incredibly valuable skill to me, so I wanted to walk through the example myself
-;; so that I could fully understand the process. I started by figuring out how to
-;; spawn system processes from within Clojure:
-;;
+    <content type="html"><![CDATA[<p>In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a>
+course on <a href="https://www.coursera.org/">Coursera</a>, we are walked through the process
+of doing some mathematical analysis on an algorithm to arrive at an equation that
+allows the prediction of the running time over a larger data set. This seems like
+an incredibly valuable skill to me, so I wanted to walk through the example myself
+so that I could fully understand the process. I started by figuring out how to
+spawn system processes from within Clojure:</p>
+
+<p>``` clojure
 ;; Using Java:
+;;
 (&ndash;> (ProcessBuilder. [&ldquo;java&rdquo; &ldquo;-cp&rdquo; &ldquo;.:stdlib.jar&rdquo; &ldquo;ThreeSum&rdquo;</p>
 
 <pre><code>                  "http://algs4.cs.princeton.edu/14analysis/1Kints.txt"])
@@ -37,8 +38,7 @@
 slurp)
 </code></pre>
 
-<p>;;
-;; More simply, using Clojure constructs:
+<p>;; More simply, using Clojure constructs:
 ;;
 (let [p (sh &ldquo;java&rdquo; &ldquo;-cp&rdquo; &ldquo;.:stdlib.jar&rdquo; &ldquo;ThreeSum&rdquo;</p>
 
@@ -46,15 +46,16 @@ slurp)
         :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/")]
 </code></pre>
 
-<p>  (:out p))
-;;
-;; With that out of the way, all that&rsquo;s left is parse the numbers from
+<p>  (:out p))</p>
+
+<p>;; With that out of the way, all that&rsquo;s left is parse the numbers from
 ;; the output and run the same procedure over a variety of inputs.
 ;; Once we&rsquo;ve acquired the data, we can tabulate and/or plot it in Incanter:
 ;;
 ;; Using this command, we can get a lazy sequence of vectors, each
 ;; containing the filename and the amount of time it took for the
 ;; process to run:
+;;
 (for [f [&ldquo;1Kints.txt&rdquo;</p>
 
 <pre><code>     "2Kints.txt"
@@ -73,11 +74,11 @@ slurp)
 
 <p>;; Now that we have the data, we can create an Incanter dataset from
 ;; it that can be used for plotting purposes.
+;;
 (to-dataset
  [[1000 0.294]
   [2000 2.357]
   [4000 18.424]])
-;;
 ;; | :col-0 | :col-1 |
 ;; |&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;|
 ;; |   1000 |  0.294 |
@@ -86,6 +87,7 @@ slurp)
 
 <p>;; If we do a log-log plot, we get a straight line, here are the
 ;; log-log data points (log base 2):
+;;
 (with-data (to-dataset (log2 (to-matrix (to-dataset</p>
 
 <pre><code>                                     [[1000 0.294]
@@ -94,7 +96,7 @@ slurp)
 </code></pre>
 
 <p>  $data)
-;; |              :ints |               :time |
+;; |             :col-0 |              :col-1 |
 ;; |&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
 ;; |  9.965784284662087 | -1.7661119398257226 |
 ;; | 10.965784284662087 |  1.2369517585880805 |
@@ -117,6 +119,7 @@ slurp)
 ;; lg(T(n)) = b lg(n) + c</p>
 
 <p>;; The slope of the line (b) is:
+;;
 (/ (&ndash; 4.203514411130758 1.2369517585880805)
    (&ndash; 11.965784284662087 10.965784284662087))
 ;; 2.9665626525426774
@@ -126,6 +129,7 @@ slurp)
 ;;
 ;; We can plug in a data point to solve for c:
 ;; 4.203514411130758 = 2.97 (11.965784284662087) + c
+;;
 (&ndash; 4.203514411130758 (<em> 2.97 11.965784284662087))
 ;; -31.33486491431564
 ;;
@@ -154,6 +158,7 @@ slurp)
 ;; 144.84633044665534 (seconds)
 ;;
 ;; And when we run it to test our theory:
+;;
 (for [f [&ldquo;8Kints.txt&rdquo;]</p>
 
 <pre><code>  :let [t (-&gt;&gt; (:out (sh "java" "-cp"
