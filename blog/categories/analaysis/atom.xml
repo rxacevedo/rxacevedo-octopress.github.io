@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Analaysis, | Roberto Acevedo]]></title>
+  <link href="http://rxacevedo.github.io/blog/categories/analaysis/atom.xml" rel="self"/>
+  <link href="http://rxacevedo.github.io/"/>
+  <updated>2014-01-27T06:53:04-05:00</updated>
+  <id>http://rxacevedo.github.io/</id>
+  <author>
+    <name><![CDATA[Roberto Acevedo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Predicting Algorithm Running Times]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times/"/>
+    <updated>2014-01-26T19:47:29-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times</id>
+    <content type="html"><![CDATA[<p>``` clojure
+;; In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a>
+;; course on <a href="https://www.coursera.org/">Coursera</a>, we are walked through the process
+;; of doing some mathematical analysis on an algorithm to arrive at an equation that
+;; allows the prediction of the running time over a larger data set. This seems like
+;; an incredibly valuable skill to me, so I wanted to walk through the example myself
+;; so that I could fully understand the process. I started by figuring out how to
+;; spawn system processes from within Clojure:
+;;
+;; Using Java:
+(&ndash;> (ProcessBuilder. [&ldquo;java&rdquo; &ldquo;-cp&rdquo; &ldquo;.:stdlib.jar&rdquo; &ldquo;ThreeSum&rdquo;</p>
+
+<pre><code>                  "http://algs4.cs.princeton.edu/14analysis/1Kints.txt"])
+(.directory (java.io.File. "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+(.start)
+(.getInputStream)
+slurp)
+</code></pre>
+
+<p>;;
+;; More simply, using Clojure constructs:
+;;
+(let [p (sh &ldquo;java&rdquo; &ldquo;-cp&rdquo; &ldquo;.:stdlib.jar&rdquo; &ldquo;ThreeSum&rdquo;</p>
+
+<pre><code>        "http://algs4.cs.princeton.edu/14analysis/1Kints.txt"
+        :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/")]
+</code></pre>
+
+<p>  (:out p))
+;;
+;; With that out of the way, all that&rsquo;s left is parse the numbers from
+;; the output and run the same procedure over a variety of inputs.
+;; Once we&rsquo;ve acquired the data, we can tabulate and/or plot it in Incanter:
+;;
+;; Using this command, we can get a lazy sequence of vectors, each
+;; containing the filename and the amount of time it took for the
+;; process to run:
+(for [f [&ldquo;1Kints.txt&rdquo;</p>
+
+<pre><code>     "2Kints.txt"
+     "4Kints.txt"]
+  :let [t (-&gt;&gt; (:out (sh "java" "-cp"
+                         ".:stdlib.jar"
+                         "ThreeSum"
+                         (str "http://algs4.cs.princeton.edu/14analysis/" f)
+                         :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+               (re-find #"\d+.\d+")
+               Double/parseDouble)]]
+</code></pre>
+
+<p>  [f t])
+;; ([&ldquo;1Kints.txt&rdquo; 0.294] [&ldquo;2Kints.txt&rdquo; 2.357] [&ldquo;4Kints.txt&rdquo; 18.424])</p>
+
+<p>;; Now that we have the data, we can create an Incanter dataset from
+;; it that can be used for plotting purposes.
+(to-dataset
+ [[1000 0.294]
+  [2000 2.357]
+  [4000 18.424]])
+;;
+;; | :col-0 | :col-1 |
+;; |&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;|
+;; |   1000 |  0.294 |
+;; |   2000 |  2.357 |
+;; |   4000 | 18.424 |</p>
+
+<p>;; If we do a log-log plot, we get a straight line, here are the
+;; log-log data points (log base 2):
+(with-data (to-dataset (log2 (to-matrix (to-dataset</p>
+
+<pre><code>                                     [[1000 0.294]
+                                      [2000 2.357]
+                                      [4000 18.424]]))))
+</code></pre>
+
+<p>  $data)
+;; |              :ints |               :time |
+;; |&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+;; |  9.965784284662087 | -1.7661119398257226 |
+;; | 10.965784284662087 |  1.2369517585880805 |
+;; | 11.965784284662087 |   4.203514411130758 |</p>
+
+<p>;; Now we set up our equations as follows:
+;; T(n) = ?
+;;
+;; Since applying log/log yields a straight line, we can apply the
+;; power law. The power law states that:
+;;
+;; y = a (x<sup>k</sup>) (we omit the deviation term)
+;;
+;; This can be rewritten as:
+;;
+;; T(n) = a(n ^ b)
+;;
+;; and:
+;;
+;; lg(T(n)) = b lg(n) + c</p>
+
+<p>;; The slope of the line (b) is:
+(/ (&ndash; 4.203514411130758 1.2369517585880805)
+   (&ndash; 11.965784284662087 10.965784284662087))
+;; 2.9665626525426774
+;;
+;; So now we have:
+;; lg(T(n) = 2.97 lg(n) + c
+;;
+;; We can plug in a data point to solve for c:
+;; 4.203514411130758 = 2.97 (11.965784284662087) + c
+(&ndash; 4.203514411130758 (<em> 2.97 11.965784284662087))
+;; -31.33486491431564
+;;
+;; So b = 2.97, c = -31.33
+;;
+;; The final equation is then:
+;;
+;; lg(T(n)) = 2.97 lg(n) &ndash; 31.33
+;;
+;; Going back the other way:
+;;
+;; T(n) = a(n ^ b), a = 2<sup>c</sup> (power of 2 because we used lg, if we did
+;; log it would be 10 ^ c)
+;;
+;;
+;; Finally:
+;;
+;; T(n) = 3.7045054312558825E-10 (n ^ 2.97)
+;;
+;; With this should be able to plug in 8000 and get an approximation
+;; of the running time:
+;;
+;; T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)
+;;
+(</em> 3.7045054312558825E-10 (pow 8000 2.97))
+;; 144.84633044665534 (seconds)
+;;
+;; And when we run it to test our theory:
+(for [f [&ldquo;8Kints.txt&rdquo;]</p>
+
+<pre><code>  :let [t (-&gt;&gt; (:out (sh "java" "-cp"
+                         ".:stdlib.jar"
+                         "ThreeSum"
+                         (str "http://algs4.cs.princeton.edu/14analysis/" f)
+                         :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+               (re-find #"\d+.\d+")
+               Double/parseDouble)]]
+</code></pre>
+
+<p>  [f t])
+;; ([&ldquo;8Kints.txt&rdquo; 147.342])
+;; We get what approximately what we expected.
+```</p>
+]]></content>
+  </entry>
+  
+</feed>
