@@ -236,6 +236,24 @@ spawn system processes from within Clojure:</p>
 <span class='line-number'>131</span>
 <span class='line-number'>132</span>
 <span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;; Using Java:</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">ProcessBuilder.</span> <span class="p">[</span><span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span> <span class="s">&quot;.:stdlib.jar&quot;</span> <span class="s">&quot;ThreeSum&quot;</span>
@@ -301,32 +319,37 @@ spawn system processes from within Clojure:</p>
 </span><span class='line'><span class="c1">;; | 10.965784284662087 |  1.2369517585880805 |</span>
 </span><span class='line'><span class="c1">;; | 11.965784284662087 |   4.203514411130758 |</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1">;; Now we set up our equations as follows:</span>
+</span><span class='line'><span class="c1">;; Now we set up our equation as follows:</span>
 </span><span class='line'><span class="c1">;; T(n) = ?</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; Since applying log/log yields a straight line, we can apply the</span>
 </span><span class='line'><span class="c1">;; power law. The power law states that:</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; y = a (x^k) (we omit the deviation term)</span>
+</span><span class='line'><span class="c1">;; y = a (x^k) (we omit the deviation term in this example)</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; This can be rewritten as:</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; T(n) = a(n ^ b)</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; and:</span>
+</span><span class='line'><span class="c1">;; and after taking the lg of both sides, can be expressed as:</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; lg(T(n)) = b lg(n) + c </span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; The slope of the line (b) is:</span>
+</span><span class='line'><span class="c1">;; lg(T(n)) = b lg(n) + c</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; This looks a lot like the slope-intercept form of a line, does it</span>
+</span><span class='line'><span class="c1">;; not? If we set up out equation as:</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; y = mx + b</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; The slope of the line (b in our original equation) is:</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="mf">1.2369517585880805</span><span class="p">)</span>
 </span><span class='line'>   <span class="p">(</span><span class="nb">- </span><span class="mf">11.965784284662087</span> <span class="mf">10.965784284662087</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;; 2.9665626525426774</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; So now we have:</span>
+</span><span class='line'><span class="c1">;; So now we can write:</span>
 </span><span class='line'><span class="c1">;; lg(T(n) = 2.97 lg(n) + c</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; We can plug in a data point to solve for c:</span>
+</span><span class='line'><span class="c1">;; We can plug in some data points to solve for c:</span>
 </span><span class='line'><span class="c1">;; 4.203514411130758 = 2.97 (11.965784284662087) + c</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="p">(</span><span class="nb">* </span><span class="mf">2.97</span> <span class="mf">11.965784284662087</span><span class="p">))</span>
@@ -338,17 +361,30 @@ spawn system processes from within Clojure:</p>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; lg(T(n)) = 2.97 lg(n) - 31.33</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Going back the other way:</span>
+</span><span class='line'><span class="c1">;; We now want to get back to the form T(n) = a(n ^ b). We can use two</span>
+</span><span class='line'><span class="c1">;; rules of logarithms to do that:</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(n) = a(n ^ b), a = 2^c (power of 2 because we used lg, if we did</span>
-</span><span class='line'><span class="c1">;; log it would be 10 ^ c)</span>
+</span><span class='line'><span class="c1">;; 1. a^(b + c) = (a^b)(a^c)</span>
+</span><span class='line'><span class="c1">;; 2. a^(b * c) = (a^b)^c == (a^c)^b</span>
 </span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; We can raise 2 to the power of each side:</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; 2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; Using rule 1:</span>
+</span><span class='line'><span class="c1">;; T(n) = 2^(2.97 lg(n)) * 2^-31.33</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; And using rule 2:</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; T(n) = (2^(lg(n)))^2.97 * 2^-31.33</span>
+</span><span class='line'><span class="c1">;;      = n^2.97 * 2^-31.33</span>
+</span><span class='line'><span class="c1">;;      = 3.705E-10 * n^2.97</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; Finally:</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; T(n) = 3.7045054312558825E-10 (n ^ 2.97)</span>
 </span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; With this should be able to plug in 8000 and get an approximation</span>
+</span><span class='line'><span class="c1">;; With this, we should be able to plug in 8000 and get an approximation</span>
 </span><span class='line'><span class="c1">;; of the running time:</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="c1">;; T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)</span>
