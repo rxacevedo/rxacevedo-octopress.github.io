@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Clojure | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/clojure/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-02-08T21:30:32-05:00</updated>
+  <updated>2014-02-08T21:47:47-05:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -90,7 +90,8 @@ evaluted.</p>
 
 <p>``` clojure
 &lsquo;(println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
-;;&ndash;> (println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))</p>
+;;&ndash;> (println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> nil</p>
 
 <p>(println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
 ;;&ndash;> This is also a list of symbols!
@@ -133,7 +134,12 @@ nested <code>let</code>s:</p>
                   (clojure.string/join "\n" [a b c])))))))
 </code></pre>
 
-<p><code>``
+<p>;;&ndash;> Instagram in a nutshell:
+;;&ndash;> YOLO
+;;&ndash;> Don&rsquo;t kill my vibe
+;;&ndash;> I&rsquo;m my own woman
+;;&ndash;> nil                    <br/>
+<code>``
 Each subsequent</code>let<code>is enclosed within the outer</code>let<code>, in which the
 call to</code>println` is evaluated. This is exactly what a closure is:</p>
 
@@ -162,13 +168,14 @@ declaring or defining the Var with dynamic <strong>metadata</strong>:</p>
 
 <p>``` clojure
 (do
-  (declare a ^:dynamic)
+  (declare ^:dynamic a)
   (binding [a &lsquo;(println (str &ldquo;Printing myself: &rdquo; a))]</p>
 
 <pre><code>(eval a)))
 </code></pre>
 
 <p> ;;&ndash;> Printing myself: (println (str &ldquo;Printing myself: &rdquo; a))
+ ;;&ndash;> nil
 ```</p>
 
 <p>That&rsquo;s the ticket! Now we can be super cool/meta programmer kidz (if
@@ -219,7 +226,7 @@ Czech it out bby, this code generated this email:</p>
 
 <p>(postal/send-message
 {:from &ldquo;A really cool dude&rdquo;,
- :to &ldquo;<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#121;&#111;&#x75;&#x40;&#121;&#111;&#x75;&#x72;&#x73;&#105;&#116;&#101;&#x2e;&#99;&#111;&#x6d;">&#x79;&#111;&#117;&#x40;&#x79;&#111;&#117;&#x72;&#x73;&#105;&#x74;&#x65;&#46;&#x63;&#111;&#109;</a>&rdquo;,
+ :to &ldquo;<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x79;&#x6f;&#117;&#x40;&#121;&#x6f;&#117;&#x72;&#115;&#105;&#x74;&#x65;&#x2e;&#99;&#x6f;&#x6d;">&#x79;&#111;&#117;&#64;&#x79;&#111;&#117;&#x72;&#115;&#105;&#116;&#x65;&#x2e;&#99;&#111;&#109;</a>&rdquo;,
  :subject &ldquo;Incoming: super meta email&rdquo;,
  :body
  (str

@@ -194,8 +194,10 @@ evaluted.</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="o">&#39;</span><span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="s">&quot;This is also&quot;</span> <span class="s">&quot; a list of symbols!&quot;</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;;-&gt; (println (str &quot;This is also&quot; &quot; a list of symbols!&quot;))</span>
+</span><span class='line'><span class="c1">;;-&gt; nil</span>
 </span><span class='line'>
 </span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="s">&quot;This is also&quot;</span> <span class="s">&quot; a list of symbols!&quot;</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;;-&gt; This is also a list of symbols!</span>
@@ -241,12 +243,22 @@ nested <code>let</code>s:</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">a</span> <span class="s">&quot;YOLO&quot;</span><span class="p">]</span>
 </span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">b</span> <span class="s">&quot;Don&#39;t kill my vibe&quot;</span><span class="p">]</span>
 </span><span class='line'>    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">c</span> <span class="s">&quot;I&#39;m my own woman&quot;</span><span class="p">]</span>
 </span><span class='line'>      <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">d</span> <span class="s">&quot;Go fit or go home&quot;</span><span class="p">]</span>
 </span><span class='line'>        <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="s">&quot;Instagram in a nutshell: \n&quot;</span>
 </span><span class='line'>                      <span class="p">(</span><span class="nf">clojure.string/join</span> <span class="s">&quot;\n&quot;</span> <span class="p">[</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">])))))))</span>
+</span><span class='line'><span class="c1">;;-&gt; Instagram in a nutshell:</span>
+</span><span class='line'><span class="c1">;;-&gt; YOLO</span>
+</span><span class='line'><span class="c1">;;-&gt; Don&#39;t kill my vibe</span>
+</span><span class='line'><span class="c1">;;-&gt; I&#39;m my own woman</span>
+</span><span class='line'><span class="c1">;;-&gt; nil                      </span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -286,11 +298,13 @@ declaring or defining the Var with dynamic <strong>metadata</strong>:</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="kd">declare </span><span class="nv">a</span> <span class="o">^</span><span class="ss">:dynamic</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="kd">declare </span><span class="o">^</span><span class="ss">:dynamic</span> <span class="nv">a</span><span class="p">)</span>
 </span><span class='line'>  <span class="p">(</span><span class="nb">binding </span><span class="p">[</span><span class="nv">a</span> <span class="o">&#39;</span><span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="s">&quot;Printing myself: &quot;</span> <span class="nv">a</span><span class="p">))]</span>
 </span><span class='line'>    <span class="p">(</span><span class="nb">eval </span><span class="nv">a</span><span class="p">)))</span>
 </span><span class='line'> <span class="c1">;;-&gt; Printing myself: (println (str &quot;Printing myself: &quot; a))</span>
+</span><span class='line'> <span class="c1">;;-&gt; nil</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
