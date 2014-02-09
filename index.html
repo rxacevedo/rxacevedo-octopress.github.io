@@ -9,9 +9,10 @@
   <meta name="author" content="Roberto Acevedo">
 
   
-  <meta name="description" content="Yesterday at work I had the perverse urge to send an email to someone
-that contained the code used to generate the email itself. The concept
-is &hellip;">
+  <meta name="description" content="This will be short post, inspired by a problem I encountered while
+working through chapter 3 of
+Concrete Abstractions
+a few months back. We are &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +70,225 @@ is &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/approximating-the-golden-ratio/">Approximating the Golden Ratio</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T12:47:20-05:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This will be short post, inspired by a problem I encountered while
+working through chapter 3 of
+<a href="https://gustavus.edu/+max/concrete-abstractions.html">Concrete Abstractions</a>
+a few months back. We are tasked with writing a procedure that
+approximates the Golden Ratio within a certain tolerance. Recall that
+the Golden Ratio is defined as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>a/b = (a + b)/a
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With a little math, we can restate this as a recurrence relation,
+which provides the key for writing our procedure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Φ = a/b
+</span><span class='line'>
+</span><span class='line'>a/b = (a + b)/a
+</span><span class='line'>    = a/a + b/a
+</span><span class='line'>    = 1 + b/a
+</span><span class='line'>    = 1 + 1/(a/b)
+</span><span class='line'>
+</span><span class='line'>a/b = 1 + 1/(a/b)
+</span><span class='line'>
+</span><span class='line'>Φ = 1 + 1/Φ
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we can state the Golden Ratio as a function of itself, we can
+write a procedure that will approxiate it within a certain tolerance.
+To know when to stop, we are given a valuable piece of information:
+the error of each approximation is less than 1 over the square of its
+denominator. This means that we can stop <code>recur</code>ring when 1/(b*b) is
+less than our acceptable tolerance. Our final function can be set up
+as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">approximate-golden-ratio</span> <span class="p">[</span><span class="nv">tolerance</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">improve</span> <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">guess</span><span class="p">]</span>
+</span><span class='line'>                  <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">1</span> <span class="nv">guess</span><span class="p">)))]</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">loop </span><span class="p">[</span><span class="nv">start</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">d</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">clojure.lang.Ratio</span> <span class="p">(</span><span class="nf">type</span> <span class="nv">start</span><span class="p">))</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">denominator</span> <span class="nv">start</span><span class="p">)</span>
+</span><span class='line'>                <span class="mi">1</span><span class="p">)]</span>
+</span><span class='line'>        <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">tolerance</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">1</span> <span class="p">(</span><span class="nb">* </span><span class="nv">d</span> <span class="nv">d</span><span class="p">)))</span>
+</span><span class='line'>          <span class="nv">start</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">recur</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">start</span><span class="p">)))))))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above check on the type of our start argument is necessary because
+in Clojure, 1/1 evaluates to 1 immediately, so calling <code>denominator</code>
+on it will throw a <code>ClassCastException</code> right off the bat. I could not
+find a way around this issue, not even with quoting:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="ss">&#39;1/1</span>
+</span><span class='line'><span class="c1">;;-&gt; 1</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span><span class="nv">/1</span><span class="p">)</span>
+</span><span class='line'><span class="c1">;;-&gt; (1)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now with our function in place, we can approximate the Golden Ratio:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">approximate-golden-ratio</span> <span class="mi">1</span><span class="nv">/50000</span><span class="p">)</span>
+</span><span class='line'><span class="c1">;;-&gt; 377/233</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nb">double </span><span class="p">(</span><span class="nf">approximate-golden-ratio</span> <span class="mi">1</span><span class="nv">/50000</span><span class="p">))</span>
+</span><span class='line'><span class="c1">;;-&gt; 1.618025751072961</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While we&rsquo;re here, I&rsquo;d like to demonstrate something about the Golden
+Ratio that is pretty neat: each approximation (using this method of
+rational approximations) is a <strong>ratio of successive Fibonacci
+numbers</strong>. Let&rsquo;s modify our function to print these ratios as it
+loops:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">approximate-golden-ratio</span> <span class="p">[</span><span class="nv">tolerance</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">improve</span> <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">guess</span><span class="p">]</span>
+</span><span class='line'>                  <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">1</span> <span class="nv">guess</span><span class="p">)))]</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">loop </span><span class="p">[</span><span class="nv">start</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="s">&quot;Current guess: &quot;</span> <span class="nv">start</span><span class="p">))</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">d</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">clojure.lang.Ratio</span> <span class="p">(</span><span class="nf">type</span> <span class="nv">start</span><span class="p">))</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">denominator</span> <span class="nv">start</span><span class="p">)</span>
+</span><span class='line'>                <span class="mi">1</span><span class="p">)]</span>
+</span><span class='line'>        <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">tolerance</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">1</span> <span class="p">(</span><span class="nb">* </span><span class="nv">d</span> <span class="nv">d</span><span class="p">)))</span>
+</span><span class='line'>          <span class="nv">start</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">recur</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">start</span><span class="p">)))))))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now when we call it, we will see the successive Fibonacci numbers:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">approximate-golden-ratio</span> <span class="mi">1</span><span class="nv">/50000</span><span class="p">)</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 1</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 2</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 3/2</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 5/3</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 8/5</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 13/8</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 21/13</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 34/21</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 55/34</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 89/55</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 144/89</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 233/144</span>
+</span><span class='line'><span class="c1">;;-&gt; Current guess: 377/233</span>
+</span><span class='line'><span class="c1">;;-&gt; 377/233</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Boy, those numbers sure look familiar!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">fibs</span> <span class="p">(</span><span class="nb">lazy-cat </span><span class="p">[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">]</span> <span class="p">(</span><span class="nb">map + </span><span class="nv">fibs</span> <span class="p">(</span><span class="nb">rest </span><span class="nv">fibs</span><span class="p">))))</span>
+</span><span class='line'><span class="c1">;;-&gt; nil</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nb">take </span><span class="mi">15</span> <span class="nv">fibs</span><span class="p">)</span>
+</span><span class='line'><span class="c1">;;-&gt; (0 1 1 2 3 5 8 13 21 34 55 89 144 233 377)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Neat stuff.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
