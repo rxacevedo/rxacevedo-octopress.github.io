@@ -7,11 +7,11 @@ categories: clojure, scala, fp
 ---
 
 Functions that take functions as arguments and functions that return functions
-as their results can be a tricky concept to grasp and apply coming from a
+as their results can be a somewhat tricky concept to grasp coming from a
 purely object-oriented style of programming. I will say up front that higher-order 
 functions are mostly useful for list-processing, but we will soon see
 that this enables us to affect changes on data (or data structures) without
-actually modifying state.
+actually modifying state, which comes in quite handy when writing threaded code.
 
 ``` clojure Le map
 map 

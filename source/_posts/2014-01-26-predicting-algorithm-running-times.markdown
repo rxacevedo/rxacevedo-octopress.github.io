@@ -80,32 +80,37 @@ spawn system processes from within Clojure:
 ;; | 10.965784284662087 |  1.2369517585880805 |
 ;; | 11.965784284662087 |   4.203514411130758 |
 
-;; Now we set up our equations as follows:
+;; Now we set up our equation as follows:
 ;; T(n) = ?
 ;;
 ;; Since applying log/log yields a straight line, we can apply the
 ;; power law. The power law states that:
 ;;
-;; y = a (x^k) (we omit the deviation term)
+;; y = a (x^k) (we omit the deviation term in this example)
 ;;
 ;; This can be rewritten as:
 ;;
 ;; T(n) = a(n ^ b)
 ;;
-;; and:
+;; and after taking the lg of both sides, can be expressed as:
 ;;
-;; lg(T(n)) = b lg(n) + c 
-
-;; The slope of the line (b) is:
+;; lg(T(n)) = b lg(n) + c
+;;
+;; This looks a lot like the slope-intercept form of a line, does it
+;; not? If we set up out equation as:
+;;
+;; y = mx + b
+;;
+;; The slope of the line (b in our original equation) is:
 ;;
 (/ (- 4.203514411130758 1.2369517585880805)
    (- 11.965784284662087 10.965784284662087))
 ;; 2.9665626525426774
 ;;
-;; So now we have:
+;; So now we can write:
 ;; lg(T(n) = 2.97 lg(n) + c
 ;;
-;; We can plug in a data point to solve for c:
+;; We can plug in some data points to solve for c:
 ;; 4.203514411130758 = 2.97 (11.965784284662087) + c
 ;;
 (- 4.203514411130758 (* 2.97 11.965784284662087))
@@ -117,17 +122,30 @@ spawn system processes from within Clojure:
 ;;
 ;; lg(T(n)) = 2.97 lg(n) - 31.33
 ;;
-;; Going back the other way:
+;; We now want to get back to the form T(n) = a(n ^ b). We can use two
+;; rules of logarithms to do that:
 ;;
-;; T(n) = a(n ^ b), a = 2^c (power of 2 because we used lg, if we did
-;; log it would be 10 ^ c)
+;; 1. a^(b + c) = (a^b)(a^c)
+;; 2. a^(b * c) = (a^b)^c == (a^c)^b
 ;;
+;; We can raise 2 to the power of each side:
+;;
+;; 2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)
+;;
+;; Using rule 1:
+;; T(n) = 2^(2.97 lg(n)) * 2^-31.33
+;;
+;; And using rule 2:
+;;
+;; T(n) = (2^(lg(n)))^2.97 * 2^-31.33
+;;      = n^2.97 * 2^-31.33
+;;      = 3.705E-10 * n^2.97
 ;;
 ;; Finally:
 ;;
 ;; T(n) = 3.7045054312558825E-10 (n ^ 2.97)
 ;;
-;; With this should be able to plug in 8000 and get an approximation
+;; With this, we should be able to plug in 8000 and get an approximation
 ;; of the running time:
 ;;
 ;; T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)
