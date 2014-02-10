@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Clojure | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/clojure/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-02-09T13:23:16-05:00</updated>
+  <updated>2014-02-10T06:20:03-05:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -131,13 +131,14 @@ nested <code>let</code>s:</p>
 <pre><code>(let [c "I'm my own woman"]
   (let [d "Go fit or go home"]
     (println (str "Instagram in a nutshell: \n" 
-                  (clojure.string/join "\n" [a b c])))))))
+                  (clojure.string/join "\n" [a b c d])))))))
 </code></pre>
 
 <p>;;&ndash;> Instagram in a nutshell:
 ;;&ndash;> YOLO
 ;;&ndash;> Don&rsquo;t kill my vibe
 ;;&ndash;> I&rsquo;m my own woman
+;;&ndash;> Go fit or go home
 ;;&ndash;> nil                    <br/>
 <code>``
 Each subsequent</code>let<code>is enclosed within the outer</code>let<code>, in which the
@@ -226,7 +227,7 @@ Czech it out bby, this code generated this email:</p>
 
 <p>(postal/send-message
 {:from &ldquo;A really cool dude&rdquo;,
- :to &ldquo;<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x79;&#111;&#x75;&#64;&#121;&#111;&#x75;&#114;&#x73;&#x69;&#116;&#101;&#x2e;&#x63;&#111;&#x6d;">&#121;&#x6f;&#117;&#64;&#x79;&#x6f;&#117;&#114;&#x73;&#x69;&#116;&#x65;&#46;&#x63;&#111;&#109;</a>&rdquo;,
+ :to &ldquo;<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#121;&#111;&#x75;&#64;&#x79;&#111;&#117;&#x72;&#x73;&#x69;&#x74;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x79;&#111;&#x75;&#64;&#121;&#111;&#117;&#114;&#x73;&#x69;&#x74;&#x65;&#x2e;&#99;&#x6f;&#109;</a>&rdquo;,
  :subject &ldquo;Incoming: super meta email&rdquo;,
  :body
  (str

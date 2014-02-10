@@ -471,16 +471,18 @@ nested <code>let</code>s:</p>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
+<span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">a</span> <span class="s">&quot;YOLO&quot;</span><span class="p">]</span>
 </span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">b</span> <span class="s">&quot;Don&#39;t kill my vibe&quot;</span><span class="p">]</span>
 </span><span class='line'>    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">c</span> <span class="s">&quot;I&#39;m my own woman&quot;</span><span class="p">]</span>
 </span><span class='line'>      <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">d</span> <span class="s">&quot;Go fit or go home&quot;</span><span class="p">]</span>
 </span><span class='line'>        <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="s">&quot;Instagram in a nutshell: \n&quot;</span>
-</span><span class='line'>                      <span class="p">(</span><span class="nf">clojure.string/join</span> <span class="s">&quot;\n&quot;</span> <span class="p">[</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">])))))))</span>
+</span><span class='line'>                      <span class="p">(</span><span class="nf">clojure.string/join</span> <span class="s">&quot;\n&quot;</span> <span class="p">[</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">])))))))</span>
 </span><span class='line'><span class="c1">;;-&gt; Instagram in a nutshell:</span>
 </span><span class='line'><span class="c1">;;-&gt; YOLO</span>
 </span><span class='line'><span class="c1">;;-&gt; Don&#39;t kill my vibe</span>
 </span><span class='line'><span class="c1">;;-&gt; I&#39;m my own woman</span>
+</span><span class='line'><span class="c1">;;-&gt; Go fit or go home</span>
 </span><span class='line'><span class="c1">;;-&gt; nil                      </span>
 </span></code></pre></td></tr></table></div></figure>
 
