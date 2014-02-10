@@ -115,11 +115,12 @@ nested `let`s:
     (let [c "I'm my own woman"]
       (let [d "Go fit or go home"]
         (println (str "Instagram in a nutshell: \n" 
-                      (clojure.string/join "\n" [a b c])))))))
+                      (clojure.string/join "\n" [a b c d])))))))
 ;;-> Instagram in a nutshell:
 ;;-> YOLO
 ;;-> Don't kill my vibe
 ;;-> I'm my own woman
+;;-> Go fit or go home
 ;;-> nil                      
 ```
 Each subsequent `let` is enclosed within the outer `let`, in which the
