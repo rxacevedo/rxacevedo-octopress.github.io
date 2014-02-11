@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Clojure | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/clojure/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-02-10T06:20:03-05:00</updated>
+  <updated>2014-02-11T06:53:51-05:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -227,7 +227,7 @@ Czech it out bby, this code generated this email:</p>
 
 <p>(postal/send-message
 {:from &ldquo;A really cool dude&rdquo;,
- :to &ldquo;<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#121;&#111;&#x75;&#64;&#x79;&#111;&#117;&#x72;&#x73;&#x69;&#x74;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x79;&#111;&#x75;&#64;&#121;&#111;&#117;&#114;&#x73;&#x69;&#x74;&#x65;&#x2e;&#99;&#x6f;&#109;</a>&rdquo;,
+ :to &ldquo;<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x79;&#111;&#x75;&#64;&#121;&#x6f;&#x75;&#114;&#x73;&#x69;&#x74;&#x65;&#x2e;&#x63;&#x6f;&#109;">&#x79;&#x6f;&#x75;&#64;&#121;&#111;&#117;&#x72;&#115;&#x69;&#x74;&#x65;&#x2e;&#99;&#x6f;&#x6d;</a>&rdquo;,
  :subject &ldquo;Incoming: super meta email&rdquo;,
  :body
  (str
