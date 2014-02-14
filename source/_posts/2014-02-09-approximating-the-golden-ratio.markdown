@@ -97,7 +97,7 @@ loops:
           (recur (improve start)))))))
 ```
 
-Now when we call it, we will see the successive Fibonacci numbers:
+Now when we call it, we will see successive ratios of the Fibonacci numbers:
 
 ``` clojure
 (approximate-golden-ratio 1/50000)
@@ -117,14 +117,72 @@ Now when we call it, we will see the successive Fibonacci numbers:
 ;;-> 377/233
 ```
 
-Boy, those numbers sure look familiar!
+Which matches the Fibonacci sequence shown below:
 
 ``` clojure
 (def fibs (lazy-cat [0 1] (map + fibs (rest fibs))))
-;;-> nil
+;;-> #'user/fibs
 
 (take 15 fibs)
 ;;-> (0 1 1 2 3 5 8 13 21 34 55 89 144 233 377)
 ```
 
-Neat stuff.
+We can define this sequence of ratios in a way simmilar to how we
+define fibs itself (we drop 0 on the low end to avoid dividing by
+zero).
+
+``` clojure
+(def golden-ratios (map / (drop 2 fibs) (drop 1 fibs)))
+;;-> #'user/golden-ratios
+
+(take 15 golden-ratios)
+;;-> (1 2 3/2 5/3 8/5 13/8 21/13 34/21 55/34 89/55 144/89 233/144
+;;-> 377/233 610/377 987/610
+
+;; Or
+(take 15 (iterate #(+ 1 (/ 1 %)) 1)))
+;;-> (1 2 3/2 5/3 8/5 13/8 21/13 34/21 55/34 89/55 144/89 233/144
+;;-> 377/233 610/377 987/610
+
+(map double (take 15 golden-ratios))
+;;-> (1.0 2.0 1.5 1.666666666666667 1.6 1.625 1.615384615384615
+;;-> 1.619047619047619 1.617647058823529 1.618181818181818
+;;-> 1.617977528089888 1.618055555555556 1.618025751072961
+;;-> 1.618037135278515 1.618032786885246)
+
+(map double (take 15 (iterate #(+ 1 (/ 1 %)) 1)))
+;;-> (1.0 2.0 1.5 1.666666666666667 1.6 1.625 1.615384615384615
+;;-> 1.619047619047619 1.617647058823529 1.618181818181818
+;;-> 1.617977528089888 1.618055555555556 1.618025751072961
+;;-> 1.618037135278515 1.618032786885246)
+  
+```
+
+Now we can see that these statements are all true:
+
+``` text
+Φ = 1 + (1 / Φ)
+Φ = F(n) / F(n - 1)
+Φ = 1 + (1 / (F(n) / F(n - 1)))
+F(n) = Φ * F(n - 1)
+```
+
+This last one is interesting - we can use the golden ratio to
+**approximate** the Fibonacci sequence:
+
+``` clojure
+(map #(* 1.61803 %) (take 15 fibs))
+;;-> (0.0 1.61803 1.61803 3.23606 4.85409 8.090150000000001 12.94424
+;;-> 21.034390000000002 33.97863 55.013020000000004 88.99165 144.00467
+;;-> 232.99632000000003 377.00099 609.9973100000001)
+
+(map #(int (* 1.61803 %)) (take 15 fibs))
+;;-> (0 1 1 3 4 8 12 21 33 55 88 144 232 377 609)
+
+(drop 1 (take 16 fibs))
+;;-> (1 1 2 3 5 8 13 21 34 55 89 144 233 377 610)
+
+```
+
+This is only an approximation and does not hold in all cases, but is
+interesting to observe nonetheless.
