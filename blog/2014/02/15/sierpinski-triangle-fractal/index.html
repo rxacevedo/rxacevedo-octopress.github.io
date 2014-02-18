@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sierpinski Triangle Fractal - Roberto Acevedo</title>
+  <meta name="author" content="Roberto Acevedo">
+
+  
+  <meta name="description" content="Fractals are frequently used to demonstrate recursion in many FP
+texts or tutorials. This post will go through the process of rendering
+the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://rxacevedo.github.io/blog/2014/02/15/sierpinski-triangle-fractal">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Roberto Acevedo" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Roberto Acevedo</a></h1>
+  
+    <h2>Navel-gazing</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:rxacevedo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/shell">Shell</a></li>
+  <li><a href="/links">Links</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Sierpinski Triangle Fractal</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-15T22:36:06-05:00" pubdate data-updated="true">Feb 15<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Fractals are frequently used to demonstrate recursion in many FP
+texts or tutorials. This post will go through the process of rendering
+the
+<a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinksi triangle fractal</a>,
+one of the most well-known fractals, and also one of the most straightforward to generate.</p>
+
+<p>We start by determining the coordinates of our outer triangle, as all
+other coordinates will be a function of these. This was a bit of a pain
+in the ass for me because the JFrame does not use a
+<a href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system">cartesian coordinate system</a>,
+but rather increases both x and y coordinates by advancing down/to the
+right. This means that there are no negative points on the grid. Using
+a 500x500 px plane, our triangle’s points would be at (250 75), (25
+450), and (475 450) for the top, bottom left and bottom right,
+respectively.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="k">def </span><span class="nv">frame</span>
+</span><span class="line">  <span class="s">&quot;java.awt.Frame instance&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">doto </span><span class="p">(</span><span class="nf">Frame.</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.setVisible</span> <span class="nv">true</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.setSize</span> <span class="mi">500</span> <span class="mi">500</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.setBackground</span> <span class="nv">Color/BLACK</span><span class="p">)))</span>
+</span><span class="line"><span class="c1">;;-&gt; nil </span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="k">def </span><span class="o">^</span><span class="ss">:dynamic</span> <span class="nv">gfx</span>
+</span><span class="line">  <span class="s">&quot;java.awt.Graphics2D instance&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">doto </span><span class="p">(</span><span class="nf">.getGraphics</span> <span class="nv">frame</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.setColor</span> <span class="nv">Color/WHITE</span><span class="p">)))</span>
+</span><span class="line"><span class="c1">;;-&gt; nil</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="nf">do</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="mi">250</span> <span class="mi">75</span> <span class="mi">25</span> <span class="mi">450</span><span class="p">)</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="mi">250</span> <span class="mi">75</span> <span class="mi">475</span> <span class="mi">450</span><span class="p">)</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="mi">25</span> <span class="mi">450</span> <span class="mi">475</span> <span class="mi">450</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>You should have a white triangle outline on a black background.</p>
+
+<p><img class="left" src="/images/posts/sierpinski_triangle_fractal/sierpinski_0.png" /></p>
+
+<p>The next thing that we need to do is figure out what to do
+each time we <code>recur</code>, since our procedure will keep doing that
+until it terminates. If we look at the progression of the drawing from
+the outside in, we see that there is a
+<a href="http://en.wikipedia.org/wiki/Self-similarity">self-similarity</a>
+between the outer triangle and those inside of it. For every triangle,
+there are three more triangles inside of it. This is the key to our
+recursive procedure: <strong>for every one unit of work, we do three units of
+work.</strong> What constitutes a unit of work in this case? Well, the most
+easily observable thing would be drawing a triangle. If we look
+at the Sierpinski triangle, we can see that there are two types of triangles,
+the upright (outer) ones, and the inverted (inner) ones. Let’s quickly
+establish how these two types of triangles should be represented in
+our program:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">triangle</span> <span class="p">[</span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">t-type</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">condp</span> <span class="nb">= </span><span class="nv">t-type</span>
+</span><span class="line">    <span class="ss">:outer</span> <span class="p">{</span><span class="ss">:top</span> <span class="nv">p1</span> <span class="ss">:b-left</span> <span class="nv">p2</span> <span class="ss">:b-right</span> <span class="nv">p3</span><span class="p">}</span>
+</span><span class="line">    <span class="ss">:inner</span> <span class="p">{</span><span class="ss">:t-left</span> <span class="nv">p1</span> <span class="ss">:t-right</span> <span class="nv">p2</span> <span class="ss">:bottom</span> <span class="nv">p3</span><span class="p">}))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Each triangle is made up of three points. Depending on the <code>t-type</code> we
+pass in, our points will be labeled a certain way. This allows us to
+specify the type of triangle we are passing in/expecting. This is more
+of a convenience method for us, so that we can keep track of the types of
+triangles we are handling/drawing in the program. Looking back at our
+initial triangle, we can think about what we need to draw in one of two
+ways:</p>
+
+<ol>
+  <li>We need to draw three new triangles, the outer triangles.</li>
+  <li>We need to draw one inverted triangle, the inner triangle.</li>
+</ol>
+
+<p>We will need to do this three times for every one, so it would be wise
+to choose the least expensive of the two. This makes our decision
+pretty straightforward: for every (outer) triangle, we need to paint its
+corresponding inner triangle. Our work still increases as a power of three
+each time, but now we are only painting one inner triangle per unit of
+work, instead of three outer triangles per unit of work. Since we know
+that each recursion requires us to do three more units of work, this
+becomes a matter of drawing three inverted triangles per recursive call,
+instead of nine outer triangles.</p>
+
+<p>In order to draw the inner triangle for a triangle, we need to
+determine its coordinates. We can write a convenience method to do
+that for us:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">inner</span> <span class="p">[</span><span class="nv">t</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">top</span> <span class="nv">b-left</span> <span class="nv">b-right</span><span class="p">]}</span> <span class="nv">t</span>
+</span><span class="line">        <span class="p">[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="nv">top</span>
+</span><span class="line">        <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="nv">b-left</span>
+</span><span class="line">        <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="nv">b-right</span><span class="p">]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">triangle</span> <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x2</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class="line">                           <span class="p">(</span><span class="nb">+ </span><span class="nv">y1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">y2</span> <span class="nv">y1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))])</span>
+</span><span class="line">              <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x3</span> <span class="nv">x1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class="line">                           <span class="p">(</span><span class="nb">+ </span><span class="nv">y1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">y3</span> <span class="nv">y1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))])</span>
+</span><span class="line">              <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x2</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x3</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class="line">                           <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">y2</span> <span class="nv">y3</span><span class="p">)</span> <span class="mi">2</span><span class="p">)])</span> <span class="ss">:inner</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This function takes a triangle t, and returns a new triangle map for
+the inner triangle with its points labeled. The points are calculated
+relative to the points of the outer triangle, which reduces our effort
+to that of calculating midpoints. Now we can draw the inner triangle
+inside of of the outer triangle that we drew before:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="nf">draw-triangle</span> <span class="p">(</span><span class="nf">inner</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="mi">250</span> <span class="mi">75</span><span class="p">]</span> <span class="p">[</span><span class="mi">25</span> <span class="mi">450</span><span class="p">]</span> <span class="p">[</span><span class="mi">475</span> <span class="mi">450</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The last crucial bit is determining the coordinates of the outer
+triangles, since we will need to draw the corresponding inner triangle
+for each. Each of these three new triangles is composed of points from
+the outer triangle and the inner triangle. This makes it easy for us
+to write another convenience method, this time to return three
+triangle maps, one for each triangle:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">outers</span> <span class="p">[</span><span class="nv">t</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[{[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="ss">:top</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="ss">:b-left</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="ss">:b-right</span><span class="p">}</span> <span class="nv">t</span>
+</span><span class="line">        <span class="p">{[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="ss">:t-left</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="ss">:t-right</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="ss">:bottom</span><span class="p">}</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">t</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">{</span><span class="ss">:top</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span>
+</span><span class="line">     <span class="ss">:b-left</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span>
+</span><span class="line">     <span class="ss">:b-right</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)}))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This function takes a triangle t, and returns a map of triangle maps,
+each keyed according to which triangle it represents. It takes
+advantage of the procedure <code>inner</code> that we just wrote in order to
+determine the coordinates of each triangle. Now for each of
+these, we can draw its inner:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">sub-t</span> <span class="p">(</span><span class="nb">vals </span><span class="p">(</span><span class="nf">outers</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="mi">250</span> <span class="mi">75</span><span class="p">]</span> <span class="p">[</span><span class="mi">25</span> <span class="mi">450</span><span class="p">]</span> <span class="p">[</span><span class="mi">475</span> <span class="mi">450</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)))]</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">draw-triangle</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">sub-t</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Now that we have a method in place for doing this, we just need to
+recursively tie it together. We can write one last function,
+<code>sierpinski</code>, that will handle the recursion for us:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">sierpinski</span>
+</span><span class="line">  <span class="p">([]</span>
+</span><span class="line">     <span class="p">(</span><span class="nf">sierpinski</span> <span class="mi">10</span><span class="p">))</span>
+</span><span class="line">  <span class="p">([</span><span class="nv">lvl</span><span class="p">]</span> <span class="p">(</span><span class="nf">sierpinski</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="mi">250</span> <span class="mi">75</span><span class="p">]</span> <span class="p">[</span><span class="mi">25</span> <span class="mi">450</span><span class="p">]</span> <span class="p">[</span><span class="mi">475</span> <span class="mi">450</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span> <span class="nv">lvl</span> <span class="nv">true</span><span class="p">))</span>
+</span><span class="line">  <span class="p">([</span><span class="nv">t</span> <span class="nv">lvl</span><span class="p">]</span>
+</span><span class="line">     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">lvl</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line">       <span class="p">(</span><span class="nf">do</span>
+</span><span class="line">         <span class="p">(</span><span class="nf">draw-triangle</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">t</span><span class="p">))</span>
+</span><span class="line">         <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">sub-t</span> <span class="p">(</span><span class="nb">vals </span><span class="p">(</span><span class="nf">outers</span> <span class="nv">t</span><span class="p">))]</span>
+</span><span class="line">           <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">sub-t</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">lvl</span><span class="p">))))))</span>
+</span><span class="line">  <span class="p">([</span><span class="nv">t</span> <span class="nv">lvl</span> <span class="nv">first?</span><span class="p">]</span>
+</span><span class="line">     <span class="p">(</span><span class="k">if </span><span class="nv">first?</span>
+</span><span class="line">       <span class="p">(</span><span class="k">do </span>
+</span><span class="line">         <span class="p">(</span><span class="nf">draw-triangle</span> <span class="nv">t</span><span class="p">)</span>
+</span><span class="line">         <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">t</span> <span class="nv">lvl</span> <span class="nv">false</span><span class="p">))</span>
+</span><span class="line">       <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">t</span> <span class="nv">lvl</span><span class="p">))))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This function, when invoked with no arguments, defaults to a 10-level
+Sierpinski triangle. It assumes our JFrame is of size 500x500 and sets
+the initial coordinates accordingly. Since we only want to draw the
+first outer triangle, we use a boolean argument to control whether the
+triangle is drawn, or just its inner triangle. This is only true for
+the first iteration. Each time we <code>recur</code>, we paint our current
+triangle’s inner triangle, as well as calling the <code>sierpinski</code> method
+again on each of the three outer triangles, while decrementing our
+level, to do the same thing. These tree-recursive calls to
+<code>sierpinski</code> mirror the recursive nature of the image itself. Here is
+the full source code for the final program:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (sierpinski.clj)</span> <a href="/downloads/code/clojure/sierpinski.clj">download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">ns </span><span class="nv">sierpinski</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">import </span><span class="p">[</span><span class="nv">java.awt</span> <span class="nv">Color</span><span class="p">]</span>
+</span><span class="line">          <span class="p">[</span><span class="nv">java.awt.image</span> <span class="nv">BufferedImage</span><span class="p">]</span>
+</span><span class="line">          <span class="p">[</span><span class="nv">javax.imageio</span> <span class="nv">ImageIO</span><span class="p">]</span>
+</span><span class="line">          <span class="p">[</span><span class="nv">javax.swing</span> <span class="nv">JFrame</span><span class="p">])</span>
+</span><span class="line">  <span class="p">(</span><span class="ss">:gen-class</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="k">def </span><span class="nv">frame</span>
+</span><span class="line">  <span class="s">&quot;java.awt.JFrame instance&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">doto </span><span class="p">(</span><span class="nf">JFrame.</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.setVisible</span> <span class="nv">true</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.setSize</span> <span class="mi">500</span> <span class="mi">500</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.setBackground</span> <span class="nv">Color/BLACK</span><span class="p">)))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="k">def </span><span class="o">^</span><span class="ss">:dynamic</span> <span class="nv">gfx</span>
+</span><span class="line">  <span class="s">&quot;java.awt.Graphics2D instance&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">doto </span><span class="p">(</span><span class="nf">.getGraphics</span> <span class="nv">frame</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.setColor</span> <span class="nv">Color/WHITE</span><span class="p">)))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">triangle</span> <span class="p">[</span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">t-type</span><span class="p">]</span>
+</span><span class="line">  <span class="s">&quot;Takes three points p1, p2, and p3 and returns</span>
+</span><span class="line"><span class="s">   a triangle map of type t-type. t-type is used</span>
+</span><span class="line"><span class="s">   to specify the ordering/labeling of the input</span>
+</span><span class="line"><span class="s">   coordinates:</span>
+</span><span class="line">
+</span><span class="line"><span class="s">   :outer {:top p1 :b-left p2 :b-right p3}</span>
+</span><span class="line"><span class="s">   :inner {:t-left p1 :t-right p2 :bottom p3}&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">condp</span> <span class="nb">= </span><span class="nv">t-type</span>
+</span><span class="line">    <span class="ss">:outer</span> <span class="p">{</span><span class="ss">:top</span> <span class="nv">p1</span> <span class="ss">:b-left</span> <span class="nv">p2</span> <span class="ss">:b-right</span> <span class="nv">p3</span><span class="p">}</span>
+</span><span class="line">    <span class="ss">:inner</span> <span class="p">{</span><span class="ss">:t-left</span> <span class="nv">p1</span> <span class="ss">:t-right</span> <span class="nv">p2</span> <span class="ss">:bottom</span> <span class="nv">p3</span><span class="p">}))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">inner</span> <span class="p">[</span><span class="nv">t</span><span class="p">]</span>
+</span><span class="line">  <span class="s">&quot;Takes an :outer triangle t and returns a map of</span>
+</span><span class="line"><span class="s">   coordinates for its inner (inverse) triangle.&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">top</span> <span class="nv">b-left</span> <span class="nv">b-right</span><span class="p">]}</span> <span class="nv">t</span>
+</span><span class="line">        <span class="p">[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="nv">top</span>
+</span><span class="line">        <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="nv">b-left</span>
+</span><span class="line">        <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="nv">b-right</span><span class="p">]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">triangle</span> <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x2</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class="line">                           <span class="p">(</span><span class="nb">+ </span><span class="nv">y1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">y2</span> <span class="nv">y1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))])</span>
+</span><span class="line">              <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x3</span> <span class="nv">x1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class="line">                           <span class="p">(</span><span class="nb">+ </span><span class="nv">y1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">y3</span> <span class="nv">y1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))])</span>
+</span><span class="line">              <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x2</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x3</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class="line">                           <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">y2</span> <span class="nv">y3</span><span class="p">)</span> <span class="mi">2</span><span class="p">)])</span> <span class="ss">:inner</span><span class="p">)))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">outers</span> <span class="p">[</span><span class="nv">t</span><span class="p">]</span>
+</span><span class="line">  <span class="s">&quot;Takes an :outer triangle t and returns a map of triangle</span>
+</span><span class="line"><span class="s">   maps labeled :top :b-left and :b-right that represent</span>
+</span><span class="line"><span class="s">   the triangle&#39;s three outer triangles.&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[{[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="ss">:top</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="ss">:b-left</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="ss">:b-right</span><span class="p">}</span> <span class="nv">t</span>
+</span><span class="line">        <span class="p">{[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="ss">:t-left</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="ss">:t-right</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="ss">:bottom</span><span class="p">}</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">t</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">{</span><span class="ss">:top</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span>
+</span><span class="line">     <span class="ss">:b-left</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span>
+</span><span class="line">     <span class="ss">:b-right</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)}))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">draw-triangle</span> <span class="p">[</span><span class="nv">t</span><span class="p">]</span>
+</span><span class="line">  <span class="s">&quot;Takes a triangle t and draws it.&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[[[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span>
+</span><span class="line">         <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]]</span> <span class="p">(</span><span class="nb">vals </span><span class="nv">t</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">do</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="nv">x1</span> <span class="nv">y1</span> <span class="nv">x2</span> <span class="nv">y2</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="nv">x1</span> <span class="nv">y1</span> <span class="nv">x3</span> <span class="nv">y3</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="nv">x2</span> <span class="nv">y2</span> <span class="nv">x3</span> <span class="nv">y3</span><span class="p">))))</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">;; Main (multi)method to handle recursive calls</span>
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">sierpinski</span>
+</span><span class="line">  <span class="p">([]</span>
+</span><span class="line">     <span class="p">(</span><span class="nf">sierpinski</span> <span class="mi">10</span><span class="p">))</span>
+</span><span class="line">  <span class="p">([</span><span class="nv">lvl</span><span class="p">]</span> <span class="p">(</span><span class="nf">sierpinski</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="mi">250</span> <span class="mi">75</span><span class="p">]</span> <span class="p">[</span><span class="mi">25</span> <span class="mi">450</span><span class="p">]</span> <span class="p">[</span><span class="mi">475</span> <span class="mi">450</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span> <span class="nv">lvl</span> <span class="nv">true</span><span class="p">))</span>
+</span><span class="line">  <span class="p">([</span><span class="nv">t</span> <span class="nv">lvl</span><span class="p">]</span>
+</span><span class="line">     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">lvl</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line">       <span class="p">(</span><span class="nf">do</span>
+</span><span class="line">         <span class="p">(</span><span class="nf">draw-triangle</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">t</span><span class="p">))</span>
+</span><span class="line">         <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">sub-t</span> <span class="p">(</span><span class="nb">vals </span><span class="p">(</span><span class="nf">outers</span> <span class="nv">t</span><span class="p">))]</span>
+</span><span class="line">           <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">sub-t</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">lvl</span><span class="p">))))))</span>
+</span><span class="line">  <span class="p">([</span><span class="nv">t</span> <span class="nv">lvl</span> <span class="nv">first?</span><span class="p">]</span>
+</span><span class="line">     <span class="p">(</span><span class="k">if </span><span class="nv">first?</span>
+</span><span class="line">       <span class="p">(</span><span class="k">do </span>
+</span><span class="line">         <span class="p">(</span><span class="nf">draw-triangle</span> <span class="nv">t</span><span class="p">)</span>
+</span><span class="line">         <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">t</span> <span class="nv">lvl</span> <span class="nv">false</span><span class="p">))</span>
+</span><span class="line">       <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">t</span> <span class="nv">lvl</span><span class="p">))))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">clear</span> <span class="p">[</span><span class="nv">gfx</span><span class="p">]</span>
+</span><span class="line">  <span class="s">&quot;Clears the Graphics2D context&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">.clearRect</span> <span class="nv">gfx</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">500</span> <span class="mi">500</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">save</span> <span class="p">[</span><span class="nv">lvl</span> <span class="nv">path</span><span class="p">]</span>
+</span><span class="line">  <span class="s">&quot;Binds gfx to the Graphics context of a new</span>
+</span><span class="line"><span class="s">   BufferedImage, calls sierpinski to draw on it,</span>
+</span><span class="line"><span class="s">   and then writes the BufferedImage contents to a</span>
+</span><span class="line"><span class="s">   png file at path.&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">c</span> <span class="p">(</span><span class="nf">.getContentPane</span> <span class="nv">frame</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">bi</span> <span class="p">(</span><span class="nf">BufferedImage.</span> <span class="p">(</span><span class="nf">.getWidth</span> <span class="nv">c</span><span class="p">)</span> <span class="p">(</span><span class="nf">.getHeight</span> <span class="nv">c</span><span class="p">)</span> <span class="nv">BufferedImage/TYPE_INT_RGB</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">new-gfx</span> <span class="p">(</span><span class="nf">.createGraphics</span> <span class="nv">bi</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">binding </span><span class="p">[</span><span class="nv">gfx</span> <span class="nv">new-gfx</span><span class="p">]</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">clear</span> <span class="nv">gfx</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">lvl</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">ImageIO/write</span> <span class="nv">bi</span> <span class="s">&quot;PNG&quot;</span> <span class="p">(</span><span class="nf">java.io.File.</span> <span class="nv">path</span><span class="p">)))))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="o">&amp;</span> <span class="nv">args</span><span class="p">]</span>
+</span><span class="line">  <span class="s">&quot;Main method&quot;</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">clear</span> <span class="nv">gfx</span><span class="p">)</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">sierpinski</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>You can suck that into your REPL and run it:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="nb">load-file </span><span class="s">&quot;/path/to/sierpinski.clj&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="c1">;;-&gt; nil</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">ns </span><span class="nv">sierpinski</span><span class="p">)</span>
+</span><span class="line"><span class="c1">;;-&gt; nil</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="nf">-main</span><span class="p">)</span>
+</span><span class="line"><span class="c1">;;-&gt; nil</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Or just run this from the same directory as the script:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">java -cp .:/path/to/clojure.jar clojure.main -m sierpinski sierpinski.clj
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>You should see this output:</p>
+
+<p><img src="/images/posts/sierpinski_triangle_fractal/sierpinski_10.png" /></p>
+
+<p>P.S. You can call <code>save</code> with a level and a supplied path string to
+save an image for the corresponding Sierpinski triangle (it needs to
+repaint it to a new graphics context).</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Roberto Acevedo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-15T22:36:06-05:00" pubdate data-updated="true">Feb 15<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/clojure/'>clojure,</a>, <a class='category' href='/blog/categories/fractal/'>fractal,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rxacevedo.github.io/blog/2014/02/15/sierpinski-triangle-fractal/" data-via="rxacevedo" data-counturl="http://rxacevedo.github.io/blog/2014/02/15/sierpinski-triangle-fractal/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/02/09/approximating-the-golden-ratio/" title="Previous Post: Approximating The Golden Ratio">&laquo; Approximating The Golden Ratio</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+  I'm a 24-year-old computer programmer who enjoys running, coffee, programming languages and their design/semantics.
+  </p>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/rxacevedo">@rxacevedo</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'rxacevedo',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Roberto Acevedo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$']],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    messageStyle: "none",
+    "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+  });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>

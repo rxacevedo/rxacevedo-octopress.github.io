@@ -9,8 +9,7 @@
   <meta name="author" content="Roberto Acevedo">
 
   
-  <meta name="description" content="In the first week of the Algorithms I
-course on Coursera, we are walked through the process
+  <meta name="description" content="In the first week of the Algorithms I course on Coursera, we are walked through the process
 of doing some mathematical analysis on an algorithm to &hellip;">
   
 
@@ -95,318 +94,317 @@ of doing some mathematical analysis on an algorithm to &hellip;">
   </header>
 
 
-<div class="entry-content"><p>In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a>
+<div class="entry-content"><p>In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a> 
 course on <a href="https://www.coursera.org/">Coursera</a>, we are walked through the process
 of doing some mathematical analysis on an algorithm to arrive at an equation that
 allows the prediction of the running time over a larger data set. This seems like
 an incredibly valuable skill to me, so I wanted to walk through the example myself
-so that I could fully understand the process. I started by figuring out how to
+so that I could fully understand the process. I started by figuring out how to 
 spawn system processes from within Clojure:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;; Using Java:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">ProcessBuilder.</span> <span class="p">[</span><span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span> <span class="s">&quot;.:stdlib.jar&quot;</span> <span class="s">&quot;ThreeSum&quot;</span>
-</span><span class='line'>                      <span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/1Kints.txt&quot;</span><span class="p">])</span>
-</span><span class='line'>    <span class="p">(</span><span class="nf">.directory</span> <span class="p">(</span><span class="nf">java.io.File.</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">(</span><span class="nf">.start</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">(</span><span class="nf">.getInputStream</span><span class="p">)</span>
-</span><span class='line'>    <span class="nv">slurp</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; More simply, using Clojure constructs:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">p</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span> <span class="s">&quot;.:stdlib.jar&quot;</span> <span class="s">&quot;ThreeSum&quot;</span>
-</span><span class='line'>            <span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/1Kints.txt&quot;</span>
-</span><span class='line'>            <span class="ss">:dir</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">)]</span>
-</span><span class='line'>  <span class="p">(</span><span class="ss">:out</span> <span class="nv">p</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; With that out of the way, all that&#39;s left is parse the numbers from</span>
-</span><span class='line'><span class="c1">;; the output and run the same procedure over a variety of inputs.</span>
-</span><span class='line'><span class="c1">;; Once we&#39;ve acquired the data, we can tabulate and/or plot it in Incanter:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Using this command, we can get a lazy sequence of vectors, each</span>
-</span><span class='line'><span class="c1">;; containing the filename and the amount of time it took for the</span>
-</span><span class='line'><span class="c1">;; process to run:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;1Kints.txt&quot;</span>
-</span><span class='line'>         <span class="s">&quot;2Kints.txt&quot;</span>
-</span><span class='line'>         <span class="s">&quot;4Kints.txt&quot;</span><span class="p">]</span>
-</span><span class='line'>      <span class="ss">:let</span> <span class="p">[</span><span class="nv">t</span> <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">(</span><span class="ss">:out</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span>
-</span><span class='line'>                             <span class="s">&quot;.:stdlib.jar&quot;</span>
-</span><span class='line'>                             <span class="s">&quot;ThreeSum&quot;</span>
-</span><span class='line'>                             <span class="p">(</span><span class="nb">str </span><span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/&quot;</span> <span class="nv">f</span><span class="p">)</span>
-</span><span class='line'>                             <span class="ss">:dir</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">))</span>
-</span><span class='line'>                   <span class="p">(</span><span class="nb">re-find </span><span class="o">#</span><span class="s">&quot;\d+.\d+&quot;</span><span class="p">)</span>
-</span><span class='line'>                   <span class="nv">Double/parseDouble</span><span class="p">)]]</span>
-</span><span class='line'>  <span class="p">[</span><span class="nv">f</span> <span class="nv">t</span><span class="p">])</span>
-</span><span class='line'><span class="c1">;; ([&quot;1Kints.txt&quot; 0.294] [&quot;2Kints.txt&quot; 2.357] [&quot;4Kints.txt&quot; 18.424])</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; Now that we have the data, we can create an Incanter dataset from</span>
-</span><span class='line'><span class="c1">;; it that can be used for plotting purposes.</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nf">to-dataset</span>
-</span><span class='line'> <span class="p">[[</span><span class="mi">1000</span> <span class="mf">0.294</span><span class="p">]</span>
-</span><span class='line'>  <span class="p">[</span><span class="mi">2000</span> <span class="mf">2.357</span><span class="p">]</span>
-</span><span class='line'>  <span class="p">[</span><span class="mi">4000</span> <span class="mf">18.424</span><span class="p">]])</span>
-</span><span class='line'><span class="c1">;; | :col-0 | :col-1 |</span>
-</span><span class='line'><span class="c1">;; |--------+--------|</span>
-</span><span class='line'><span class="c1">;; |   1000 |  0.294 |</span>
-</span><span class='line'><span class="c1">;; |   2000 |  2.357 |</span>
-</span><span class='line'><span class="c1">;; |   4000 | 18.424 |</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; If we do a log-log plot, we get a straight line, here are the</span>
-</span><span class='line'><span class="c1">;; log-log data points (log base 2):</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nf">with-data</span> <span class="p">(</span><span class="nf">to-dataset</span> <span class="p">(</span><span class="nf">log2</span> <span class="p">(</span><span class="nf">to-matrix</span> <span class="p">(</span><span class="nf">to-dataset</span>
-</span><span class='line'>                                         <span class="p">[[</span><span class="mi">1000</span> <span class="mf">0.294</span><span class="p">]</span>
-</span><span class='line'>                                          <span class="p">[</span><span class="mi">2000</span> <span class="mf">2.357</span><span class="p">]</span>
-</span><span class='line'>                                          <span class="p">[</span><span class="mi">4000</span> <span class="mf">18.424</span><span class="p">]]))))</span>
-</span><span class='line'>  <span class="nv">$data</span><span class="p">)</span>
-</span><span class='line'><span class="c1">;; |             :col-0 |              :col-1 |</span>
-</span><span class='line'><span class="c1">;; |--------------------+---------------------|</span>
-</span><span class='line'><span class="c1">;; |  9.965784284662087 | -1.7661119398257226 |</span>
-</span><span class='line'><span class="c1">;; | 10.965784284662087 |  1.2369517585880805 |</span>
-</span><span class='line'><span class="c1">;; | 11.965784284662087 |   4.203514411130758 |</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; Now we set up our equation as follows:</span>
-</span><span class='line'><span class="c1">;; T(n) = ?</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Since applying log/log yields a straight line, we can apply the</span>
-</span><span class='line'><span class="c1">;; power law. The power law states that:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; y = a (x^k) (we omit the deviation term in this example)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; This can be rewritten as:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(n) = a(n ^ b)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; and after taking the lg of both sides, can be expressed as:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; lg(T(n)) = b lg(n) + c</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; This looks a lot like the slope-intercept form of a line, does it</span>
-</span><span class='line'><span class="c1">;; not? If we set up out equation as:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; y = mx + b</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; The slope of the line (b in our original equation) is:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="mf">1.2369517585880805</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nb">- </span><span class="mf">11.965784284662087</span> <span class="mf">10.965784284662087</span><span class="p">))</span>
-</span><span class='line'><span class="c1">;; 2.9665626525426774</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; So now we can write:</span>
-</span><span class='line'><span class="c1">;; lg(T(n) = 2.97 lg(n) + c</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; We can plug in some data points to solve for c:</span>
-</span><span class='line'><span class="c1">;; 4.203514411130758 = 2.97 (11.965784284662087) + c</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="p">(</span><span class="nb">* </span><span class="mf">2.97</span> <span class="mf">11.965784284662087</span><span class="p">))</span>
-</span><span class='line'><span class="c1">;; -31.33486491431564</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; So b = 2.97, c = -31.33</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; The final equation is then:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; lg(T(n)) = 2.97 lg(n) - 31.33</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; We now want to get back to the form T(n) = a(n ^ b). We can use two</span>
-</span><span class='line'><span class="c1">;; rules of logarithms to do that:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; 1. a^(b + c) = (a^b)(a^c)</span>
-</span><span class='line'><span class="c1">;; 2. a^(b * c) = (a^b)^c == (a^c)^b</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; We can raise 2 to the power of each side:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; 2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Using rule 1:</span>
-</span><span class='line'><span class="c1">;; T(n) = 2^(2.97 lg(n)) * 2^-31.33</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; And using rule 2:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(n) = (2^(lg(n)))^2.97 * 2^-31.33</span>
-</span><span class='line'><span class="c1">;;      = n^2.97 * 2^-31.33</span>
-</span><span class='line'><span class="c1">;;      = 3.705E-10 * n^2.97</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Finally:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(n) = 3.7045054312558825E-10 (n ^ 2.97)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; With this, we should be able to plug in 8000 and get an approximation</span>
-</span><span class='line'><span class="c1">;; of the running time:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">* </span><span class="mf">3.7045054312558825</span><span class="nv">E-10</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">8000</span> <span class="mf">2.97</span><span class="p">))</span>
-</span><span class='line'><span class="c1">;; 144.84633044665534 (seconds)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; And when we run it to test our theory:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;8Kints.txt&quot;</span><span class="p">]</span>
-</span><span class='line'>      <span class="ss">:let</span> <span class="p">[</span><span class="nv">t</span> <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">(</span><span class="ss">:out</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span>
-</span><span class='line'>                             <span class="s">&quot;.:stdlib.jar&quot;</span>
-</span><span class='line'>                             <span class="s">&quot;ThreeSum&quot;</span>
-</span><span class='line'>                             <span class="p">(</span><span class="nb">str </span><span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/&quot;</span> <span class="nv">f</span><span class="p">)</span>
-</span><span class='line'>                             <span class="ss">:dir</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">))</span>
-</span><span class='line'>                   <span class="p">(</span><span class="nb">re-find </span><span class="o">#</span><span class="s">&quot;\d+.\d+&quot;</span><span class="p">)</span>
-</span><span class='line'>                   <span class="nv">Double/parseDouble</span><span class="p">)]]</span>
-</span><span class='line'>  <span class="p">[</span><span class="nv">f</span> <span class="nv">t</span><span class="p">])</span>
-</span><span class='line'><span class="c1">;; ([&quot;8Kints.txt&quot; 147.342])</span>
-</span><span class='line'><span class="c1">;; We get what approximately what we expected.</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+<span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+<span class="line-number">123</span>
+<span class="line-number">124</span>
+<span class="line-number">125</span>
+<span class="line-number">126</span>
+<span class="line-number">127</span>
+<span class="line-number">128</span>
+<span class="line-number">129</span>
+<span class="line-number">130</span>
+<span class="line-number">131</span>
+<span class="line-number">132</span>
+<span class="line-number">133</span>
+<span class="line-number">134</span>
+<span class="line-number">135</span>
+<span class="line-number">136</span>
+<span class="line-number">137</span>
+<span class="line-number">138</span>
+<span class="line-number">139</span>
+<span class="line-number">140</span>
+<span class="line-number">141</span>
+<span class="line-number">142</span>
+<span class="line-number">143</span>
+<span class="line-number">144</span>
+<span class="line-number">145</span>
+<span class="line-number">146</span>
+<span class="line-number">147</span>
+<span class="line-number">148</span>
+<span class="line-number">149</span>
+<span class="line-number">150</span>
+<span class="line-number">151</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="c1">;; Using Java:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">ProcessBuilder.</span> <span class="p">[</span><span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span> <span class="s">&quot;.:stdlib.jar&quot;</span> <span class="s">&quot;ThreeSum&quot;</span>
+</span><span class="line">                      <span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/1Kints.txt&quot;</span><span class="p">])</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.directory</span> <span class="p">(</span><span class="nf">java.io.File.</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">))</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.start</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.getInputStream</span><span class="p">)</span>
+</span><span class="line">    <span class="nv">slurp</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">;; More simply, using Clojure constructs:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">p</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span> <span class="s">&quot;.:stdlib.jar&quot;</span> <span class="s">&quot;ThreeSum&quot;</span>
+</span><span class="line">            <span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/1Kints.txt&quot;</span>
+</span><span class="line">            <span class="ss">:dir</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">)]</span>
+</span><span class="line">  <span class="p">(</span><span class="ss">:out</span> <span class="nv">p</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">;; With that out of the way, all that&#39;s left is parse the numbers from</span>
+</span><span class="line"><span class="c1">;; the output and run the same procedure over a variety of inputs.</span>
+</span><span class="line"><span class="c1">;; Once we&#39;ve acquired the data, we can tabulate and/or plot it in Incanter:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; Using this command, we can get a lazy sequence of vectors, each</span>
+</span><span class="line"><span class="c1">;; containing the filename and the amount of time it took for the</span>
+</span><span class="line"><span class="c1">;; process to run:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;1Kints.txt&quot;</span>
+</span><span class="line">         <span class="s">&quot;2Kints.txt&quot;</span>
+</span><span class="line">         <span class="s">&quot;4Kints.txt&quot;</span><span class="p">]</span>
+</span><span class="line">      <span class="ss">:let</span> <span class="p">[</span><span class="nv">t</span> <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">(</span><span class="ss">:out</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span>
+</span><span class="line">                             <span class="s">&quot;.:stdlib.jar&quot;</span>
+</span><span class="line">                             <span class="s">&quot;ThreeSum&quot;</span>
+</span><span class="line">                             <span class="p">(</span><span class="nb">str </span><span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/&quot;</span> <span class="nv">f</span><span class="p">)</span>
+</span><span class="line">                             <span class="ss">:dir</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">))</span>
+</span><span class="line">                   <span class="p">(</span><span class="nb">re-find </span><span class="o">#</span><span class="s">&quot;\d+.\d+&quot;</span><span class="p">)</span>
+</span><span class="line">                   <span class="nv">Double/parseDouble</span><span class="p">)]]</span>
+</span><span class="line">  <span class="p">[</span><span class="nv">f</span> <span class="nv">t</span><span class="p">])</span>
+</span><span class="line"><span class="c1">;; ([&quot;1Kints.txt&quot; 0.294] [&quot;2Kints.txt&quot; 2.357] [&quot;4Kints.txt&quot; 18.424])</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">;; Now that we have the data, we can create an Incanter dataset from</span>
+</span><span class="line"><span class="c1">;; it that can be used for plotting purposes.</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="nf">to-dataset</span>
+</span><span class="line"> <span class="p">[[</span><span class="mi">1000</span> <span class="mf">0.294</span><span class="p">]</span>
+</span><span class="line">  <span class="p">[</span><span class="mi">2000</span> <span class="mf">2.357</span><span class="p">]</span>
+</span><span class="line">  <span class="p">[</span><span class="mi">4000</span> <span class="mf">18.424</span><span class="p">]])</span>
+</span><span class="line"><span class="c1">;; | :col-0 | :col-1 |</span>
+</span><span class="line"><span class="c1">;; |--------+--------|</span>
+</span><span class="line"><span class="c1">;; |   1000 |  0.294 |</span>
+</span><span class="line"><span class="c1">;; |   2000 |  2.357 |</span>
+</span><span class="line"><span class="c1">;; |   4000 | 18.424 |</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="c1">;; If we do a log-log plot, we get a straight line, here are the</span>
+</span><span class="line"><span class="c1">;; log-log data points (log base 2):</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="nf">with-data</span> <span class="p">(</span><span class="nf">to-dataset</span> <span class="p">(</span><span class="nf">log2</span> <span class="p">(</span><span class="nf">to-matrix</span> <span class="p">(</span><span class="nf">to-dataset</span>
+</span><span class="line">                                         <span class="p">[[</span><span class="mi">1000</span> <span class="mf">0.294</span><span class="p">]</span>
+</span><span class="line">                                          <span class="p">[</span><span class="mi">2000</span> <span class="mf">2.357</span><span class="p">]</span>
+</span><span class="line">                                          <span class="p">[</span><span class="mi">4000</span> <span class="mf">18.424</span><span class="p">]]))))</span>
+</span><span class="line">  <span class="nv">$data</span><span class="p">)</span>
+</span><span class="line"><span class="c1">;; |             :col-0 |              :col-1 |</span>
+</span><span class="line"><span class="c1">;; |--------------------+---------------------|</span>
+</span><span class="line"><span class="c1">;; |  9.965784284662087 | -1.7661119398257226 |</span>
+</span><span class="line"><span class="c1">;; | 10.965784284662087 |  1.2369517585880805 |</span>
+</span><span class="line"><span class="c1">;; | 11.965784284662087 |   4.203514411130758 |</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">;; Now we set up our equation as follows:</span>
+</span><span class="line"><span class="c1">;; T(n) = ?</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; Since applying log/log yields a straight line, we can apply the</span>
+</span><span class="line"><span class="c1">;; power law. The power law states that:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; y = a (x^k) (we omit the deviation term in this example)</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; This can be rewritten as:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; T(n) = a(n ^ b)</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; and after taking the lg of both sides, can be expressed as:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; lg(T(n)) = b lg(n) + c</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; This looks a lot like the slope-intercept form of a line, does it</span>
+</span><span class="line"><span class="c1">;; not? If we set up out equation as:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; y = mx + b</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; The slope of the line (b in our original equation) is:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="mf">1.2369517585880805</span><span class="p">)</span>
+</span><span class="line">   <span class="p">(</span><span class="nb">- </span><span class="mf">11.965784284662087</span> <span class="mf">10.965784284662087</span><span class="p">))</span>
+</span><span class="line"><span class="c1">;; 2.9665626525426774</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; So now we can write:</span>
+</span><span class="line"><span class="c1">;; lg(T(n) = 2.97 lg(n) + c</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; We can plug in some data points to solve for c:</span>
+</span><span class="line"><span class="c1">;; 4.203514411130758 = 2.97 (11.965784284662087) + c</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="p">(</span><span class="nb">* </span><span class="mf">2.97</span> <span class="mf">11.965784284662087</span><span class="p">))</span>
+</span><span class="line"><span class="c1">;; -31.33486491431564</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; So b = 2.97, c = -31.33</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; The final equation is then:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; lg(T(n)) = 2.97 lg(n) - 31.33</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; We now want to get back to the form T(n) = a(n ^ b). We can use two</span>
+</span><span class="line"><span class="c1">;; rules of logarithms to do that:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; 1. a^(b + c) = (a^b)(a^c)</span>
+</span><span class="line"><span class="c1">;; 2. a^(b * c) = (a^b)^c == (a^c)^b</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; We can raise 2 to the power of each side:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; 2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; Using rule 1:</span>
+</span><span class="line"><span class="c1">;; T(n) = 2^(2.97 lg(n)) * 2^-31.33</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; And using rule 2:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; T(n) = (2^(lg(n)))^2.97 * 2^-31.33</span>
+</span><span class="line"><span class="c1">;;      = n^2.97 * 2^-31.33</span>
+</span><span class="line"><span class="c1">;;      = 3.705E-10 * n^2.97</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; Finally:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; T(n) = 3.7045054312558825E-10 (n ^ 2.97)</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; With this, we should be able to plug in 8000 and get an approximation</span>
+</span><span class="line"><span class="c1">;; of the running time:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="nb">* </span><span class="mf">3.7045054312558825</span><span class="nv">E-10</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">8000</span> <span class="mf">2.97</span><span class="p">))</span>
+</span><span class="line"><span class="c1">;; 144.84633044665534 (seconds)</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="c1">;; And when we run it to test our theory:</span>
+</span><span class="line"><span class="c1">;;</span>
+</span><span class="line"><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;8Kints.txt&quot;</span><span class="p">]</span>
+</span><span class="line">      <span class="ss">:let</span> <span class="p">[</span><span class="nv">t</span> <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">(</span><span class="ss">:out</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span>
+</span><span class="line">                             <span class="s">&quot;.:stdlib.jar&quot;</span>
+</span><span class="line">                             <span class="s">&quot;ThreeSum&quot;</span>
+</span><span class="line">                             <span class="p">(</span><span class="nb">str </span><span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/&quot;</span> <span class="nv">f</span><span class="p">)</span>
+</span><span class="line">                             <span class="ss">:dir</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">))</span>
+</span><span class="line">                   <span class="p">(</span><span class="nb">re-find </span><span class="o">#</span><span class="s">&quot;\d+.\d+&quot;</span><span class="p">)</span>
+</span><span class="line">                   <span class="nv">Double/parseDouble</span><span class="p">)]]</span>
+</span><span class="line">  <span class="p">[</span><span class="nv">f</span> <span class="nv">t</span><span class="p">])</span>
+</span><span class="line"><span class="c1">;; ([&quot;8Kints.txt&quot; 147.342])</span>
+</span><span class="line"><span class="c1">;; We get what approximately what we expected.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -559,3 +557,19 @@ spawn system processes from within Clojure:</p>
 
 </body>
 </html>
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$']],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    messageStyle: "none",
+    "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+  });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
