@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Fp | Roberto Acevedo]]></title>
+  <title><![CDATA[Category: fp | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/fp/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-05-02T18:47:52-04:00</updated>
+  <updated>2014-05-02T19:40:06-04:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -20,70 +20,80 @@
     <id>http://rxacevedo.github.io/blog/2014/01/07/first-class-functions</id>
     <content type="html"><![CDATA[<p>Functions that take functions as arguments and functions that return functions
 as their results can be a somewhat tricky concept to grasp coming from a
-purely object-oriented style of programming. I will say up front that higher-order 
+purely object-oriented style of programming. I will say up front that higher-order
 functions are mostly useful for list-processing, but we will soon see
 that this enables us to affect changes on data (or data structures) without
 actually modifying state, which comes in quite handy when writing threaded code.</p>
 
 <p><code>clojure Le map
-map 
-;; #&lt;core$map clojure.core$map@17448423&gt; 
+map
+;; #&lt;core$map clojure.core$map@17448423&gt;
 </code></p>
 
-<p>Map? That’s it? Yes, map is a function that takes a function and a number of
+<p>Map? That&rsquo;s it? Yes, map is a function that takes a function and a number of
 collections and will apply that function in one of two ways</p>
 
 <ol>
-  <li>To each element of the collection - f(element) </li>
-  <li>To the group of elements that are at equal positions in the collections -
+<li>To each element of the collection &ndash; f(element)</li>
+<li>To the group of elements that are at equal positions in the collections &ndash;
 f(element1, element2, element3)</li>
 </ol>
+
 
 <p>One can easily observe the usefulness of higher-order functions (or HOFs) in this sense.
 Here is a contrived example of mapping an anonymous function:</p>
 
-<p><code>clojure Our first HOF
-(map #(assoc % :cry (condp = (:type %)
-                      :cat "Meow"
-                      :dog "Woof"
-                      "HELP"))
-     [{:name "Spot" :type :dog} 
-      {:name "Whiskers" :type :cat}                                     
-      {:name "Leila" :type :dog} 
-      {:name "Geronimo" :type :cat}
-      {:name "Izolda the Russian mail-order bride"}])
-;; ({:cry "Woof", :name "Spot", :type :dog} 
-;;  {:cry "Meow", :name "Whiskers", :type :cat} 
-;;  {:cry "Woof", :name "Leila", :type :dog} 
-;;  {:cry "Meow", :name "Geronimo", :type :cat}
-;;  {:cry "HELP", :name "Izolda the Russian mail-order bride"})
-</code></p>
+<p>``` clojure Our first HOF
+(map #(assoc % :cry (condp = (:type %)</p>
+
+<pre><code>                  :cat "Meow"
+                  :dog "Woof"
+                  "HELP"))
+ [{:name "Spot" :type :dog} 
+  {:name "Whiskers" :type :cat}                                     
+  {:name "Leila" :type :dog} 
+  {:name "Geronimo" :type :cat}
+  {:name "Izolda the Russian mail-order bride"}])
+</code></pre>
+
+<p>;; ({:cry &ldquo;Woof&rdquo;, :name &ldquo;Spot&rdquo;, :type :dog}
+;;  {:cry &ldquo;Meow&rdquo;, :name &ldquo;Whiskers&rdquo;, :type :cat}
+;;  {:cry &ldquo;Woof&rdquo;, :name &ldquo;Leila&rdquo;, :type :dog}
+;;  {:cry &ldquo;Meow&rdquo;, :name &ldquo;Geronimo&rdquo;, :type :cat}
+;;  {:cry &ldquo;HELP&rdquo;, :name &ldquo;Izolda the Russian mail-order bride&rdquo;})
+```</p>
 
 <p><em>Ok, we get it Roberto, there are some neat functions available in Scala and
 Clojure that let us pass functions in, but why would we ever want to write our
 own?</em></p>
 
 <p>We need to think about our functions not just in terms of what they do, but how
-they do it, the order that it’s done in, and the types returned by each function
-application. Let’s write a function to obfuscate text as an example:</p>
+they do it, the order that it&rsquo;s done in, and the types returned by each function
+application. Let&rsquo;s write a function to obfuscate text as an example:</p>
 
-<p><code>clojure Not so HOF
+<p>``` clojure Not so HOF
 (defn obfuscate [text]
-  (clojure.string/join (interleave (rest (iterate rand-int 42))
-    (reverse (seq text)))))
-</code></p>
+  (clojure.string/join (interleave (rest (iterate rand-int 42))</p>
 
-<p>Or, using a threading macro for clarity (hey, some people don’t like
+<pre><code>(reverse (seq text)))))
+</code></pre>
+
+<p>```</p>
+
+<p>Or, using a threading macro for clarity (hey, some people don&rsquo;t like
 the parentheses):</p>
 
-<p><code>clojure Still not so HOF
+<p>``` clojure Still not so HOF
 (defn obfuscate [text]
-  (-&gt;&gt; text
-        seq
-        reverse
-        (interleave (rest (iterate rand-int 42)))
-        clojure.string/join))
-</code></p>
+  (&ndash;>> text</p>
+
+<pre><code>    seq
+    reverse
+    (interleave (rest (iterate rand-int 42)))
+    clojure.string/join))
+</code></pre>
+
+<p>```</p>
 
 <p>There are some components to this function that we would like to keep, i.e. the
 call to seq to convert the string into a list of chars. But what about about the
@@ -93,17 +103,20 @@ might not want to interleave with numbers, but rather with symbols. How could
 we do this? We can remove these components and replace them with variables, and
 then pass functions in that will be bound to those variables.</p>
 
-<p><code>clojure A higher-order function that takes a String and returns a function
+<p>``` clojure A higher-order function that takes a String and returns a function
 (defn make-obfuscator [text]
-  (ƒ [f g h]
-      (f (g (h (seq text))))))
-</code></p>
+  (ƒ [f g h]</p>
+
+<pre><code>  (f (g (h (seq text))))))
+</code></pre>
+
+<p>```</p>
 
 <p>There are a variety of ways that one can achieve this in Scala, I am using function
 currying here (each function takes a single parameter).</p>
 
 <p><code>scala A higher-order function that takes a String and returns a function
-def makeObfuscator(f: String =&gt; List[Char])(g: List[Char] =&gt; String)(s:String) = { 
+def makeObfuscator(f: String =&gt; List[Char])(g: List[Char] =&gt; String)(s:String) = {
   val lambda = (a: String) =&gt; g(f(a))
   lambda(s)
 }
@@ -126,29 +139,29 @@ multiple obfuscation functions (note: these are just examples, they are not mean
   ((make-obfuscator clojure.string/join #(interleave (rest (iterate rand-int 42)) %) reverse) text))</p>
 
 <p>(defn jumble [text]
-  ((make-obfuscator #(clojure.string/join “_” %) #(shuffle (seq %)) clojure.string/upper-case) text))</p>
+  ((make-obfuscator #(clojure.string/join &ldquo;_&rdquo; %) #(shuffle (seq %)) clojure.string/upper-case) text))</p>
 
 <p>(defn move-yo-chars-every-every-char [text]
   ((make-obfuscator #(apply str (shuffle %)) #(interleave (map char (iterate inc 33)) %) reverse) text))
 ```</p>
 
-<p>Let’s test that they work:</p>
+<p>Let&rsquo;s test that they work:</p>
 
-<p>``` clojure I’m writing stuff
-(scramble “Moriturus te saluto.”)
-;; “27.11o1t0u0l0a0s0 0e0t0 0s0u0r0u0t0i0r0o0M”</p>
+<p>``` clojure I&rsquo;m writing stuff
+(scramble &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;27.11o1t0u0l0a0s0 0e0t0 0s0u0r0u0t0i0r0o0M&rdquo;</p>
 
-<p>(jumble “Moriturus te saluto.”)
-;; “S_ _ <em>\</em>\<em>P_P</em> <em>\_C</em> _ <em>E</em> <em>E</em> _ <em>\</em> <em>U</em> <em>S_A</em>)_ <em>.</em>\<em>\_R</em>\<em>U</em>\<em>L__S</em>\<em>\_O_A</em>\_ _ <em>\</em> <em>E_R</em> <em>O_C</em>\<em>T</em>\<em>T_T</em>\<em>\_U</em> <em>\_I</em>(<em>S</em>\<em>\_M_A</em>\__ “</p>
+<p>(jumble &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;S<em> _ </em>\<em>\</em>P_P<em> </em>\<em>C</em> _ <em>E</em> <em>E</em> _ <em>\</em> <em>U</em> <em>S_A</em>)<em> </em>.<em>\</em>\<em>R</em>\<em>U</em>\<em>L__S</em>\<em>\</em>O_A<em>\</em> _ <em>\</em> <em>E_R</em> <em>O_C</em>\<em>T</em>\<em>T_T</em>\<em>\</em>U<em> </em>\<em>I</em>(<em>S</em>\<em>\</em>M_A_\__ &rdquo;</p>
 
-<p>(move-yo-chars-every-every-char “Moriturus te saluto.”)
-;; “a1t # $o2ie30%.u)sr!*-,tu&amp;.Mu/t4o’"r(sl+”
+<p>(move-yo-chars-every-every-char &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;a1t # $o2ie30%.u)sr!*&ndash;,tu&amp;.Mu/t4o'\"r(sl+&rdquo;
 ```
 As you can see, higher-order functions can be used to generate many new
 functions that share a common behavior pattern.</p>
 
 <p>Here is less complex version in Scala that uses case classes to switch on message
-types: </p>
+types:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (Obfuscate.scala)</span> <a href='/downloads/code/scala/Obfuscate.scala'>download</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Java | Roberto Acevedo]]></title>
+  <title><![CDATA[Category: java | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-05-02T18:47:52-04:00</updated>
+  <updated>2014-05-02T19:40:06-04:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -18,51 +18,59 @@
     <link href="http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times/"/>
     <updated>2014-01-26T19:47:29-05:00</updated>
     <id>http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times</id>
-    <content type="html"><![CDATA[<p>In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a> 
+    <content type="html"><![CDATA[<p>In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a>
 course on <a href="https://www.coursera.org/">Coursera</a>, we are walked through the process
 of doing some mathematical analysis on an algorithm to arrive at an equation that
 allows the prediction of the running time over a larger data set. This seems like
 an incredibly valuable skill to me, so I wanted to walk through the example myself
-so that I could fully understand the process. I started by figuring out how to 
+so that I could fully understand the process. I started by figuring out how to
 spawn system processes from within Clojure:</p>
 
 <p>``` clojure
 ;; Using Java:
 ;;
-(-&gt; (ProcessBuilder. [“java” “-cp” “.:stdlib.jar” “ThreeSum” 
-                      “http://algs4.cs.princeton.edu/14analysis/1Kints.txt”])
-    (.directory (java.io.File. “/Users/Roberto/git/working/algorithms_1/ThreeSum/”))
-    (.start)
-    (.getInputStream)
-    slurp)</p>
+(&ndash;> (ProcessBuilder. [&ldquo;java&rdquo; &ldquo;-cp&rdquo; &ldquo;.:stdlib.jar&rdquo; &ldquo;ThreeSum&rdquo;</p>
+
+<pre><code>                  "http://algs4.cs.princeton.edu/14analysis/1Kints.txt"])
+(.directory (java.io.File. "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+(.start)
+(.getInputStream)
+slurp)
+</code></pre>
 
 <p>;; More simply, using Clojure constructs:
 ;;
-(let [p (sh “java” “-cp” “.:stdlib.jar” “ThreeSum” 
-            “http://algs4.cs.princeton.edu/14analysis/1Kints.txt”
-            :dir “/Users/Roberto/git/working/algorithms_1/ThreeSum/”)]
-  (:out p))</p>
+(let [p (sh &ldquo;java&rdquo; &ldquo;-cp&rdquo; &ldquo;.:stdlib.jar&rdquo; &ldquo;ThreeSum&rdquo;</p>
 
-<p>;; With that out of the way, all that’s left is parse the numbers from
+<pre><code>        "http://algs4.cs.princeton.edu/14analysis/1Kints.txt"
+        :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/")]
+</code></pre>
+
+<p>  (:out p))</p>
+
+<p>;; With that out of the way, all that&rsquo;s left is parse the numbers from
 ;; the output and run the same procedure over a variety of inputs.
-;; Once we’ve acquired the data, we can tabulate and/or plot it in Incanter:
+;; Once we&rsquo;ve acquired the data, we can tabulate and/or plot it in Incanter:
 ;;
 ;; Using this command, we can get a lazy sequence of vectors, each
 ;; containing the filename and the amount of time it took for the
 ;; process to run:
 ;;
-(for [f [“1Kints.txt”
-         “2Kints.txt”
-         “4Kints.txt”]
-      :let [t (-» (:out (sh “java” “-cp”
-                             “.:stdlib.jar”
-                             “ThreeSum”
-                             (str “http://algs4.cs.princeton.edu/14analysis/” f)
-                             :dir “/Users/Roberto/git/working/algorithms_1/ThreeSum/”))
-                   (re-find #”\d+.\d+”)
-                   Double/parseDouble)]]
-  [f t])
-;; ([“1Kints.txt” 0.294] [“2Kints.txt” 2.357] [“4Kints.txt” 18.424])</p>
+(for [f [&ldquo;1Kints.txt&rdquo;</p>
+
+<pre><code>     "2Kints.txt"
+     "4Kints.txt"]
+  :let [t (-&gt;&gt; (:out (sh "java" "-cp"
+                         ".:stdlib.jar"
+                         "ThreeSum"
+                         (str "http://algs4.cs.princeton.edu/14analysis/" f)
+                         :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+               (re-find #"\d+.\d+")
+               Double/parseDouble)]]
+</code></pre>
+
+<p>  [f t])
+;; ([&ldquo;1Kints.txt&rdquo; 0.294] [&ldquo;2Kints.txt&rdquo; 2.357] [&ldquo;4Kints.txt&rdquo; 18.424])</p>
 
 <p>;; Now that we have the data, we can create an Incanter dataset from
 ;; it that can be used for plotting purposes.
@@ -72,7 +80,7 @@ spawn system processes from within Clojure:</p>
   [2000 2.357]
   [4000 18.424]])
 ;; | :col-0 | :col-1 |
-;; |——–+——–|
+;; |&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;|
 ;; |   1000 |  0.294 |
 ;; |   2000 |  2.357 |
 ;; |   4000 | 18.424 |</p>
@@ -80,13 +88,16 @@ spawn system processes from within Clojure:</p>
 <p>;; If we do a log-log plot, we get a straight line, here are the
 ;; log-log data points (log base 2):
 ;;
-(with-data (to-dataset (log2 (to-matrix (to-dataset
-                                         [[1000 0.294]
-                                          [2000 2.357]
-                                          [4000 18.424]]))))
-  $data)
+(with-data (to-dataset (log2 (to-matrix (to-dataset</p>
+
+<pre><code>                                     [[1000 0.294]
+                                      [2000 2.357]
+                                      [4000 18.424]]))))
+</code></pre>
+
+<p>  $data)
 ;; |             :col-0 |              :col-1 |
-;; |——————–+———————|
+;; |&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
 ;; |  9.965784284662087 | -1.7661119398257226 |
 ;; | 10.965784284662087 |  1.2369517585880805 |
 ;; | 11.965784284662087 |   4.203514411130758 |</p>
@@ -97,7 +108,7 @@ spawn system processes from within Clojure:</p>
 ;; Since applying log/log yields a straight line, we can apply the
 ;; power law. The power law states that:
 ;;
-;; y = a (x^k) (we omit the deviation term in this example)
+;; y = a (x<sup>k</sup>) (we omit the deviation term in this example)
 ;;
 ;; This can be rewritten as:
 ;;
@@ -114,8 +125,8 @@ spawn system processes from within Clojure:</p>
 ;;
 ;; The slope of the line (b in our original equation) is:
 ;;
-(/ (- 4.203514411130758 1.2369517585880805)
-   (- 11.965784284662087 10.965784284662087))
+(/ (&ndash; 4.203514411130758 1.2369517585880805)
+   (&ndash; 11.965784284662087 10.965784284662087))
 ;; 2.9665626525426774
 ;;
 ;; So now we can write:
@@ -124,33 +135,33 @@ spawn system processes from within Clojure:</p>
 ;; We can plug in some data points to solve for c:
 ;; 4.203514411130758 = 2.97 (11.965784284662087) + c
 ;;
-(- 4.203514411130758 (* 2.97 11.965784284662087))
+(&ndash; 4.203514411130758 (<em> 2.97 11.965784284662087))
 ;; -31.33486491431564
 ;;
 ;; So b = 2.97, c = -31.33
 ;;
 ;; The final equation is then:
 ;;
-;; lg(T(n)) = 2.97 lg(n) - 31.33
+;; lg(T(n)) = 2.97 lg(n) &ndash; 31.33
 ;;
 ;; We now want to get back to the form T(n) = a(n ^ b). We can use two
 ;; rules of logarithms to do that:
 ;;
-;; 1. a^(b + c) = (a^b)(a^c)
-;; 2. a^(b * c) = (a^b)^c == (a^c)^b
+;; 1. a<sup>b + c</sup> = (a<sup>b</sup>)(a<sup>c</sup>)
+;; 2. a<sup>b * c</sup> = (a<sup>b</sup>)<sup>c</sup> == (a<sup>c</sup>)<sup>b</sup>
 ;;
 ;; We can raise 2 to the power of each side:
 ;;
-;; 2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)
+;; 2<sup>lg</sup>(T(n)) = 2<sup>2.97 lg(n) &ndash; 31.33</sup>
 ;;
 ;; Using rule 1:
-;; T(n) = 2^(2.97 lg(n)) * 2^-31.33
+;; T(n) = 2<sup>2.97 lg(n)</sup> * 2^-31.33
 ;;
 ;; And using rule 2:
 ;;
-;; T(n) = (2^(lg(n)))^2.97 * 2^-31.33
-;;      = n^2.97 * 2^-31.33
-;;      = 3.705E-10 * n^2.97
+;; T(n) = (2<sup>lg(n)</sup>)<sup>2</sup>.97 * 2^-31.33
+;;      = n<sup>2</sup>.97 * 2^-31.33
+;;      = 3.705E-10 * n<sup>2</sup>.97
 ;;
 ;; Finally:
 ;;
@@ -161,21 +172,24 @@ spawn system processes from within Clojure:</p>
 ;;
 ;; T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)
 ;;
-(* 3.7045054312558825E-10 (pow 8000 2.97))
+(</em> 3.7045054312558825E-10 (pow 8000 2.97))
 ;; 144.84633044665534 (seconds)
 ;;
 ;; And when we run it to test our theory:
 ;;
-(for [f [“8Kints.txt”]
-      :let [t (-» (:out (sh “java” “-cp”
-                             “.:stdlib.jar”
-                             “ThreeSum”
-                             (str “http://algs4.cs.princeton.edu/14analysis/” f)
-                             :dir “/Users/Roberto/git/working/algorithms_1/ThreeSum/”))
-                   (re-find #”\d+.\d+”)
-                   Double/parseDouble)]]
-  [f t])
-;; ([“8Kints.txt” 147.342])
+(for [f [&ldquo;8Kints.txt&rdquo;]</p>
+
+<pre><code>  :let [t (-&gt;&gt; (:out (sh "java" "-cp"
+                         ".:stdlib.jar"
+                         "ThreeSum"
+                         (str "http://algs4.cs.princeton.edu/14analysis/" f)
+                         :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+               (re-find #"\d+.\d+")
+               Double/parseDouble)]]
+</code></pre>
+
+<p>  [f t])
+;; ([&ldquo;8Kints.txt&rdquo; 147.342])
 ;; We get what approximately what we expected.
 ```</p>
 ]]></content>

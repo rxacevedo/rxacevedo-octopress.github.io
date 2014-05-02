@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Languages, | Roberto Acevedo]]></title>
+  <title><![CDATA[Category: languages, | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/languages/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-05-02T18:47:52-04:00</updated>
+  <updated>2014-05-02T19:40:06-04:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -18,20 +18,20 @@
     <link href="http://rxacevedo.github.io/blog/2013/10/20/a-tale-of-two-languages/"/>
     <updated>2013-10-20T10:51:00-04:00</updated>
     <id>http://rxacevedo.github.io/blog/2013/10/20/a-tale-of-two-languages</id>
-    <content type="html"><![CDATA[<p>I’m fortunate enough to be part of a team at work that is researching a new JVM language for us to potentially move to in the future. Since it’s fun for me, I figured I may as well document the process.</p>
+    <content type="html"><![CDATA[<p>I&rsquo;m fortunate enough to be part of a team at work that is researching a new JVM language for us to potentially move to in the future. Since it&rsquo;s fun for me, I figured I may as well document the process.</p>
 
-<p>We’re a Java shop with developers of varying skill levels, but there hasn’t much concentration in other
+<p>We&rsquo;re a Java shop with developers of varying skill levels, but there hasn&rsquo;t much concentration in other
 languages or paradigms. Many of those on my team have been
 writing OOP for the past 5-10 years, so I am excited to see how the
 transition from the <a href="http://docs.spring.io/spring/docs/2.0.x/api/org/springframework/orm/jdo/TransactionAwarePersistenceManagerFactoryProxy.html">Java way</a>
 where every behavior is coupled with an object, to a more
-behavior-oriented approach (myself included, as I did not know Java or have any professional experience as a programmer when I started). The two languages that we’ve opted to look
+behavior-oriented approach (myself included, as I did not know Java or have any professional experience as a programmer when I started). The two languages that we&rsquo;ve opted to look
 into are <a href="http://www.scala-lang.org/">Scala</a> and
 <a href="http://clojure.org/">Clojure</a>.</p>
 
-<p>The main reason for to even consider adopting a new language is, most importantly, to enable developers to approach concurrent development. As Martin Odersky says, “the flood is rising.” </p>
+<p>The main reason for to even consider adopting a new language is, most importantly, to enable developers to approach concurrent development. As Martin Odersky says, &ldquo;the flood is rising.&rdquo;</p>
 
-<p>As an example, I opted for a tree-recursive algorithm, to see how each language would handle it. If you’ve taken the Functional Programming in Scala course on Coursera, you will recognize this problem:</p>
+<p>As an example, I opted for a tree-recursive algorithm, to see how each language would handle it. If you&rsquo;ve taken the Functional Programming in Scala course on Coursera, you will recognize this problem:</p>
 
 <p>``` java Counting change in Java
 import java.util.ArrayList;
@@ -39,29 +39,35 @@ import java.util.List;</p>
 
 <p>public class Change {</p>
 
-<p>public static void main(String[] args) {
-    int amt = Integer.parseInt(args[0]);
-    long start = System.currentTimeMillis();
-    List<integer> denoms = new ArrayList<integer>();
-    denoms.add(1);
-    denoms.add(5);
-    denoms.add(10);
-    denoms.add(20);
-    denoms.add(50);
-    int ways = countChange(amt, denoms);
-    long finish = System.currentTimeMillis();
-    System.out.println("Amount: " + amt + "\nWays to make change: " + ways + "\nTime: " + (finish - start));
-  }</integer></integer></p>
+<p>  public static void main(String[] args) {</p>
 
-<p>public static int countChange(int amt, List<integer> denoms) {
-    if (amt == 0) {
-      return 1;
-    } else if (amt &lt; 0 || denoms.size() == 0) {
-      return 0;
-    } else {
-      return countChange(amt - denoms.get(0), denoms) + countChange(amt, denoms.subList(1, denoms.size()));
-    }
-  }</integer></p>
+<pre><code>int amt = Integer.parseInt(args[0]);
+long start = System.currentTimeMillis();
+List&lt;Integer&gt; denoms = new ArrayList&lt;Integer&gt;();
+denoms.add(1);
+denoms.add(5);
+denoms.add(10);
+denoms.add(20);
+denoms.add(50);
+int ways = countChange(amt, denoms);
+long finish = System.currentTimeMillis();
+System.out.println("Amount: " + amt + "\nWays to make change: " + ways + "\nTime: " + (finish - start));
+</code></pre>
+
+<p>  }</p>
+
+<p>  public static int countChange(int amt, List<Integer> denoms) {</p>
+
+<pre><code>if (amt == 0) {
+  return 1;
+} else if (amt &lt; 0 || denoms.size() == 0) {
+  return 0;
+} else {
+  return countChange(amt - denoms.get(0), denoms) + countChange(amt, denoms.subList(1, denoms.size()));
+}
+</code></pre>
+
+<p>  }</p>
 
 <p>}
 ```</p>
@@ -73,19 +79,25 @@ import scala.compat.Platform</p>
 
 <p>object Change {</p>
 
-<p>def main(args: Array[String]) {
-    val amt = args.head.toInt
-    val start = Platform.currentTime
-    val ways = countChange(amt, List(1, 5, 10, 20, 50))
-    val finish = Platform.currentTime
-    println(“Amount: “ + amt + “\nWays to make change: “ + ways + “\nTime: “ + (finish - start))
-  }</p>
+<p>  def main(args: Array[String]) {</p>
 
-<p>def countChange(amt: Int, denoms: List[Int]): Int = {
-    if (amt == 0)  1
-    else if (amt &lt; 0 || denoms.length == 0) 0
-    else countChange(amt, denoms.tail) + countChange(amt - denoms.head, denoms)
-  }</p>
+<pre><code>val amt = args.head.toInt
+val start = Platform.currentTime
+val ways = countChange(amt, List(1, 5, 10, 20, 50))
+val finish = Platform.currentTime
+println("Amount: " + amt + "\nWays to make change: " + ways + "\nTime: " + (finish - start))
+</code></pre>
+
+<p>  }</p>
+
+<p>  def countChange(amt: Int, denoms: List[Int]): Int = {</p>
+
+<pre><code>if (amt == 0)  1
+else if (amt &lt; 0 || denoms.length == 0) 0
+else countChange(amt, denoms.tail) + countChange(amt - denoms.head, denoms)
+</code></pre>
+
+<p>  }</p>
 
 <p>}
 ```</p>
@@ -97,23 +109,29 @@ import scala.compat.Platform</p>
   (:gen-class))</p>
 
 <p>(defn count-change [amt denoms]
-“Returns the number of ways to make change for a given amount using a tree-recursive process”
-(let [f (fn inner [amt denoms]
-           (cond (zero? amt) 1
-                 (or (&lt; amt 0) (= nil (seq denoms))) 0
-                 :else (let [less-amt (- amt (first denoms))
-                             less-denoms (rest denoms)]
-                         (+ (inner amt less-denoms)
-                            (inner less-amt denoms)))))]
-  (f amt denoms)))</p>
+&ldquo;Returns the number of ways to make change for a given amount using a tree-recursive process&rdquo;
+(let [f (fn inner [amt denoms]</p>
+
+<pre><code>       (cond (zero? amt) 1
+             (or (&lt; amt 0) (= nil (seq denoms))) 0
+             :else (let [less-amt (- amt (first denoms))
+                         less-denoms (rest denoms)]
+                     (+ (inner amt less-denoms)
+                        (inner less-amt denoms)))))]
+</code></pre>
+
+<p>  (f amt denoms)))</p>
 
 <p>(defn -main
-  “I don’t do a whole lot … yet.”
+  &ldquo;I don&rsquo;t do a whole lot &hellip; yet.&rdquo;
   [&amp; args]
-  (time (let [amt (read-string (first args))
-              ways (count-change amt [1 5 10 20 50])]
-          (println (str “Amount: “ amt “\nWays: “ ways)))))
-```</p>
+  (time (let [amt (read-string (first args))</p>
+
+<pre><code>          ways (count-change amt [1 5 10 20 50])]
+      (println (str "Amount: " amt "\nWays: " ways)))))
+</code></pre>
+
+<p>```</p>
 
 <p>So how long does this process take to run for each implementation? Here are the compilations (first JDK Version):
 <code>bash
@@ -123,10 +141,12 @@ Java HotSpot(TM) 64-Bit Server VM (build 23.25-b01, mixed mode)
 </code></p>
 
 <p>Scala:
-<code>bash
-scalac Change.scala &amp;&amp; for i in $(cat sizes.txt); do scala Change $i; done
-# Note - Scala passess -Xmx256M -Xms32M to Java, so I did the same for the other two
-</code></p>
+``` bash
+scalac Change.scala &amp;&amp; for i in $(cat sizes.txt); do scala Change $i; done</p>
+
+<h1>Note &ndash; Scala passess -Xmx256M -Xms32M to Java, so I did the same for the other two</h1>
+
+<p>```</p>
 
 <p>Java:
 <code>bash
@@ -142,9 +162,11 @@ for i in $(cat sizes.txt); do java -Xmx256M -Xms32M -cp classes/:/usr/local/Cell
 
 <p>And the results (in milliseconds):</p>
 
-<p>``` text
-# Java
-Amount: 128
+<p>``` text</p>
+
+<h1>Java</h1>
+
+<p>Amount: 128
 Ways to make change: 658
 Time: 14
 Amount: 256
@@ -163,7 +185,8 @@ Amount: 4096
 Ways to make change: 244782054
 Time: 2860846</p>
 
-<h1 id="scala">Scala</h1>
+<h1>Scala</h1>
+
 <p>Amount: 128
 Ways to make change: 658
 Time: 12
@@ -183,315 +206,354 @@ Amount: 4096
 Ways to make change: 244782054
 Time: 1422710</p>
 
-<h1 id="clojure">Clojure</h1>
+<h1>Clojure</h1>
+
 <p>Amount: 128
 Ways: 658
-“Elapsed time: 104.863 msecs”
+&ldquo;Elapsed time: 104.863 msecs&rdquo;
 Amount: 256
 Ways: 6630
-“Elapsed time: 124.266 msecs”
+&ldquo;Elapsed time: 124.266 msecs&rdquo;
 Amount: 512
 Ways: 78694
-“Elapsed time: 561.276 msecs”
+&ldquo;Elapsed time: 561.276 msecs&rdquo;
 Amount: 1024
 Ways: 1070685
-“Elapsed time: 9900.2 msecs”
+&ldquo;Elapsed time: 9900.2 msecs&rdquo;
 Amount: 2048
 Ways: 15894424
-“Elapsed time: 258364.033 msecs”
-# I got tired of waiting for it to compute the answer for 4096, I’ll just call it “a long long time”
-```</p>
+&ldquo;Elapsed time: 258364.033 msecs&rdquo;</p>
+
+<h1>I got tired of waiting for it to compute the answer for 4096, I&rsquo;ll just call it &ldquo;a long long time&rdquo;</h1>
+
+<p>```</p>
 
 <p>Scala is 2x as fast as Java, Clojure is 3.2x slower than Java and 5.5x slower than Scala (for this problem), ouch! Maybe the bytecode will shed some light on things:</p>
 
-<p><code>text Java bytecode
-  public static int countChange(int, java.util.List&lt;java.lang.Integer&gt;);
-    Signature: (ILjava/util/List;)I
-    flags: ACC_PUBLIC, ACC_STATIC
-    Code:
-      stack=5, locals=2, args_size=2
-         0: iload_0
-         1: ifne          6
-         4: iconst_1
-         5: ireturn
-         6: iload_0
-         7: iflt          19
-        10: aload_1
-        11: invokeinterface #20,  1           // InterfaceMethod java/util/List.size:()I
-        16: ifne          21
-        19: iconst_0
-        20: ireturn
-        21: iload_0
-        22: aload_1
-        23: iconst_0
-        24: invokeinterface #21,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
-        29: checkcast     #22                 // class java/lang/Integer
-        32: invokevirtual #23                 // Method java/lang/Integer.intValue:()I
-        35: isub
-        36: aload_1
-        37: invokestatic  #8                  // Method countChange:(ILjava/util/List;)I
-        40: iload_0
-        41: aload_1
-        42: iconst_1
-        43: aload_1
-        44: invokeinterface #20,  1           // InterfaceMethod java/util/List.size:()I
-        49: invokeinterface #24,  3           // InterfaceMethod java/util/List.subList:(II)Ljava/util/List;
-        54: invokestatic  #8                  // Method countChange:(ILjava/util/List;)I
-        57: iadd
-        58: ireturn
-      LineNumberTable:
-        line 21: 0
-        line 22: 4
-        line 23: 6
-        line 24: 19
-        line 26: 21
-      StackMapTable: number_of_entries = 3
-           frame_type = 6 /* same */
-           frame_type = 12 /* same */
-           frame_type = 1 /* same */
-</code></p>
+<p>``` text Java bytecode
+  public static int countChange(int, java.util.List&lt;java.lang.Integer>);</p>
 
-<p><code>text Scala bytecode
- public int countChange(int, scala.collection.immutable.List&lt;java.lang.Object&gt;);
-    Signature: (ILscala/collection/immutable/List;)I
-    flags: ACC_PUBLIC
-    Code:
-      stack=4, locals=3, args_size=3
-         0: iload_1
-         1: iconst_0
-         2: if_icmpne     9
-         5: iconst_1
-         6: goto          53
-         9: iload_1
-        10: iconst_0
-        11: if_icmplt     22
-        14: aload_2
-        15: invokevirtual #117                // Method scala/collection/immutable/List.length:()I
-        18: iconst_0
-        19: if_icmpne     26
-        22: iconst_0
-        23: goto          53
-        26: aload_0
-        27: iload_1
-        28: aload_2
-        29: invokevirtual #120                // Method scala/collection/immutable/List.tail:()Ljava/lang/Object;
-        32: checkcast     #114                // class scala/collection/immutable/List
-        35: invokevirtual #72                 // Method countChange:(ILscala/collection/immutable/List;)I
-        38: aload_0
-        39: iload_1
-        40: aload_2
-        41: invokevirtual #121                // Method scala/collection/immutable/List.head:()Ljava/lang/Object;
-        44: invokestatic  #125                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
-        47: isub
-        48: aload_2
-        49: invokevirtual #72                 // Method countChange:(ILscala/collection/immutable/List;)I
-        52: iadd
-        53: ireturn
-      LocalVariableTable:
-        Start  Length  Slot  Name   Signature
-               0      54     0  this   LChange$;
-               0      54     1   amt   I
-               0      54     2 denoms   Lscala/collection/immutable/List;
-      LineNumberTable:
-        line 14: 0
-        line 15: 9
-        line 16: 26
-        line 14: 53
-      StackMapTable: number_of_entries = 4
-           frame_type = 9 /* same */
-           frame_type = 12 /* same */
-           frame_type = 3 /* same */
-           frame_type = 90 /* same_locals_1_stack_item */
-          stack = [ int ]
-</code></p>
+<pre><code>Signature: (ILjava/util/List;)I
+flags: ACC_PUBLIC, ACC_STATIC
+Code:
+  stack=5, locals=2, args_size=2
+     0: iload_0
+     1: ifne          6
+     4: iconst_1
+     5: ireturn
+     6: iload_0
+     7: iflt          19
+    10: aload_1
+    11: invokeinterface #20,  1           // InterfaceMethod java/util/List.size:()I
+    16: ifne          21
+    19: iconst_0
+    20: ireturn
+    21: iload_0
+    22: aload_1
+    23: iconst_0
+    24: invokeinterface #21,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+    29: checkcast     #22                 // class java/lang/Integer
+    32: invokevirtual #23                 // Method java/lang/Integer.intValue:()I
+    35: isub
+    36: aload_1
+    37: invokestatic  #8                  // Method countChange:(ILjava/util/List;)I
+    40: iload_0
+    41: aload_1
+    42: iconst_1
+    43: aload_1
+    44: invokeinterface #20,  1           // InterfaceMethod java/util/List.size:()I
+    49: invokeinterface #24,  3           // InterfaceMethod java/util/List.subList:(II)Ljava/util/List;
+    54: invokestatic  #8                  // Method countChange:(ILjava/util/List;)I
+    57: iadd
+    58: ireturn
+  LineNumberTable:
+    line 21: 0
+    line 22: 4
+    line 23: 6
+    line 24: 19
+    line 26: 21
+  StackMapTable: number_of_entries = 3
+       frame_type = 6 /* same */
+       frame_type = 12 /* same */
+       frame_type = 1 /* same */
+</code></pre>
+
+<p>```</p>
+
+<p>``` text Scala bytecode
+ public int countChange(int, scala.collection.immutable.List&lt;java.lang.Object>);</p>
+
+<pre><code>Signature: (ILscala/collection/immutable/List;)I
+flags: ACC_PUBLIC
+Code:
+  stack=4, locals=3, args_size=3
+     0: iload_1
+     1: iconst_0
+     2: if_icmpne     9
+     5: iconst_1
+     6: goto          53
+     9: iload_1
+    10: iconst_0
+    11: if_icmplt     22
+    14: aload_2
+    15: invokevirtual #117                // Method scala/collection/immutable/List.length:()I
+    18: iconst_0
+    19: if_icmpne     26
+    22: iconst_0
+    23: goto          53
+    26: aload_0
+    27: iload_1
+    28: aload_2
+    29: invokevirtual #120                // Method scala/collection/immutable/List.tail:()Ljava/lang/Object;
+    32: checkcast     #114                // class scala/collection/immutable/List
+    35: invokevirtual #72                 // Method countChange:(ILscala/collection/immutable/List;)I
+    38: aload_0
+    39: iload_1
+    40: aload_2
+    41: invokevirtual #121                // Method scala/collection/immutable/List.head:()Ljava/lang/Object;
+    44: invokestatic  #125                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+    47: isub
+    48: aload_2
+    49: invokevirtual #72                 // Method countChange:(ILscala/collection/immutable/List;)I
+    52: iadd
+    53: ireturn
+  LocalVariableTable:
+    Start  Length  Slot  Name   Signature
+           0      54     0  this   LChange$;
+           0      54     1   amt   I
+           0      54     2 denoms   Lscala/collection/immutable/List;
+  LineNumberTable:
+    line 14: 0
+    line 15: 9
+    line 16: 26
+    line 14: 53
+  StackMapTable: number_of_entries = 4
+       frame_type = 9 /* same */
+       frame_type = 12 /* same */
+       frame_type = 3 /* same */
+       frame_type = 90 /* same_locals_1_stack_item */
+      stack = [ int ]
+</code></pre>
+
+<p>```</p>
 
 <p>In Clojure, anonymous functions are compiled into their own class files, so I guess I should include the entire <code>javap</code> output for the fn I defined (inner):</p>
 
 <p>``` text Clojure bytecode
-Compiled from “core.clj”
+Compiled from &ldquo;core.clj&rdquo;
 public final class change.core$count_change$inner<strong>4 extends clojure.lang.AFunction {
-  public static final clojure.lang.Var const</strong>0;
-    Signature: Lclojure/lang/Var;</p>
+  public static final clojure.lang.Var const</strong>0;</p>
 
-<p>public static final java.lang.Object const__1;
-    Signature: Ljava/lang/Object;</p>
+<pre><code>Signature: Lclojure/lang/Var;
+</code></pre>
 
-<p>public static final clojure.lang.Var const__2;
-    Signature: Lclojure/lang/Var;</p>
+<p>  public static final java.lang.Object const__1;</p>
 
-<p>public static final java.lang.Object const__3;
-    Signature: Ljava/lang/Object;</p>
+<pre><code>Signature: Ljava/lang/Object;
+</code></pre>
 
-<p>public static final clojure.lang.Var const__4;
-    Signature: Lclojure/lang/Var;</p>
+<p>  public static final clojure.lang.Var const__2;</p>
 
-<p>public static final clojure.lang.Var const__5;
-    Signature: Lclojure/lang/Var;</p>
+<pre><code>Signature: Lclojure/lang/Var;
+</code></pre>
 
-<p>public static final clojure.lang.Keyword const__6;
-    Signature: Lclojure/lang/Keyword;</p>
+<p>  public static final java.lang.Object const__3;</p>
 
-<p>public static final clojure.lang.Var const__7;
-    Signature: Lclojure/lang/Var;</p>
+<pre><code>Signature: Ljava/lang/Object;
+</code></pre>
 
-<p>public static final clojure.lang.Var const__8;
-    Signature: Lclojure/lang/Var;</p>
+<p>  public static final clojure.lang.Var const__4;</p>
 
-<p>public static final clojure.lang.Var const__9;
-    Signature: Lclojure/lang/Var;</p>
+<pre><code>Signature: Lclojure/lang/Var;
+</code></pre>
 
-<p>public static final clojure.lang.Var const__10;
-    Signature: Lclojure/lang/Var;</p>
+<p>  public static final clojure.lang.Var const__5;</p>
 
-<p>public static {};
-    Signature: ()V
-    Code:
-       0: ldc           #23                 // String clojure.core
-       2: ldc           #25                 // String zero?
-       4: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
-       7: checkcast     #33                 // class clojure/lang/Var
-      10: putstatic     #35                 // Field const<strong>0:Lclojure/lang/Var;
-      13: lconst<em>1    <br />
-      14: invokestatic  #41                 // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
-      17: putstatic     #43                 // Field const__1:Ljava/lang/Object;
-      20: ldc           #23                 // String clojure.core
-      22: ldc           #45                 // String &lt;
-      24: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
-      27: checkcast     #33                 // class clojure/lang/Var
-      30: putstatic     #47                 // Field const__2:Lclojure/lang/Var;
-      33: lconst</em>0    <br />
-      34: invokestatic  #41                 // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
-      37: putstatic     #49                 // Field const</strong>3:Ljava/lang/Object;
-      40: ldc           #23                 // String clojure.core
-      42: ldc           #51                 // String =
-      44: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
-      47: checkcast     #33                 // class clojure/lang/Var
-      50: putstatic     #53                 // Field const<strong>4:Lclojure/lang/Var;
-      53: ldc           #23                 // String clojure.core
-      55: ldc           #55                 // String seq
-      57: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
-      60: checkcast     #33                 // class clojure/lang/Var
-      63: putstatic     #57                 // Field const</strong>5:Lclojure/lang/Var;
-      66: aconst_null <br />
-      67: ldc           #59                 // String else
-      69: invokestatic  #63                 // Method clojure/lang/RT.keyword:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Keyword;
-      72: checkcast     #65                 // class clojure/lang/Keyword
-      75: putstatic     #67                 // Field const<strong>6:Lclojure/lang/Keyword;
-      78: ldc           #23                 // String clojure.core
-      80: ldc           #69                 // String -
-      82: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
-      85: checkcast     #33                 // class clojure/lang/Var
-      88: putstatic     #71                 // Field const</strong>7:Lclojure/lang/Var;
-      91: ldc           #23                 // String clojure.core
-      93: ldc           #73                 // String first
-      95: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
-      98: checkcast     #33                 // class clojure/lang/Var
-     101: putstatic     #75                 // Field const<strong>8:Lclojure/lang/Var;
-     104: ldc           #23                 // String clojure.core
-     106: ldc           #77                 // String rest
-     108: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
-     111: checkcast     #33                 // class clojure/lang/Var
-     114: putstatic     #79                 // Field const</strong>9:Lclojure/lang/Var;
-     117: ldc           #23                 // String clojure.core
-     119: ldc           #81                 // String +
-     121: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
-     124: checkcast     #33                 // class clojure/lang/Var
-     127: putstatic     #83                 // Field const__10:Lclojure/lang/Var;
-     130: return        </p>
+<pre><code>Signature: Lclojure/lang/Var;
+</code></pre>
 
-<p>public change.core$count_change$inner<em>_4();
-    Signature: ()V
-    Code:
-       0: aload</em>0     <br />
-       1: invokespecial #86                 // Method clojure/lang/AFunction.”<init>":()V
-       4: return        </init></p>
+<p>  public static final clojure.lang.Keyword const__6;</p>
 
-<p>public java.lang.Object invoke(java.lang.Object, java.lang.Object);
-    Signature: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-    Code:
-       0: aload<em>1     <br />
-       1: invokestatic  #94                 // Method clojure/lang/Numbers.isZero:(Ljava/lang/Object;)Z
-       4: ifeq          14
-       7: getstatic     #43                 // Field const<strong>1:Ljava/lang/Object;
-      10: goto          148
-      13: pop         <br />
-      14: aload_1     <br />
-      15: lconst_0    <br />
-      16: invokestatic  #98                 // Method clojure/lang/Numbers.lt:(Ljava/lang/Object;J)Z
-      19: istore_3    <br />
-      20: iload_3     <br />
-      21: ifeq          29
-      24: iload_3     <br />
-      25: goto          48
-      28: pop         <br />
-      29: aconst_null <br />
-      30: getstatic     #57                 // Field const</strong>5:Lclojure/lang/Var;
-      33: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
-      36: checkcast     #104                // class clojure/lang/IFn
-      39: aload</em>2     <br />
-      40: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
-      45: invokestatic  #113                // Method clojure/lang/Util.equiv:(Ljava/lang/Object;Ljava/lang/Object;)Z
-      48: ifeq          58
-      51: getstatic     #49                 // Field const<strong>3:Ljava/lang/Object;
-      54: goto          148
-      57: pop         <br />
-      58: getstatic     #67                 // Field const</strong>6:Lclojure/lang/Keyword;
-      61: dup         <br />
-      62: ifnull        146
-      65: getstatic     #121                // Field java/lang/Boolean.FALSE:Ljava/lang/Boolean;
-      68: if_acmpeq     147
-      71: aload<em>1     <br />
-      72: getstatic     #75                 // Field const<strong>8:Lclojure/lang/Var;
-      75: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
-      78: checkcast     #104                // class clojure/lang/IFn
-      81: aload_2     <br />
-      82: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
-      87: invokestatic  #125                // Method clojure/lang/Numbers.minus:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Number;
-      90: astore_3    <br />
-      91: getstatic     #79                 // Field const</strong>9:Lclojure/lang/Var;
-      94: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
-      97: checkcast     #104                // class clojure/lang/IFn
-     100: aload</em>2     <br />
-     101: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
-     106: astore        4
-     108: aload<em>0     <br />
-     109: checkcast     #104                // class clojure/lang/IFn
-     112: aload</em>1     <br />
-     113: aconst_null <br />
-     114: astore<em>1    <br />
-     115: aload         4
-     117: aconst_null <br />
-     118: astore        4
-     120: invokeinterface #127,  3          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-     125: aload</em>0     <br />
-     126: checkcast     #104                // class clojure/lang/IFn
-     129: aload<em>3     <br />
-     130: aconst_null <br />
-     131: astore</em>3    <br />
-     132: aload<em>2     <br />
-     133: aconst_null <br />
-     134: astore</em>2    <br />
-     135: invokeinterface #127,  3          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-     140: invokestatic  #130                // Method clojure/lang/Numbers.add:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Number;
-     143: goto          148
-     146: pop         <br />
-     147: aconst_null <br />
-     148: areturn     <br />
-}
+<pre><code>Signature: Lclojure/lang/Keyword;
+</code></pre>
+
+<p>  public static final clojure.lang.Var const__7;</p>
+
+<pre><code>Signature: Lclojure/lang/Var;
+</code></pre>
+
+<p>  public static final clojure.lang.Var const__8;</p>
+
+<pre><code>Signature: Lclojure/lang/Var;
+</code></pre>
+
+<p>  public static final clojure.lang.Var const__9;</p>
+
+<pre><code>Signature: Lclojure/lang/Var;
+</code></pre>
+
+<p>  public static final clojure.lang.Var const__10;</p>
+
+<pre><code>Signature: Lclojure/lang/Var;
+</code></pre>
+
+<p>  public static {};</p>
+
+<pre><code>Signature: ()V
+Code:
+   0: ldc           #23                 // String clojure.core
+   2: ldc           #25                 // String zero?
+   4: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+   7: checkcast     #33                 // class clojure/lang/Var
+  10: putstatic     #35                 // Field const__0:Lclojure/lang/Var;
+  13: lconst_1      
+  14: invokestatic  #41                 // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+  17: putstatic     #43                 // Field const__1:Ljava/lang/Object;
+  20: ldc           #23                 // String clojure.core
+  22: ldc           #45                 // String &lt;
+  24: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+  27: checkcast     #33                 // class clojure/lang/Var
+  30: putstatic     #47                 // Field const__2:Lclojure/lang/Var;
+  33: lconst_0      
+  34: invokestatic  #41                 // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+  37: putstatic     #49                 // Field const__3:Ljava/lang/Object;
+  40: ldc           #23                 // String clojure.core
+  42: ldc           #51                 // String =
+  44: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+  47: checkcast     #33                 // class clojure/lang/Var
+  50: putstatic     #53                 // Field const__4:Lclojure/lang/Var;
+  53: ldc           #23                 // String clojure.core
+  55: ldc           #55                 // String seq
+  57: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+  60: checkcast     #33                 // class clojure/lang/Var
+  63: putstatic     #57                 // Field const__5:Lclojure/lang/Var;
+  66: aconst_null   
+  67: ldc           #59                 // String else
+  69: invokestatic  #63                 // Method clojure/lang/RT.keyword:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Keyword;
+  72: checkcast     #65                 // class clojure/lang/Keyword
+  75: putstatic     #67                 // Field const__6:Lclojure/lang/Keyword;
+  78: ldc           #23                 // String clojure.core
+  80: ldc           #69                 // String -
+  82: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+  85: checkcast     #33                 // class clojure/lang/Var
+  88: putstatic     #71                 // Field const__7:Lclojure/lang/Var;
+  91: ldc           #23                 // String clojure.core
+  93: ldc           #73                 // String first
+  95: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+  98: checkcast     #33                 // class clojure/lang/Var
+ 101: putstatic     #75                 // Field const__8:Lclojure/lang/Var;
+ 104: ldc           #23                 // String clojure.core
+ 106: ldc           #77                 // String rest
+ 108: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+ 111: checkcast     #33                 // class clojure/lang/Var
+ 114: putstatic     #79                 // Field const__9:Lclojure/lang/Var;
+ 117: ldc           #23                 // String clojure.core
+ 119: ldc           #81                 // String +
+ 121: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+ 124: checkcast     #33                 // class clojure/lang/Var
+ 127: putstatic     #83                 // Field const__10:Lclojure/lang/Var;
+ 130: return        
+</code></pre>
+
+<p>  public change.core$count_change$inner__4();</p>
+
+<pre><code>Signature: ()V
+Code:
+   0: aload_0       
+   1: invokespecial #86                 // Method clojure/lang/AFunction."&lt;init&gt;":()V
+   4: return        
+</code></pre>
+
+<p>  public java.lang.Object invoke(java.lang.Object, java.lang.Object);</p>
+
+<pre><code>Signature: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+Code:
+   0: aload_1       
+   1: invokestatic  #94                 // Method clojure/lang/Numbers.isZero:(Ljava/lang/Object;)Z
+   4: ifeq          14
+   7: getstatic     #43                 // Field const__1:Ljava/lang/Object;
+  10: goto          148
+  13: pop           
+  14: aload_1       
+  15: lconst_0      
+  16: invokestatic  #98                 // Method clojure/lang/Numbers.lt:(Ljava/lang/Object;J)Z
+  19: istore_3      
+  20: iload_3       
+  21: ifeq          29
+  24: iload_3       
+  25: goto          48
+  28: pop           
+  29: aconst_null   
+  30: getstatic     #57                 // Field const__5:Lclojure/lang/Var;
+  33: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
+  36: checkcast     #104                // class clojure/lang/IFn
+  39: aload_2       
+  40: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+  45: invokestatic  #113                // Method clojure/lang/Util.equiv:(Ljava/lang/Object;Ljava/lang/Object;)Z
+  48: ifeq          58
+  51: getstatic     #49                 // Field const__3:Ljava/lang/Object;
+  54: goto          148
+  57: pop           
+  58: getstatic     #67                 // Field const__6:Lclojure/lang/Keyword;
+  61: dup           
+  62: ifnull        146
+  65: getstatic     #121                // Field java/lang/Boolean.FALSE:Ljava/lang/Boolean;
+  68: if_acmpeq     147
+  71: aload_1       
+  72: getstatic     #75                 // Field const__8:Lclojure/lang/Var;
+  75: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
+  78: checkcast     #104                // class clojure/lang/IFn
+  81: aload_2       
+  82: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+  87: invokestatic  #125                // Method clojure/lang/Numbers.minus:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Number;
+  90: astore_3      
+  91: getstatic     #79                 // Field const__9:Lclojure/lang/Var;
+  94: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
+  97: checkcast     #104                // class clojure/lang/IFn
+ 100: aload_2       
+ 101: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+ 106: astore        4
+ 108: aload_0       
+ 109: checkcast     #104                // class clojure/lang/IFn
+ 112: aload_1       
+ 113: aconst_null   
+ 114: astore_1      
+ 115: aload         4
+ 117: aconst_null   
+ 118: astore        4
+ 120: invokeinterface #127,  3          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 125: aload_0       
+ 126: checkcast     #104                // class clojure/lang/IFn
+ 129: aload_3       
+ 130: aconst_null   
+ 131: astore_3      
+ 132: aload_2       
+ 133: aconst_null   
+ 134: astore_2      
+ 135: invokeinterface #127,  3          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 140: invokestatic  #130                // Method clojure/lang/Numbers.add:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Number;
+ 143: goto          148
+ 146: pop           
+ 147: aconst_null   
+ 148: areturn       
+</code></pre>
+
+<p>}
 ```</p>
 
 <p>Holy stromboli! Looks like Clojure generates a lot more bytecode.</p>
 
-<p>There’s nothing exciting going on in either the Java or Scala bytecode, both make two calls to countChange, they use slightly different instructions when doing the comparisons in the if-else, but that is the most noticeable difference. I thought that maybe the Scala compiler had done something neat to optimize the recursive call, but that seems not to be the case. Scala can optimize for tail-recursive calls by converting them to loops (goto statement at the end of the instruction sequence which jumps to offset 0), but not for this type of algorithm. I am left wondering what magic is taking place to account for the vast difference in performance.</p>
+<p> There&rsquo;s nothing exciting going on in either the Java or Scala bytecode, both make two calls to countChange, they use slightly different instructions when doing the comparisons in the if-else, but that is the most noticeable difference. I thought that maybe the Scala compiler had done something neat to optimize the recursive call, but that seems not to be the case. Scala can optimize for tail-recursive calls by converting them to loops (goto statement at the end of the instruction sequence which jumps to offset 0), but not for this type of algorithm. I am left wondering what magic is taking place to account for the vast difference in performance.</p>
 
 <p>Some thoughts:</p>
 
 <ul>
-  <li>I could have used an array in Java instead of an ArrayList in the first example, but I did not feel like this would be the way most developers would approach the problem.</li>
-  <li>Clojure is a dynamic language (which explains the slowness) and I did not provide type hints because, again, that is not “idiomatic Clojure.”</li>
-  <li>Clojure is ‘slow’, but the syntax woos me, so I will probably learn it anyways.</li>
-  <li>All of these languages run on the same ol’ JVM, so one can think of this as comparing “effort it takes to write the code” vs. how performant it is.</li>
+<li>I could have used an array in Java instead of an ArrayList in the first example, but I did not feel like this would be the way most developers would approach the problem.</li>
+<li>Clojure is a dynamic language (which explains the slowness) and I did not provide type hints because, again, that is not &ldquo;idiomatic Clojure.&rdquo;</li>
+<li>Clojure is &lsquo;slow&rsquo;, but the syntax woos me, so I will probably learn it anyways.</li>
+<li>All of these languages run on the same ol' JVM, so one can think of this as comparing &ldquo;effort it takes to write the code&rdquo; vs. how performant it is.</li>
 </ul>
+
 ]]></content>
   </entry>
   

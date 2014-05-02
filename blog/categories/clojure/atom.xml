@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Clojure | Roberto Acevedo]]></title>
+  <title><![CDATA[Category: clojure | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/clojure/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-05-02T18:47:52-04:00</updated>
+  <updated>2014-05-02T19:40:06-04:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -30,24 +30,30 @@ in the ass for me because the JFrame does not use a
 <a href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system">cartesian coordinate system</a>,
 but rather increases both x and y coordinates by advancing down/to the
 right. This means that there are no negative points on the grid. Using
-a 500x500 px plane, our triangle’s points would be at (250 75), (25
+a 500x500 px plane, our triangle&rsquo;s points would be at (250 75), (25
 450), and (475 450) for the top, bottom left and bottom right,
 respectively.</p>
 
 <p>``` clojure
 (def frame
-  “java.awt.Frame instance”
-  (doto (Frame.)
-    (.setVisible true)
-    (.setSize 500 500)
-    (.setBackground Color/BLACK)))
-;;-&gt; nil </p>
+  &ldquo;java.awt.Frame instance&rdquo;
+  (doto (Frame.)</p>
+
+<pre><code>(.setVisible true)
+(.setSize 500 500)
+(.setBackground Color/BLACK)))
+</code></pre>
+
+<p>;;&ndash;> nil</p>
 
 <p>(def ^:dynamic gfx
-  “java.awt.Graphics2D instance”
-  (doto (.getGraphics frame)
-    (.setColor Color/WHITE)))
-;;-&gt; nil</p>
+  &ldquo;java.awt.Graphics2D instance&rdquo;
+  (doto (.getGraphics frame)</p>
+
+<pre><code>(.setColor Color/WHITE)))
+</code></pre>
+
+<p>;;&ndash;> nil</p>
 
 <p>(do
   (.drawLine gfx 250 75 25 450)
@@ -70,16 +76,19 @@ recursive procedure: <strong>for every one unit of work, we do three units of
 work.</strong> What constitutes a unit of work in this case? Well, the most
 easily observable thing would be drawing a triangle. If we look
 at the Sierpinski triangle, we can see that there are two types of triangles,
-the upright (outer) ones, and the inverted (inner) ones. Let’s quickly
+the upright (outer) ones, and the inverted (inner) ones. Let&rsquo;s quickly
 establish how these two types of triangles should be represented in
 our program:</p>
 
-<p><code>clojure
+<p>``` clojure
 (defn triangle [p1 p2 p3 t-type]
-  (condp = t-type
-    :outer {:top p1 :b-left p2 :b-right p3}
-    :inner {:t-left p1 :t-right p2 :bottom p3}))
-</code></p>
+  (condp = t-type</p>
+
+<pre><code>:outer {:top p1 :b-left p2 :b-right p3}
+:inner {:t-left p1 :t-right p2 :bottom p3}))
+</code></pre>
+
+<p>```</p>
 
 <p>Each triangle is made up of three points. Depending on the <code>t-type</code> we
 pass in, our points will be labeled a certain way. This allows us to
@@ -90,9 +99,10 @@ initial triangle, we can think about what we need to draw in one of two
 ways:</p>
 
 <ol>
-  <li>We need to draw three new triangles, the outer triangles.</li>
-  <li>We need to draw one inverted triangle, the inner triangle.</li>
+<li>We need to draw three new triangles, the outer triangles.</li>
+<li>We need to draw one inverted triangle, the inner triangle.</li>
 </ol>
+
 
 <p>We will need to do this three times for every one, so it would be wise
 to choose the least expensive of the two. This makes our decision
@@ -108,19 +118,22 @@ instead of nine outer triangles.</p>
 determine its coordinates. We can write a convenience method to do
 that for us:</p>
 
-<p><code>clojure
+<p>``` clojure
 (defn inner [t]
-  (let [{:keys [top b-left b-right]} t
-        [x1 y1] top
-        [x2 y2] b-left
-        [x3 y3] b-right]
-    (triangle (map double [(+ x2 (/ (- x1 x2) 2)) 
-                           (+ y1 (/ (- y2 y1) 2))])
-              (map double [(+ x1 (/ (- x3 x1) 2))
-                           (+ y1 (/ (- y3 y1) 2))])
-              (map double [(+ x2 (/ (- x3 x2) 2))
-                           (/ (+ y2 y3) 2)]) :inner)))
-</code></p>
+  (let [{:keys [top b-left b-right]} t</p>
+
+<pre><code>    [x1 y1] top
+    [x2 y2] b-left
+    [x3 y3] b-right]
+(triangle (map double [(+ x2 (/ (- x1 x2) 2)) 
+                       (+ y1 (/ (- y2 y1) 2))])
+          (map double [(+ x1 (/ (- x3 x1) 2))
+                       (+ y1 (/ (- y3 y1) 2))])
+          (map double [(+ x2 (/ (- x3 x2) 2))
+                       (/ (+ y2 y3) 2)]) :inner)))
+</code></pre>
+
+<p>```</p>
 
 <p>This function takes a triangle t, and returns a new triangle map for
 the inner triangle with its points labeled. The points are calculated
@@ -139,18 +152,21 @@ the outer triangle and the inner triangle. This makes it easy for us
 to write another convenience method, this time to return three
 triangle maps, one for each triangle:</p>
 
-<p><code>clojure
+<p>``` clojure
 (defn outers [t]
-  (let [{[x1 y1] :top
-         [x2 y2] :b-left
-         [x3 y3] :b-right} t
-        {[ix1 iy1] :t-left
-         [ix2 iy2] :t-right
-         [ix3 iy3] :bottom} (inner t)]
-    {:top (triangle [x1 y1] [ix1 iy1] [ix2 iy2] :outer)
-     :b-left (triangle [ix1 iy1] [x2 y2] [ix3 iy3] :outer)
-     :b-right (triangle [ix2 iy2] [ix3 iy3] [x3 y3] :outer)}))
-</code></p>
+  (let [{[x1 y1] :top</p>
+
+<pre><code>     [x2 y2] :b-left
+     [x3 y3] :b-right} t
+    {[ix1 iy1] :t-left
+     [ix2 iy2] :t-right
+     [ix3 iy3] :bottom} (inner t)]
+{:top (triangle [x1 y1] [ix1 iy1] [ix2 iy2] :outer)
+ :b-left (triangle [ix1 iy1] [x2 y2] [ix3 iy3] :outer)
+ :b-right (triangle [ix2 iy2] [ix3 iy3] [x3 y3] :outer)}))
+</code></pre>
+
+<p>```</p>
 
 <p>This function takes a triangle t, and returns a map of triangle maps,
 each keyed according to which triangle it represents. It takes
@@ -167,24 +183,33 @@ these, we can draw its inner:</p>
 recursively tie it together. We can write one last function,
 <code>sierpinski</code>, that will handle the recursion for us:</p>
 
-<p><code>clojure
+<p>``` clojure
 (defn sierpinski
-  ([]
-     (sierpinski 10))
-  ([lvl] (sierpinski (triangle [250 75] [25 450] [475 450] :outer) lvl true))
-  ([t lvl]
-     (if (&gt; lvl 0)
-       (do
-         (draw-triangle (inner t))
-         (doseq [sub-t (vals (outers t))]
-           (sierpinski sub-t (dec lvl))))))
-  ([t lvl first?]
-     (if first?
-       (do 
-         (draw-triangle t)
-         (sierpinski t lvl false))
-       (sierpinski t lvl))))
-</code></p>
+  ([]</p>
+
+<pre><code> (sierpinski 10))
+</code></pre>
+
+<p>  ([lvl] (sierpinski (triangle [250 75] [25 450] [475 450] :outer) lvl true))
+  ([t lvl]</p>
+
+<pre><code> (if (&gt; lvl 0)
+   (do
+     (draw-triangle (inner t))
+     (doseq [sub-t (vals (outers t))]
+       (sierpinski sub-t (dec lvl))))))
+</code></pre>
+
+<p>  ([t lvl first?]</p>
+
+<pre><code> (if first?
+   (do 
+     (draw-triangle t)
+     (sierpinski t lvl false))
+   (sierpinski t lvl))))
+</code></pre>
+
+<p>```</p>
 
 <p>This function, when invoked with no arguments, defaults to a 10-level
 Sierpinski triangle. It assumes our JFrame is of size 500x500 and sets
@@ -192,7 +217,7 @@ the initial coordinates accordingly. Since we only want to draw the
 first outer triangle, we use a boolean argument to control whether the
 triangle is drawn, or just its inner triangle. This is only true for
 the first iteration. Each time we <code>recur</code>, we paint our current
-triangle’s inner triangle, as well as calling the <code>sierpinski</code> method
+triangle&rsquo;s inner triangle, as well as calling the <code>sierpinski</code> method
 again on each of the three outer triangles, while decrementing our
 level, to do the same thing. These tree-recursive calls to
 <code>sierpinski</code> mirror the recursive nature of the image itself. Here is
@@ -420,14 +445,14 @@ the full source code for the final program:</p>
 <p>You can suck that into your REPL and run it:</p>
 
 <p>``` clojure
-(load-file “/path/to/sierpinski.clj”)
-;;-&gt; nil</p>
+(load-file &ldquo;/path/to/sierpinski.clj&rdquo;)
+;;&ndash;> nil</p>
 
 <p>(ns sierpinski)
-;;-&gt; nil</p>
+;;&ndash;> nil</p>
 
 <p>(-main)
-;;-&gt; nil
+;;&ndash;> nil
 ```</p>
 
 <p>Or just run this from the same directory as the script:</p>
@@ -461,7 +486,7 @@ is relatively similar to the below (initially incorrect) example:</p>
 ;;-&gt; Printing myself: Unbound: #'user/a
 ;;-&gt; nil
 </code>
-Clearly this doesn’t work, but I would like to explore why exactly that is.
+Clearly this doesn&rsquo;t work, but I would like to explore why exactly that is.
 First though, we should discuss how Clojure (and Lisps in general)
 treat and evaluate functions. When we call a function, we do it in
 this way:</p>
@@ -475,9 +500,10 @@ this way:</p>
 this list as a call because:</p>
 
 <ol>
-  <li>It is not empty.</li>
-  <li>It is not quoted.</li>
+<li>It is not empty.</li>
+<li>It is not quoted.</li>
 </ol>
+
 
 <p>The first item in the list is assumed to be a special form, a macro,
 or a function. This is why this works:</p>
@@ -501,33 +527,33 @@ to create a list and not have it evaluated. We do this by quoting the
 list, either with the <code>quote</code> function or using a quote literal <code>'</code>.</p>
 
 <p>``` clojure
-‘(1 2 3 4 5)
-;;-&gt; (1 2 3 4 5)</p>
+&lsquo;(1 2 3 4 5)
+;;&ndash;> (1 2 3 4 5)</p>
 
-<p>‘(a list of words and stuff)
-;;-&gt; (a list of words and stuff)</p>
+<p>&lsquo;(a list of words and stuff)
+;;&ndash;> (a list of words and stuff)</p>
 
 <p>(quote (0 1 1 2 3))
-;;-&gt; (0 1 1 2 3)</p>
+;;&ndash;> (0 1 1 2 3)</p>
 
 <p>(quote (here have more words))
-;;-&gt; (here have more words)
+;;&ndash;> (here have more words)
 ```</p>
 
-<p>There’s no difference between a quoted list and an unquoted
+<p>There&rsquo;s no difference between a quoted list and an unquoted
 list aside from the fact that one is evaluated and one is not.
-Likewise, there’s no difference between the symbols in a list aside
+Likewise, there&rsquo;s no difference between the symbols in a list aside
 from how they are treated, which depends on whether or not the list is
 evaluted.</p>
 
 <p>``` clojure
-‘(println (str “This is also” “ a list of symbols!”))
-;;-&gt; (println (str “This is also” “ a list of symbols!”))
-;;-&gt; nil</p>
+&lsquo;(println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> (println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> nil</p>
 
-<p>(println (str “This is also” “ a list of symbols!”))
-;;-&gt; This is also a list of symbols!
-;;-&gt; nil
+<p>(println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> This is also a list of symbols!
+;;&ndash;> nil
 ```</p>
 
 <p>If we want to evaluate a list, we can use the <code>eval</code> function:</p>
@@ -546,32 +572,35 @@ evaluted.</p>
 ;;-&gt; nil
 </code></p>
 
-<p>This doesn’t work because the <code>let</code> binding is lexically scoped,
+<p>This doesn&rsquo;t work because the <code>let</code> binding is lexically scoped,
 meaning that anything declared in the let is bound/accessible only in
 that scope, or the immediate textual region. The <code>eval</code> function,
 however, evaluates forms in a
 <a href="http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/glo_n.html#null_lexical_environment">null lexical environment</a>,
 so it cannot see our binding on <code>a</code>. That is why when we evaluate the
-s-expression using <code>eval</code>, we cannot access the binding on the Var - it
+s-expression using <code>eval</code>, we cannot access the binding on the Var &ndash; it
 is outside of our scope. By that same token, that is why we can have
 nested <code>let</code>s:</p>
 
-<p><code>clojure
-(let [a "YOLO"]
-  (let [b "Don't kill my vibe"]
-    (let [c "I'm my own woman"]
-      (let [d "Go fit or go home"]
-        (println (str "Instagram in a nutshell: \n" 
-                      (clojure.string/join "\n" [a b c d])))))))
-;;-&gt; Instagram in a nutshell:
-;;-&gt; YOLO
-;;-&gt; Don't kill my vibe
-;;-&gt; I'm my own woman
-;;-&gt; Go fit or go home
-;;-&gt; nil                      
-</code>
-Each subsequent <code>let</code> is enclosed within the outer <code>let</code>, in which the
-call to <code>println</code> is evaluated. This is exactly what a closure is:</p>
+<p>``` clojure
+(let [a &ldquo;YOLO&rdquo;]
+  (let [b &ldquo;Don&rsquo;t kill my vibe&rdquo;]</p>
+
+<pre><code>(let [c "I'm my own woman"]
+  (let [d "Go fit or go home"]
+    (println (str "Instagram in a nutshell: \n" 
+                  (clojure.string/join "\n" [a b c d])))))))
+</code></pre>
+
+<p>;;&ndash;> Instagram in a nutshell:
+;;&ndash;> YOLO
+;;&ndash;> Don&rsquo;t kill my vibe
+;;&ndash;> I&rsquo;m my own woman
+;;&ndash;> Go fit or go home
+;;&ndash;> nil                    <br/>
+<code>``
+Each subsequent</code>let<code>is enclosed within the outer</code>let<code>, in which the
+call to</code>println` is evaluated. This is exactly what a closure is:</p>
 
 <p><code>clojure
 (def a "Hey I'm a Var and I'm accessible throughout this entire namespace!")
@@ -586,57 +615,67 @@ to access can be resolved outside of the lexical scope of the call to
 <code>eval</code>. We can do this by either:</p>
 
 <ol>
-  <li>Using <code>def</code> to declare the Var and bind a value to it.</li>
-  <li>Using <code>declare</code> to declare the Var without a binding, and then use
-  <code>binding</code> to bind a value to it.</li>
+<li>Using <code>def</code> to declare the Var and bind a value to it.</li>
+<li>Using <code>declare</code> to declare the Var without a binding, and then use
+<code>binding</code> to bind a value to it.</li>
 </ol>
+
 
 <p>Whichever way we do it, we need to ensure that the Var is dynamically
 accessible, or all of our work will be for naught. This is done by
 declaring or defining the Var with dynamic <strong>metadata</strong>:</p>
 
-<p><code>clojure
+<p>``` clojure
 (do
   (declare ^:dynamic a)
-  (binding [a '(println (str "Printing myself: " a))]
-    (eval a)))
- ;;-&gt; Printing myself: (println (str "Printing myself: " a))
- ;;-&gt; nil
-</code></p>
+  (binding [a &lsquo;(println (str &ldquo;Printing myself: &rdquo; a))]</p>
 
-<p>That’s the ticket! Now we can be super cool/meta programmer kidz (if
+<pre><code>(eval a)))
+</code></pre>
+
+<p> ;;&ndash;> Printing myself: (println (str &ldquo;Printing myself: &rdquo; a))
+ ;;&ndash;> nil
+```</p>
+
+<p>That&rsquo;s the ticket! Now we can be super cool/meta programmer kidz (if
 you have the amazazazing
 <a href="https://github.com/cemerick/pomegranate">pomegranate by Chas Emerick</a> on your classpath):</p>
 
 <p>``` clojure
-(require ‘[cemerick.pomegranate :refer :all])
-;;-&gt; nil</p>
+(require &lsquo;[cemerick.pomegranate :refer :all])
+;;&ndash;> nil</p>
 
-<p>(add-dependencies :coordinates ‘[[com.draines/postal “1.11.1”]]
-                  :repositories {“clojars” “http://clojars.org/repo”})
-;;-&gt; {[javax.mail/mail “1.4.4” :exclusions [[javax.activation/activation]]] nil,
-;;-&gt;  [commons-codec “1.7”] nil,
-;;-&gt;  [com.draines/postal “1.11.1”]
-;;-&gt;  #{[javax.mail/mail “1.4.4” :exclusions [[javax.activation/activation]]] [commons-codec “1.7”]}}</p>
+<p>(add-dependencies :coordinates &lsquo;[[com.draines/postal &ldquo;1.11.1&rdquo;]]</p>
 
-<p>(require ‘[postal [core :as postal]])
-;;-&gt; nil</p>
+<pre><code>              :repositories {"clojars" "http://clojars.org/repo"})
+</code></pre>
+
+<p>;;&ndash;> {[javax.mail/mail &ldquo;1.4.4&rdquo; :exclusions [[javax.activation/activation]]] nil,
+;;&ndash;>  [commons-codec &ldquo;1.7&rdquo;] nil,
+;;&ndash;>  [com.draines/postal &ldquo;1.11.1&rdquo;]
+;;&ndash;>  #{[javax.mail/mail &ldquo;1.4.4&rdquo; :exclusions [[javax.activation/activation]]] [commons-codec &ldquo;1.7&rdquo;]}}</p>
+
+<p>(require &lsquo;[postal [core :as postal]])
+;;&ndash;> nil</p>
 
 <p>(do
-  (declare ^:dynamic codez)
-    (binding [codez ‘(postal/send-message ^{:host “smtp.neatwebsite.com”
-                                            :user “brogrammer@neatwebsite.com”
-                                            :pass “sekr3t!”
-                                            :ssl :damn-right!}
-                                          {:from “A really cool dude”
-                                           :to “you@yoursite.com”
-                                           :subject “Incoming: super meta email”
-                                           :body (str “Czech it out bby, this code generated this email: \n\n” 
-                                                       (binding [<em>out</em> (java.io.StringWriter.)]
-                                                         (pprint codez)
-                                                         (.toString <em>out</em>)))})]
-      (eval codez)))
-;;-&gt; {:error :SUCCESS, :code 0, :message “messages sent”}
+  (declare ^:dynamic codez)</p>
+
+<pre><code>(binding [codez '(postal/send-message ^{:host "smtp.neatwebsite.com"
+                                        :user "brogrammer@neatwebsite.com"
+                                        :pass "sekr3t!"
+                                        :ssl :damn-right!}
+                                      {:from "A really cool dude"
+                                       :to "you@yoursite.com"
+                                       :subject "Incoming: super meta email"
+                                       :body (str "Czech it out bby, this code generated this email: \n\n" 
+                                                   (binding [*out* (java.io.StringWriter.)]
+                                                     (pprint codez)
+                                                     (.toString *out*)))})]
+  (eval codez)))
+</code></pre>
+
+<p>;;&ndash;> {:error :SUCCESS, :code 0, :message &ldquo;messages sent&rdquo;}
 ```</p>
 
 <p>Awesome! That generates an email that looks like this:</p>
@@ -645,18 +684,18 @@ you have the amazazazing
 Czech it out bby, this code generated this email:</p>
 
 <p>(postal/send-message
-{:from “A really cool dude”,
- :to “you@yoursite.com”,
- :subject “Incoming: super meta email”,
+{:from &ldquo;A really cool dude&rdquo;,
+ :to &ldquo;<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x79;&#x6f;&#x75;&#64;&#x79;&#x6f;&#117;&#114;&#115;&#105;&#116;&#101;&#x2e;&#x63;&#111;&#109;">&#x79;&#x6f;&#x75;&#64;&#121;&#x6f;&#117;&#x72;&#x73;&#105;&#x74;&#x65;&#46;&#99;&#111;&#x6d;</a>&rdquo;,
+ :subject &ldquo;Incoming: super meta email&rdquo;,
  :body
  (str
- “Czech it out bby, this code generated this email: \n\n”
+ &ldquo;Czech it out bby, this code generated this email: \n\n&rdquo;
  (binding
  [<em>out</em> (java.io.StringWriter.)]
  (pprint codez)
  (.toString <em>out</em>)))})
 ```
-Don’t you feel a billion times cooler now?</p>
+Don&rsquo;t you feel a billion times cooler now?</p>
 ]]></content>
   </entry>
   
