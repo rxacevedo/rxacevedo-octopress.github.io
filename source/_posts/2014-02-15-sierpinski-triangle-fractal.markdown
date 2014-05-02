@@ -3,7 +3,7 @@ layout: post
 title: "Sierpinski Triangle Fractal"
 date: 2014-02-15 22:36:06 -0500
 comments: true
-categories: clojure, fractal, 
+categories: clojure fractal
 ---
 
 Fractals are frequently used to demonstrate recursion in many FP
