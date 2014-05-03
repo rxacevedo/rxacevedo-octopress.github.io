@@ -1,20 +1,20 @@
 ---
 layout: post
-title: "Sierpinski Triangle Fractal"
+title: "Sierpinski's Triangle"
 date: 2014-02-15 22:36:06 -0500
 comments: true
-categories: clojure fractal
+categories: clojure fractal math
 ---
 
-Fractals are frequently used to demonstrate recursion in many FP
-texts or tutorials. This post will go through the process of rendering
-the
-[Sierpinksi triangle fractal](http://en.wikipedia.org/wiki/Sierpinski_triangle),
-one of the most well-known fractals, and also one of the most straightforward to generate.
+Fractal curves are frequently used to demonstrate recursion in many FP
+texts or tutorials. This post will run through the process of rendering
+[Sierpinksi's triangle](http://en.wikipedia.org/wiki/Sierpinski_triangle),
+one of the most well-known fractals, and also one of the most
+straightforward to generate.
 
-We start by determining the coordinates of our outer triangle, as all
-other coordinates will be a function of these. This was a bit of a pain
-in the ass for me because the JFrame does not use a
+We start by determining the coordinates of our outer triangle, as all other
+coordinates will be a function of these. This was a bit of a pain in
+the ass for me because the JFrame does not use a
 [cartesian coordinate system](http://en.wikipedia.org/wiki/Cartesian_coordinate_system),
 but rather increases both x and y coordinates by advancing down/to the
 right. This means that there are no negative points on the grid. Using
@@ -29,7 +29,7 @@ respectively.
     (.setVisible true)
     (.setSize 500 500)
     (.setBackground Color/BLACK)))
-;;-> nil 
+;;-> nil
 
 (def ^:dynamic gfx
   "java.awt.Graphics2D instance"
@@ -57,7 +57,7 @@ there are three more triangles inside of it. This is the key to our
 recursive procedure: **for every one unit of work, we do three units of
 work.** What constitutes a unit of work in this case? Well, the most
 easily observable thing would be drawing a triangle. If we look
-at the Sierpinski triangle, we can see that there are two types of triangles,
+at Sierpinski's triangle, we can see that there are two types of triangles,
 the upright (outer) ones, and the inverted (inner) ones. Let's quickly
 establish how these two types of triangles should be represented in
 our program:
@@ -71,24 +71,22 @@ our program:
 
 Each triangle is made up of three points. Depending on the `t-type` we
 pass in, our points will be labeled a certain way. This allows us to
-specify the type of triangle we are passing in/expecting. This is more
-of a convenience method for us, so that we can keep track of the types of
-triangles we are handling/drawing in the program. Looking back at our
-initial triangle, we can think about what we need to draw in one of two
-ways:
+specify the type of triangle we are passing to another function.
+Looking back at our initial triangle, we can think about what we need
+to do in one of two ways:
 
 1. We need to draw three new triangles, the outer triangles.
 2. We need to draw one inverted triangle, the inner triangle.
 
 We will need to do this three times for every one, so it would be wise
 to choose the least expensive of the two. This makes our decision
-pretty straightforward: for every (outer) triangle, we need to paint its
-corresponding inner triangle. Our work still increases as a power of three
-each time, but now we are only painting one inner triangle per unit of
-work, instead of three outer triangles per unit of work. Since we know
-that each recursion requires us to do three more units of work, this
-becomes a matter of drawing three inverted triangles per recursive call,
-instead of nine outer triangles.
+straightforward: for every outer triangle, we need to paint its
+corresponding inner triangle. Our work still increases as a power of
+three each time, but now we are only painting one inner triangle per
+unit of work, instead of three outer triangles per unit of work. Since
+we know that each recursion requires us to do three more units of
+work, this becomes a matter of drawing three inverted triangles per
+recursive call, instead of nine outer triangles.
 
 In order to draw the inner triangle for a triangle, we need to
 determine its coordinates. We can write a convenience method to do
@@ -100,7 +98,7 @@ that for us:
         [x1 y1] top
         [x2 y2] b-left
         [x3 y3] b-right]
-    (triangle (map double [(+ x2 (/ (- x1 x2) 2)) 
+    (triangle (map double [(+ x2 (/ (- x1 x2) 2))
                            (+ y1 (/ (- y2 y1) 2))])
               (map double [(+ x1 (/ (- x3 x1) 2))
                            (+ y1 (/ (- y3 y1) 2))])
@@ -159,14 +157,14 @@ recursively tie it together. We can write one last function,
      (sierpinski 10))
   ([lvl] (sierpinski (triangle [250 75] [25 450] [475 450] :outer) lvl true))
   ([t lvl]
-     (if (> lvl 0)
+     (when (> lvl 0)
        (do
          (draw-triangle (inner t))
          (doseq [sub-t (vals (outers t))]
            (sierpinski sub-t (dec lvl))))))
   ([t lvl first?]
      (if first?
-       (do 
+       (do
          (draw-triangle t)
          (sierpinski t lvl false))
        (sierpinski t lvl))))

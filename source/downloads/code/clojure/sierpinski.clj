@@ -67,17 +67,16 @@
       (.drawLine gfx x1 y1 x3 y3)
       (.drawLine gfx x2 y2 x3 y3))))
 
-;; Main (multi)method to handle recursive calls
+;; Entry method
 (defn sierpinski
   ([]
      (sierpinski 10))
   ([lvl] (sierpinski (triangle [250 75] [25 450] [475 450] :outer) lvl true))
   ([t lvl]                         
-     (if (> lvl 0)
-       (do
-         (draw-triangle (inner t))
-         (doseq [sub-t (vals (outers t))]                               
-           (sierpinski sub-t (dec lvl))))))
+     (when (> lvl 0)
+       (draw-triangle (inner t))
+       (doseq [sub-t (vals (outers t))]
+         (sierpinski sub-t (dec lvl)))))
   ([t lvl first?]
      (if first?
        (do 
