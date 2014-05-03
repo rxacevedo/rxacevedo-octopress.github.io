@@ -4,7 +4,7 @@
   <title><![CDATA[Category: clojure | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/clojure/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-05-02T19:40:06-04:00</updated>
+  <updated>2014-05-03T11:52:52-04:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -14,19 +14,19 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Sierpinski Triangle Fractal]]></title>
-    <link href="http://rxacevedo.github.io/blog/2014/02/15/sierpinski-triangle-fractal/"/>
+    <title type="html"><![CDATA[Sierpinski's Triangle]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/02/15/sierpinskis-triangle/"/>
     <updated>2014-02-15T22:36:06-05:00</updated>
-    <id>http://rxacevedo.github.io/blog/2014/02/15/sierpinski-triangle-fractal</id>
-    <content type="html"><![CDATA[<p>Fractals are frequently used to demonstrate recursion in many FP
-texts or tutorials. This post will go through the process of rendering
-the
-<a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinksi triangle fractal</a>,
-one of the most well-known fractals, and also one of the most straightforward to generate.</p>
+    <id>http://rxacevedo.github.io/blog/2014/02/15/sierpinskis-triangle</id>
+    <content type="html"><![CDATA[<p>Fractal curves are frequently used to demonstrate recursion in many FP
+texts or tutorials. This post will run through the process of rendering
+<a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinksi&rsquo;s triangle</a>,
+one of the most well-known fractals, and also one of the most
+straightforward to generate.</p>
 
-<p>We start by determining the coordinates of our outer triangle, as all
-other coordinates will be a function of these. This was a bit of a pain
-in the ass for me because the JFrame does not use a
+<p>We start by determining the coordinates of our outer triangle, as all other
+coordinates will be a function of these. This was a bit of a pain in
+the ass for me because the JFrame does not use a
 <a href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system">cartesian coordinate system</a>,
 but rather increases both x and y coordinates by advancing down/to the
 right. This means that there are no negative points on the grid. Using
@@ -75,7 +75,7 @@ there are three more triangles inside of it. This is the key to our
 recursive procedure: <strong>for every one unit of work, we do three units of
 work.</strong> What constitutes a unit of work in this case? Well, the most
 easily observable thing would be drawing a triangle. If we look
-at the Sierpinski triangle, we can see that there are two types of triangles,
+at Sierpinski&rsquo;s triangle, we can see that there are two types of triangles,
 the upright (outer) ones, and the inverted (inner) ones. Let&rsquo;s quickly
 establish how these two types of triangles should be represented in
 our program:</p>
@@ -92,11 +92,9 @@ our program:</p>
 
 <p>Each triangle is made up of three points. Depending on the <code>t-type</code> we
 pass in, our points will be labeled a certain way. This allows us to
-specify the type of triangle we are passing in/expecting. This is more
-of a convenience method for us, so that we can keep track of the types of
-triangles we are handling/drawing in the program. Looking back at our
-initial triangle, we can think about what we need to draw in one of two
-ways:</p>
+specify the type of triangle we are passing to another function.
+Looking back at our initial triangle, we can think about what we need
+to do in one of two ways:</p>
 
 <ol>
 <li>We need to draw three new triangles, the outer triangles.</li>
@@ -106,13 +104,13 @@ ways:</p>
 
 <p>We will need to do this three times for every one, so it would be wise
 to choose the least expensive of the two. This makes our decision
-pretty straightforward: for every (outer) triangle, we need to paint its
-corresponding inner triangle. Our work still increases as a power of three
-each time, but now we are only painting one inner triangle per unit of
-work, instead of three outer triangles per unit of work. Since we know
-that each recursion requires us to do three more units of work, this
-becomes a matter of drawing three inverted triangles per recursive call,
-instead of nine outer triangles.</p>
+straightforward: for every outer triangle, we need to paint its
+corresponding inner triangle. Our work still increases as a power of
+three each time, but now we are only painting one inner triangle per
+unit of work, instead of three outer triangles per unit of work. Since
+we know that each recursion requires us to do three more units of
+work, this becomes a matter of drawing three inverted triangles per
+recursive call, instead of nine outer triangles.</p>
 
 <p>In order to draw the inner triangle for a triangle, we need to
 determine its coordinates. We can write a convenience method to do
@@ -125,7 +123,7 @@ that for us:</p>
 <pre><code>    [x1 y1] top
     [x2 y2] b-left
     [x3 y3] b-right]
-(triangle (map double [(+ x2 (/ (- x1 x2) 2)) 
+(triangle (map double [(+ x2 (/ (- x1 x2) 2))
                        (+ y1 (/ (- y2 y1) 2))])
           (map double [(+ x1 (/ (- x3 x1) 2))
                        (+ y1 (/ (- y3 y1) 2))])
@@ -193,7 +191,7 @@ recursively tie it together. We can write one last function,
 <p>  ([lvl] (sierpinski (triangle [250 75] [25 450] [475 450] :outer) lvl true))
   ([t lvl]</p>
 
-<pre><code> (if (&gt; lvl 0)
+<pre><code> (when (&gt; lvl 0)
    (do
      (draw-triangle (inner t))
      (doseq [sub-t (vals (outers t))]
@@ -203,7 +201,7 @@ recursively tie it together. We can write one last function,
 <p>  ([t lvl first?]</p>
 
 <pre><code> (if first?
-   (do 
+   (do
      (draw-triangle t)
      (sierpinski t lvl false))
    (sierpinski t lvl))))
@@ -331,7 +329,6 @@ the full source code for the final program:</p>
 <span class='line-number'>105</span>
 <span class='line-number'>106</span>
 <span class='line-number'>107</span>
-<span class='line-number'>108</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="kd">ns </span><span class="nv">sierpinski</span>
 </span><span class='line'>  <span class="p">(</span><span class="nb">import </span><span class="p">[</span><span class="nv">java.awt</span> <span class="nv">Color</span><span class="p">]</span>
 </span><span class='line'>          <span class="p">[</span><span class="nv">java.awt.image</span> <span class="nv">BufferedImage</span><span class="p">]</span>
@@ -401,17 +398,16 @@ the full source code for the final program:</p>
 </span><span class='line'>      <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="nv">x1</span> <span class="nv">y1</span> <span class="nv">x3</span> <span class="nv">y3</span><span class="p">)</span>
 </span><span class='line'>      <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="nv">x2</span> <span class="nv">y2</span> <span class="nv">x3</span> <span class="nv">y3</span><span class="p">))))</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1">;; Main (multi)method to handle recursive calls</span>
+</span><span class='line'><span class="c1">;; Entry method</span>
 </span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">sierpinski</span>
 </span><span class='line'>  <span class="p">([]</span>
 </span><span class='line'>     <span class="p">(</span><span class="nf">sierpinski</span> <span class="mi">10</span><span class="p">))</span>
 </span><span class='line'>  <span class="p">([</span><span class="nv">lvl</span><span class="p">]</span> <span class="p">(</span><span class="nf">sierpinski</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="mi">250</span> <span class="mi">75</span><span class="p">]</span> <span class="p">[</span><span class="mi">25</span> <span class="mi">450</span><span class="p">]</span> <span class="p">[</span><span class="mi">475</span> <span class="mi">450</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span> <span class="nv">lvl</span> <span class="nv">true</span><span class="p">))</span>
 </span><span class='line'>  <span class="p">([</span><span class="nv">t</span> <span class="nv">lvl</span><span class="p">]</span>
-</span><span class='line'>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">lvl</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>       <span class="p">(</span><span class="nf">do</span>
-</span><span class='line'>         <span class="p">(</span><span class="nf">draw-triangle</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">t</span><span class="p">))</span>
-</span><span class='line'>         <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">sub-t</span> <span class="p">(</span><span class="nb">vals </span><span class="p">(</span><span class="nf">outers</span> <span class="nv">t</span><span class="p">))]</span>
-</span><span class='line'>           <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">sub-t</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">lvl</span><span class="p">))))))</span>
+</span><span class='line'>     <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">lvl</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">(</span><span class="nf">draw-triangle</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">t</span><span class="p">))</span>
+</span><span class='line'>       <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">sub-t</span> <span class="p">(</span><span class="nb">vals </span><span class="p">(</span><span class="nf">outers</span> <span class="nv">t</span><span class="p">))]</span>
+</span><span class='line'>         <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">sub-t</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">lvl</span><span class="p">)))))</span>
 </span><span class='line'>  <span class="p">([</span><span class="nv">t</span> <span class="nv">lvl</span> <span class="nv">first?</span><span class="p">]</span>
 </span><span class='line'>     <span class="p">(</span><span class="k">if </span><span class="nv">first?</span>
 </span><span class='line'>       <span class="p">(</span><span class="k">do </span>
@@ -685,7 +681,7 @@ Czech it out bby, this code generated this email:</p>
 
 <p>(postal/send-message
 {:from &ldquo;A really cool dude&rdquo;,
- :to &ldquo;<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x79;&#x6f;&#x75;&#64;&#x79;&#x6f;&#117;&#114;&#115;&#105;&#116;&#101;&#x2e;&#x63;&#111;&#109;">&#x79;&#x6f;&#x75;&#64;&#121;&#x6f;&#117;&#x72;&#x73;&#105;&#x74;&#x65;&#46;&#99;&#111;&#x6d;</a>&rdquo;,
+ :to &ldquo;<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#121;&#111;&#117;&#64;&#x79;&#111;&#117;&#x72;&#x73;&#x69;&#116;&#101;&#x2e;&#x63;&#x6f;&#x6d;">&#121;&#111;&#x75;&#64;&#x79;&#111;&#117;&#114;&#x73;&#x69;&#x74;&#101;&#46;&#x63;&#111;&#x6d;</a>&rdquo;,
  :subject &ldquo;Incoming: super meta email&rdquo;,
  :body
  (str
