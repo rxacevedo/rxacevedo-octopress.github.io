@@ -4,7 +4,7 @@
   <title><![CDATA[Category: meta | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/meta/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-05-04T10:59:46-04:00</updated>
+  <updated>2014-05-04T11:29:06-04:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -227,7 +227,7 @@ Czech it out bby, this code generated this email:</p>
 
 <p>(postal/send-message
 {:from &ldquo;A really cool dude&rdquo;,
- :to &ldquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#121;&#x6f;&#117;&#x40;&#121;&#111;&#117;&#x72;&#115;&#x69;&#116;&#101;&#x2e;&#x63;&#x6f;&#109;">&#x79;&#x6f;&#117;&#64;&#x79;&#x6f;&#x75;&#x72;&#115;&#x69;&#116;&#x65;&#x2e;&#99;&#x6f;&#x6d;</a>&rdquo;,
+ :to &ldquo;<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#121;&#x6f;&#117;&#x40;&#x79;&#x6f;&#x75;&#x72;&#x73;&#x69;&#x74;&#101;&#x2e;&#x63;&#x6f;&#x6d;">&#x79;&#x6f;&#x75;&#64;&#x79;&#x6f;&#117;&#114;&#x73;&#x69;&#x74;&#101;&#46;&#x63;&#111;&#109;</a>&rdquo;,
  :subject &ldquo;Incoming: super meta email&rdquo;,
  :body
  (str
