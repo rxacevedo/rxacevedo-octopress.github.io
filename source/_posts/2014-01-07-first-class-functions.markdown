@@ -3,7 +3,7 @@ layout: post
 title: "First-class Functions"
 date: 2014-01-07 19:25:44 -0500
 comments: true
-categories: clojure, scala, fp
+categories: clojure scala programming
 ---
 
 Functions that take functions as arguments and functions that return functions

@@ -3,7 +3,8 @@ layout: post
 title: "Multi-threaded Socket Server"
 date: 2012-12-03 11:34
 comments: true
-categories: 
+published: true
+categories: c programming
 ---
 
 This a multi-threaded socket server/client system I put together for school using POSIX threads - it was also my C primer. I'm sure that there are much more efficient ways of doing this, but I figured I'd post it for anyone looking for an example to work off of (I make no guarantees regarding this code, I have much more to learn about multi-threading and C in general).

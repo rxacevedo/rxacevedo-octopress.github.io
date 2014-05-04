@@ -3,7 +3,7 @@ layout: post
 title: "Approximating The Golden Ratio"
 date: 2014-02-09 12:47:20 -0500
 comments: true
-categories: clojure, math
+categories: clojure fibonacci programming math
 ---
 
 This will be short post, inspired by a problem I encountered while

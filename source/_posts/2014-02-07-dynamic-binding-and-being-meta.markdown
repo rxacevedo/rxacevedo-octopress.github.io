@@ -3,7 +3,7 @@ layout: post
 title: "Dynamic Binding and Being Meta"
 date: 2014-02-07 17:47:38 -0500
 comments: true
-categories: clojure
+categories: clojure programming meta
 ---
 
 Yesterday at work I had the perverse urge to send an email to someone

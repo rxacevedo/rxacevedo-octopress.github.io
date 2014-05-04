@@ -3,7 +3,7 @@ layout: post
 title: "Recursion in Scala"
 date: 2013-04-08 19:33
 comments: true
-categories: programming, scala 
+categories: scala programming
 ---
 
 I've been going through Martin Odersky's free course on Coursera, [Functional

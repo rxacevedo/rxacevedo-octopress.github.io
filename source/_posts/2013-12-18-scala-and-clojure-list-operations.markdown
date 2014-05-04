@@ -3,7 +3,7 @@ layout: post
 title: "Scala and Clojure List Operations"
 date: 2013-12-18 19:32
 comments: true
-categories: 
+categories: clojure scala java programming
 ---
 
 Functional programming is an incredibly powerful paradigm that empowers developers to be more flexible in the ways that they devise and implement solutions to problems. One of the most powerful features of functional programming, regardless of language, is the manner in which it allows us to interact with data structures. Provided here are some examples of "list functions" in both Scala and Clojure:

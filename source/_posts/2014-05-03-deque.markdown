@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Deque"
+date: 2014-05-03 12:30:23 -0400
+comments: true
+categories: algorithms java
+---
+
+Since a Deque is really just a two-way Stack, I figured I may as
+well post one as well. RE: [my previous post](/blog/2014/05/03/stack/).
+
+{% include_code java/Deque.java %}

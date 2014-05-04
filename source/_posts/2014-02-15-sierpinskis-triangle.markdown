@@ -3,7 +3,7 @@ layout: post
 title: "Sierpinski's Triangle"
 date: 2014-02-15 22:36:06 -0500
 comments: true
-categories: clojure fractal math
+categories: clojure programming fractal math
 ---
 
 Fractal curves are frequently used to demonstrate recursion in many FP

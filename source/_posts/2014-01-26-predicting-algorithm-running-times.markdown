@@ -3,7 +3,7 @@ layout: post
 title: "Predicting Algorithm Running Times"
 date: 2014-01-26 19:47:29 -0500
 comments: true
-categories: algorithms, analaysis, clojure, java
+categories: algorithms clojure java programming
 ---
 
 In the first week of the [Algorithms I](https://www.coursera.org/course/algs4partI) 
@@ -31,14 +31,17 @@ spawn system processes from within Clojure:
             :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/")]
   (:out p))
 
-;; With that out of the way, all that's left is parse the numbers from
-;; the output and run the same procedure over a variety of inputs.
-;; Once we've acquired the data, we can tabulate and/or plot it in Incanter:
-;;
-;; Using this command, we can get a lazy sequence of vectors, each
-;; containing the filename and the amount of time it took for the
-;; process to run:
-;;
+```
+
+With that out of the way, all that's left is parse the numbers from
+the output and run the same procedure over a variety of inputs. Once
+we've acquired the data, we can tabulate and/or plot it in Incanter:
+
+Using this command, we can get a lazy sequence of vectors, each
+containing the filename and the amount of time it took for the process
+to run:
+
+```  clojure
 (for [f ["1Kints.txt"
          "2Kints.txt"
          "4Kints.txt"]
@@ -51,10 +54,12 @@ spawn system processes from within Clojure:
                    Double/parseDouble)]]
   [f t])
 ;; (["1Kints.txt" 0.294] ["2Kints.txt" 2.357] ["4Kints.txt" 18.424])
+```
 
-;; Now that we have the data, we can create an Incanter dataset from
-;; it that can be used for plotting purposes.
-;;
+Now that we have the data, we can create an Incanter dataset from it
+that can be used for plotting purposes.
+
+``` clojure
 (to-dataset
  [[1000 0.294]
   [2000 2.357]
@@ -64,11 +69,12 @@ spawn system processes from within Clojure:
 ;; |   1000 |  0.294 |
 ;; |   2000 |  2.357 |
 ;; |   4000 | 18.424 |
+```
 
+If we draw a log-log plot, we get a straight line, here are the
+log-log data points (log base 2):
 
-;; If we do a log-log plot, we get a straight line, here are the
-;; log-log data points (log base 2):
-;;
+``` clojure
 (with-data (to-dataset (log2 (to-matrix (to-dataset
                                          [[1000 0.294]
                                           [2000 2.357]
@@ -79,82 +85,97 @@ spawn system processes from within Clojure:
 ;; |  9.965784284662087 | -1.7661119398257226 |
 ;; | 10.965784284662087 |  1.2369517585880805 |
 ;; | 11.965784284662087 |   4.203514411130758 |
+```
 
-;; Now we set up our equation as follows:
-;; T(n) = ?
-;;
-;; Since applying log/log yields a straight line, we can apply the
-;; power law. The power law states that:
-;;
-;; y = a (x^k) (we omit the deviation term in this example)
-;;
-;; This can be rewritten as:
-;;
-;; T(n) = a(n ^ b)
-;;
-;; and after taking the lg of both sides, can be expressed as:
-;;
-;; lg(T(n)) = b lg(n) + c
-;;
-;; This looks a lot like the slope-intercept form of a line, does it
-;; not? If we set up out equation as:
-;;
-;; y = mx + b
-;;
-;; The slope of the line (b in our original equation) is:
-;;
+Now we set up our equation as follows:
+
+    T(n) = ?
+    
+    Since applying log/log yields a straight line, we can apply the
+    power law. The power law states that:
+    
+    y = a (x^k) (we omit the deviation term in this example)
+    
+    This can be rewritten as:
+    
+    T(n) = a(n ^ b)
+    
+    and after taking the lg of both sides, can be expressed as:
+    
+    lg(T(n)) = b lg(n) + c
+    
+    This looks a lot like the slope-intercept form of a line, does it
+    not? If we set up out equation as:
+    
+    y = mx + b
+
+
+The slope of the line (b in our original equation) is:
+
+``` clojure
 (/ (- 4.203514411130758 1.2369517585880805)
    (- 11.965784284662087 10.965784284662087))
 ;; 2.9665626525426774
-;;
-;; So now we can write:
-;; lg(T(n) = 2.97 lg(n) + c
-;;
-;; We can plug in some data points to solve for c:
-;; 4.203514411130758 = 2.97 (11.965784284662087) + c
-;;
+```
+So now we can write:
+
+    lg(T(n) = 2.97 lg(n) + c
+
+
+We can plug in some data points to solve for c:
+
+    4.203514411130758 = 2.97 (11.965784284662087) + c
+
+
+``` clojure
 (- 4.203514411130758 (* 2.97 11.965784284662087))
 ;; -31.33486491431564
-;;
-;; So b = 2.97, c = -31.33
-;;
-;; The final equation is then:
-;;
-;; lg(T(n)) = 2.97 lg(n) - 31.33
-;;
-;; We now want to get back to the form T(n) = a(n ^ b). We can use two
-;; rules of logarithms to do that:
-;;
-;; 1. a^(b + c) = (a^b)(a^c)
-;; 2. a^(b * c) = (a^b)^c == (a^c)^b
-;;
-;; We can raise 2 to the power of each side:
-;;
-;; 2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)
-;;
-;; Using rule 1:
-;; T(n) = 2^(2.97 lg(n)) * 2^-31.33
-;;
-;; And using rule 2:
-;;
-;; T(n) = (2^(lg(n)))^2.97 * 2^-31.33
-;;      = n^2.97 * 2^-31.33
-;;      = 3.705E-10 * n^2.97
-;;
-;; Finally:
-;;
-;; T(n) = 3.7045054312558825E-10 (n ^ 2.97)
-;;
-;; With this, we should be able to plug in 8000 and get an approximation
-;; of the running time:
-;;
-;; T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)
-;;
+```
+
+So b = 2.97, c = -31.33
+
+The final equation is then:
+
+    lg(T(n)) = 2.97 lg(n) - 31.33
+
+We now want to get back to the form T(n) = a(n ^ b). We can use two
+rules of logarithms to do that:
+
+    1. a^(b + c) = (a^b)(a^c)
+    2. a^(b * c) = (a^b)^c == (a^c)^b
+
+We can raise 2 to the power of each side:
+
+    2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)
+
+Using rule 1:
+
+    T(n) = 2^(2.97 lg(n)) * 2^-31.33
+
+And using rule 2:
+
+    T(n) = (2^(lg(n)))^2.97 * 2^-31.33
+        = n^2.97 * 2^-31.33
+        = 3.705E-10 * n^2.97
+
+Finally:
+
+    T(n) = 3.7045054312558825E-10 (n ^ 2.97)
+
+
+With this, we should be able to plug in 8000 and get an approximation
+of the running time:
+
+    T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)
+
+``` clojure
 (* 3.7045054312558825E-10 (pow 8000 2.97))
 ;; 144.84633044665534 (seconds)
-;;
-;; And when we run it to test our theory:
-;;
+
+```
+And when we run it to test our theory:
+
+``` clojure
 (for [f ["8Kints.txt"]
       :let [t (->> (:out (sh "java" "-cp"
                              ".:stdlib.jar"
@@ -165,5 +186,6 @@ spawn system processes from within Clojure:
                    Double/parseDouble)]]
   [f t])
 ;; (["8Kints.txt" 147.342])
-;; We get what approximately what we expected.
 ```
+
+We get what approximately what we expected.
