@@ -4,7 +4,7 @@
   <title><![CDATA[Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-05-03T19:47:34-04:00</updated>
+  <updated>2014-05-03T23:43:12-04:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -1689,142 +1689,6 @@ spawn system processes from within Clojure:</p>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;; Using Java:</span>
 </span><span class='line'><span class="c1">;;</span>
 </span><span class='line'><span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">ProcessBuilder.</span> <span class="p">[</span><span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span> <span class="s">&quot;.:stdlib.jar&quot;</span> <span class="s">&quot;ThreeSum&quot;</span>
@@ -1840,16 +1704,30 @@ spawn system processes from within Clojure:</p>
 </span><span class='line'>            <span class="s">&quot;http://algs4.cs.princeton.edu/14analysis/1Kints.txt&quot;</span>
 </span><span class='line'>            <span class="ss">:dir</span> <span class="s">&quot;/Users/Roberto/git/working/algorithms_1/ThreeSum/&quot;</span><span class="p">)]</span>
 </span><span class='line'>  <span class="p">(</span><span class="ss">:out</span> <span class="nv">p</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; With that out of the way, all that&#39;s left is parse the numbers from</span>
-</span><span class='line'><span class="c1">;; the output and run the same procedure over a variety of inputs.</span>
-</span><span class='line'><span class="c1">;; Once we&#39;ve acquired the data, we can tabulate and/or plot it in Incanter:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Using this command, we can get a lazy sequence of vectors, each</span>
-</span><span class='line'><span class="c1">;; containing the filename and the amount of time it took for the</span>
-</span><span class='line'><span class="c1">;; process to run:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;1Kints.txt&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With that out of the way, all that&rsquo;s left is parse the numbers from
+the output and run the same procedure over a variety of inputs. Once
+we&rsquo;ve acquired the data, we can tabulate and/or plot it in Incanter:</p>
+
+<p>Using this command, we can get a lazy sequence of vectors, each
+containing the filename and the amount of time it took for the process
+to run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;1Kints.txt&quot;</span>
 </span><span class='line'>         <span class="s">&quot;2Kints.txt&quot;</span>
 </span><span class='line'>         <span class="s">&quot;4Kints.txt&quot;</span><span class="p">]</span>
 </span><span class='line'>      <span class="ss">:let</span> <span class="p">[</span><span class="nv">t</span> <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">(</span><span class="ss">:out</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span>
@@ -1861,11 +1739,22 @@ spawn system processes from within Clojure:</p>
 </span><span class='line'>                   <span class="nv">Double/parseDouble</span><span class="p">)]]</span>
 </span><span class='line'>  <span class="p">[</span><span class="nv">f</span> <span class="nv">t</span><span class="p">])</span>
 </span><span class='line'><span class="c1">;; ([&quot;1Kints.txt&quot; 0.294] [&quot;2Kints.txt&quot; 2.357] [&quot;4Kints.txt&quot; 18.424])</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; Now that we have the data, we can create an Incanter dataset from</span>
-</span><span class='line'><span class="c1">;; it that can be used for plotting purposes.</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nf">to-dataset</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we have the data, we can create an Incanter dataset from it
+that can be used for plotting purposes.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">to-dataset</span>
 </span><span class='line'> <span class="p">[[</span><span class="mi">1000</span> <span class="mf">0.294</span><span class="p">]</span>
 </span><span class='line'>  <span class="p">[</span><span class="mi">2000</span> <span class="mf">2.357</span><span class="p">]</span>
 </span><span class='line'>  <span class="p">[</span><span class="mi">4000</span> <span class="mf">18.424</span><span class="p">]])</span>
@@ -1874,12 +1763,23 @@ spawn system processes from within Clojure:</p>
 </span><span class='line'><span class="c1">;; |   1000 |  0.294 |</span>
 </span><span class='line'><span class="c1">;; |   2000 |  2.357 |</span>
 </span><span class='line'><span class="c1">;; |   4000 | 18.424 |</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; If we do a log-log plot, we get a straight line, here are the</span>
-</span><span class='line'><span class="c1">;; log-log data points (log base 2):</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nf">with-data</span> <span class="p">(</span><span class="nf">to-dataset</span> <span class="p">(</span><span class="nf">log2</span> <span class="p">(</span><span class="nf">to-matrix</span> <span class="p">(</span><span class="nf">to-dataset</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we draw a log-log plot, we get a straight line, here are the
+log-log data points (log base 2):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">with-data</span> <span class="p">(</span><span class="nf">to-dataset</span> <span class="p">(</span><span class="nf">log2</span> <span class="p">(</span><span class="nf">to-matrix</span> <span class="p">(</span><span class="nf">to-dataset</span>
 </span><span class='line'>                                         <span class="p">[[</span><span class="mi">1000</span> <span class="mf">0.294</span><span class="p">]</span>
 </span><span class='line'>                                          <span class="p">[</span><span class="mi">2000</span> <span class="mf">2.357</span><span class="p">]</span>
 </span><span class='line'>                                          <span class="p">[</span><span class="mi">4000</span> <span class="mf">18.424</span><span class="p">]]))))</span>
@@ -1889,83 +1789,122 @@ spawn system processes from within Clojure:</p>
 </span><span class='line'><span class="c1">;; |  9.965784284662087 | -1.7661119398257226 |</span>
 </span><span class='line'><span class="c1">;; | 10.965784284662087 |  1.2369517585880805 |</span>
 </span><span class='line'><span class="c1">;; | 11.965784284662087 |   4.203514411130758 |</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;; Now we set up our equation as follows:</span>
-</span><span class='line'><span class="c1">;; T(n) = ?</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Since applying log/log yields a straight line, we can apply the</span>
-</span><span class='line'><span class="c1">;; power law. The power law states that:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; y = a (x^k) (we omit the deviation term in this example)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; This can be rewritten as:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(n) = a(n ^ b)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; and after taking the lg of both sides, can be expressed as:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; lg(T(n)) = b lg(n) + c</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; This looks a lot like the slope-intercept form of a line, does it</span>
-</span><span class='line'><span class="c1">;; not? If we set up out equation as:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; y = mx + b</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; The slope of the line (b in our original equation) is:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="mf">1.2369517585880805</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we set up our equation as follows:</p>
+
+<pre><code>T(n) = ?
+
+Since applying log/log yields a straight line, we can apply the
+power law. The power law states that:
+
+y = a (x^k) (we omit the deviation term in this example)
+
+This can be rewritten as:
+
+T(n) = a(n ^ b)
+
+and after taking the lg of both sides, can be expressed as:
+
+lg(T(n)) = b lg(n) + c
+
+This looks a lot like the slope-intercept form of a line, does it
+not? If we set up out equation as:
+
+y = mx + b
+</code></pre>
+
+<p>The slope of the line (b in our original equation) is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="mf">1.2369517585880805</span><span class="p">)</span>
 </span><span class='line'>   <span class="p">(</span><span class="nb">- </span><span class="mf">11.965784284662087</span> <span class="mf">10.965784284662087</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;; 2.9665626525426774</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; So now we can write:</span>
-</span><span class='line'><span class="c1">;; lg(T(n) = 2.97 lg(n) + c</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; We can plug in some data points to solve for c:</span>
-</span><span class='line'><span class="c1">;; 4.203514411130758 = 2.97 (11.965784284662087) + c</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="p">(</span><span class="nb">* </span><span class="mf">2.97</span> <span class="mf">11.965784284662087</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So now we can write:</p>
+
+<pre><code>lg(T(n) = 2.97 lg(n) + c
+</code></pre>
+
+<p>We can plug in some data points to solve for c:</p>
+
+<pre><code>4.203514411130758 = 2.97 (11.965784284662087) + c
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">- </span><span class="mf">4.203514411130758</span> <span class="p">(</span><span class="nb">* </span><span class="mf">2.97</span> <span class="mf">11.965784284662087</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;; -31.33486491431564</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; So b = 2.97, c = -31.33</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; The final equation is then:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; lg(T(n)) = 2.97 lg(n) - 31.33</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; We now want to get back to the form T(n) = a(n ^ b). We can use two</span>
-</span><span class='line'><span class="c1">;; rules of logarithms to do that:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; 1. a^(b + c) = (a^b)(a^c)</span>
-</span><span class='line'><span class="c1">;; 2. a^(b * c) = (a^b)^c == (a^c)^b</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; We can raise 2 to the power of each side:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; 2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Using rule 1:</span>
-</span><span class='line'><span class="c1">;; T(n) = 2^(2.97 lg(n)) * 2^-31.33</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; And using rule 2:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(n) = (2^(lg(n)))^2.97 * 2^-31.33</span>
-</span><span class='line'><span class="c1">;;      = n^2.97 * 2^-31.33</span>
-</span><span class='line'><span class="c1">;;      = 3.705E-10 * n^2.97</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; Finally:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(n) = 3.7045054312558825E-10 (n ^ 2.97)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; With this, we should be able to plug in 8000 and get an approximation</span>
-</span><span class='line'><span class="c1">;; of the running time:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">* </span><span class="mf">3.7045054312558825</span><span class="nv">E-10</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">8000</span> <span class="mf">2.97</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So b = 2.97, c = -31.33</p>
+
+<p>The final equation is then:</p>
+
+<pre><code>lg(T(n)) = 2.97 lg(n) - 31.33
+</code></pre>
+
+<p>We now want to get back to the form T(n) = a(n ^ b). We can use two
+rules of logarithms to do that:</p>
+
+<pre><code>1. a^(b + c) = (a^b)(a^c)
+2. a^(b * c) = (a^b)^c == (a^c)^b
+</code></pre>
+
+<p>We can raise 2 to the power of each side:</p>
+
+<pre><code>2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)
+</code></pre>
+
+<p>Using rule 1:</p>
+
+<pre><code>T(n) = 2^(2.97 lg(n)) * 2^-31.33
+</code></pre>
+
+<p>And using rule 2:</p>
+
+<pre><code>T(n) = (2^(lg(n)))^2.97 * 2^-31.33
+    = n^2.97 * 2^-31.33
+    = 3.705E-10 * n^2.97
+</code></pre>
+
+<p>Finally:</p>
+
+<pre><code>T(n) = 3.7045054312558825E-10 (n ^ 2.97)
+</code></pre>
+
+<p>With this, we should be able to plug in 8000 and get an approximation
+of the running time:</p>
+
+<pre><code>T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">* </span><span class="mf">3.7045054312558825</span><span class="nv">E-10</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">8000</span> <span class="mf">2.97</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;; 144.84633044665534 (seconds)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; And when we run it to test our theory:</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;8Kints.txt&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And when we run it to test our theory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">f</span> <span class="p">[</span><span class="s">&quot;8Kints.txt&quot;</span><span class="p">]</span>
 </span><span class='line'>      <span class="ss">:let</span> <span class="p">[</span><span class="nv">t</span> <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">(</span><span class="ss">:out</span> <span class="p">(</span><span class="nf">sh</span> <span class="s">&quot;java&quot;</span> <span class="s">&quot;-cp&quot;</span>
 </span><span class='line'>                             <span class="s">&quot;.:stdlib.jar&quot;</span>
 </span><span class='line'>                             <span class="s">&quot;ThreeSum&quot;</span>
@@ -1975,9 +1914,10 @@ spawn system processes from within Clojure:</p>
 </span><span class='line'>                   <span class="nv">Double/parseDouble</span><span class="p">)]]</span>
 </span><span class='line'>  <span class="p">[</span><span class="nv">f</span> <span class="nv">t</span><span class="p">])</span>
 </span><span class='line'><span class="c1">;; ([&quot;8Kints.txt&quot; 147.342])</span>
-</span><span class='line'><span class="c1">;; We get what approximately what we expected.</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>We get what approximately what we expected.</p>
 ]]></content>
   </entry>
   
@@ -2304,6 +2244,139 @@ types:</p>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clojure REPLing - Orders of Growth Analysis With Incanter]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/01/03/clojure-repling-orders-of-growth-analysis-with-incanter/"/>
+    <updated>2014-01-03T18:06:59-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/01/03/clojure-repling-orders-of-growth-analysis-with-incanter</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been messing around with Incanter for the past two days now and have had a
+great experience thus far, prompting me to write a little bit about it. Incanter
+is (as it states on <a href="http://incanter.org">the homepage</a>)  a computing and graphics
+library built on the Clojure platform that strives to be semantically similar to R.
+The true power in using Incanter, though (for me, anyways), is that it can be used
+directly from the Clojure REPL working directly with Clojure data structures. Because
+Clojure is so malleable, we can tranform our data easily and feed it directly into
+Incanter, allowing us to observe statistics about the data as well as to plot it on
+beautiful charts. The snippet below produces a line-chart based on data generated
+using Clojure&rsquo;s time function:</p>
+
+<figure class='code'><figcaption><span>Line Chart</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">coll-sizes</span> <span class="p">(</span><span class="nb">map </span><span class="o">#</span><span class="p">(</span><span class="nf">expt</span> <span class="mi">2</span> <span class="nv">%</span><span class="p">)</span> <span class="p">(</span><span class="nb">range </span><span class="mi">5</span> <span class="mi">10</span><span class="p">))</span> <span class="c1">;; Set up the collection sizes to be used</span>
+</span><span class='line'>    <span class="nv">methods</span> <span class="p">[</span><span class="ss">&#39;rvrs</span> <span class="ss">&#39;my-rvrs</span> <span class="ss">&#39;reverse</span><span class="p">]]</span> <span class="c1">;; Hold method names in a collection as symbols                  </span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">x</span> <span class="nv">methods</span>
+</span><span class='line'>          <span class="nv">y</span> <span class="nv">coll-sizes</span>
+</span><span class='line'>          <span class="ss">:let</span> <span class="p">[</span><span class="nv">z</span> <span class="p">(</span><span class="nb">binding </span><span class="p">[</span><span class="nv">*out*</span> <span class="p">(</span><span class="nf">java.io.StringWriter.</span><span class="p">)]</span> <span class="c1">;; Pipe stdout to a StringWriter (x * y instantiations)</span>
+</span><span class='line'>                    <span class="p">(</span><span class="nb">time </span><span class="p">((</span><span class="nb">resolve </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">range </span><span class="mi">0</span> <span class="nv">y</span><span class="p">)))</span> <span class="c1">;; Resolve x (symbol) to actual function and apply it to coll (size y), timing the running time and printing it to the StringWriter</span>
+</span><span class='line'>                    <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">(</span><span class="nb">.. </span><span class="nv">*out*</span> <span class="nv">toString</span><span class="p">)</span> <span class="c1">;; Retrieve output from StringWriter</span>
+</span><span class='line'>                         <span class="p">(</span><span class="nb">re-find </span><span class="o">#</span><span class="s">&quot;\d+.\d+&quot;</span><span class="p">)</span> <span class="c1">;; Parse out the numeric value (running time)</span>
+</span><span class='line'>                         <span class="nv">Double/parseDouble</span><span class="p">))]]</span>
+</span><span class='line'>      <span class="p">[</span><span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">])</span> <span class="c1">;; Convert to double for plotting</span>
+</span><span class='line'>    <span class="nv">to-dataset</span> <span class="c1">;; Convert the yielded list an Incanter dataset</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">with-data</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">save-pdf</span> <span class="p">(</span><span class="nf">line-chart</span> <span class="ss">:col-1</span> <span class="ss">:col-2</span>
+</span><span class='line'>                            <span class="ss">:group-by</span> <span class="ss">:col-0</span>
+</span><span class='line'>                            <span class="ss">:x-label</span> <span class="s">&quot;coll-size&quot;</span>
+</span><span class='line'>                            <span class="ss">:y-label</span> <span class="s">&quot;runtime (ms)&quot;</span>
+</span><span class='line'>                            <span class="ss">:legend</span> <span class="nv">true</span><span class="p">)</span> <span class="s">&quot;/Users/Roberto/Desktop/reversals.pdf&quot;</span><span class="p">))))</span> <span class="c1">;; Plot the data and save it to a PDF</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;; The for-comprehension yields a collection of this structure:</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;; ([rvrs 32 0.086]</span>
+</span><span class='line'><span class="c1">;;  [rvrs 64 0.145]</span>
+</span><span class='line'><span class="c1">;;  [rvrs 128 0.485]</span>
+</span><span class='line'><span class="c1">;;  [rvrs 256 1.717]</span>
+</span><span class='line'><span class="c1">;;  [rvrs 512 7.809]</span>
+</span><span class='line'><span class="c1">;;  [my-rvrs 32 0.018]</span>
+</span><span class='line'><span class="c1">;;  [my-rvrs 64 0.016]</span>
+</span><span class='line'><span class="c1">;;  [my-rvrs 128 0.024]</span>
+</span><span class='line'><span class="c1">;;  [my-rvrs 256 0.042]</span>
+</span><span class='line'><span class="c1">;;  [my-rvrs 512 0.082]</span>
+</span><span class='line'><span class="c1">;;  [reverse 32 0.009]</span>
+</span><span class='line'><span class="c1">;;  [reverse 64 0.007]</span>
+</span><span class='line'><span class="c1">;;  [reverse 128 0.014]</span>
+</span><span class='line'><span class="c1">;;  [reverse 256 0.028]</span>
+</span><span class='line'><span class="c1">;;  [reverse 512 0.051])</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;; And calling to-dataset on it yields this output in the REPL:</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;; |  :col-0 | :col-1 | :col-2 |</span>
+</span><span class='line'><span class="c1">;; |---------+--------+--------|</span>
+</span><span class='line'><span class="c1">;; |    rvrs |     32 |  0.073 |</span>
+</span><span class='line'><span class="c1">;; |    rvrs |     64 |  0.132 |</span>
+</span><span class='line'><span class="c1">;; |    rvrs |    128 |  0.473 |</span>
+</span><span class='line'><span class="c1">;; |    rvrs |    256 |  1.704 |</span>
+</span><span class='line'><span class="c1">;; |    rvrs |    512 |  6.696 |</span>
+</span><span class='line'><span class="c1">;; | my-rvrs |     32 |   0.01 |</span>
+</span><span class='line'><span class="c1">;; | my-rvrs |     64 |  0.012 |</span>
+</span><span class='line'><span class="c1">;; | my-rvrs |    128 |  0.022 |</span>
+</span><span class='line'><span class="c1">;; | my-rvrs |    256 |  0.043 |</span>
+</span><span class='line'><span class="c1">;; | my-rvrs |    512 |  0.078 |</span>
+</span><span class='line'><span class="c1">;; | reverse |     32 |  0.007 |</span>
+</span><span class='line'><span class="c1">;; | reverse |     64 |  0.011 |</span>
+</span><span class='line'><span class="c1">;; | reverse |    128 |  0.014 |</span>
+</span><span class='line'><span class="c1">;; | reverse |    256 |  0.026 |</span>
+</span><span class='line'><span class="c1">;; | reverse |    512 |  0.054 |</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It generates <a href="http://rxacevedo.github.io/downloads/code/incanter/reversals.pdf">this PDF</a>.</p>
 ]]></content>
   </entry>
   
@@ -2661,6 +2734,895 @@ types:</p>
 </span><span class='line'>  <span class="p">(</span><span class="nb">filter </span><span class="ss">:has-precious?</span> <span class="nv">hobbits</span><span class="p">))</span>
 </span><span class='line'><span class="c1">;; ({:name &quot;Frodo Baggins&quot;, :hairy-feet? true, :has-precious? true, :height &quot;hobbit-sized&quot;})</span>
 </span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Tale of Two Languages]]></title>
+    <link href="http://rxacevedo.github.io/blog/2013/10/20/a-tale-of-two-languages/"/>
+    <updated>2013-10-20T10:51:00-04:00</updated>
+    <id>http://rxacevedo.github.io/blog/2013/10/20/a-tale-of-two-languages</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m fortunate enough to be part of a team at work that is researching a new JVM language for us to potentially move to in the future. Since it&rsquo;s fun for me, I figured I may as well document the process.</p>
+
+<p>We&rsquo;re a Java shop with developers of varying skill levels, but there hasn&rsquo;t much concentration in other
+languages or paradigms. Many of those on my team have been
+writing OOP for the past 5-10 years, so I am excited to see how the
+transition from the <a href="http://docs.spring.io/spring/docs/2.0.x/api/org/springframework/orm/jdo/TransactionAwarePersistenceManagerFactoryProxy.html">Java way</a>
+where every behavior is coupled with an object, to a more
+behavior-oriented approach (myself included, as I did not know Java or have any professional experience as a programmer when I started). The two languages that we&rsquo;ve opted to look
+into are <a href="http://www.scala-lang.org/">Scala</a> and
+<a href="http://clojure.org/">Clojure</a>.</p>
+
+<p>The main reason for to even consider adopting a new language is, most importantly, to enable developers to approach concurrent development. As Martin Odersky says, &ldquo;the flood is rising.&rdquo;</p>
+
+<p>As an example, I opted for a tree-recursive algorithm, to see how each language would handle it. If you&rsquo;ve taken the Functional Programming in Scala course on Coursera, you will recognize this problem:</p>
+
+<figure class='code'><figcaption><span>Counting change in Java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Change</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">amt</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>    <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">denoms</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+</span><span class='line'>    <span class="n">denoms</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">denoms</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">denoms</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">denoms</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">denoms</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">50</span><span class="o">);</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">ways</span> <span class="o">=</span> <span class="n">countChange</span><span class="o">(</span><span class="n">amt</span><span class="o">,</span> <span class="n">denoms</span><span class="o">);</span>
+</span><span class='line'>    <span class="kt">long</span> <span class="n">finish</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Amount: &quot;</span> <span class="o">+</span> <span class="n">amt</span> <span class="o">+</span> <span class="s">&quot;\nWays to make change: &quot;</span> <span class="o">+</span> <span class="n">ways</span> <span class="o">+</span> <span class="s">&quot;\nTime: &quot;</span> <span class="o">+</span> <span class="o">(</span><span class="n">finish</span> <span class="o">-</span> <span class="n">start</span><span class="o">));</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">countChange</span><span class="o">(</span><span class="kt">int</span> <span class="n">amt</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">denoms</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">amt</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">amt</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">denoms</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nf">countChange</span><span class="o">(</span><span class="n">amt</span> <span class="o">-</span> <span class="n">denoms</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="n">denoms</span><span class="o">)</span> <span class="o">+</span> <span class="n">countChange</span><span class="o">(</span><span class="n">amt</span><span class="o">,</span> <span class="n">denoms</span><span class="o">.</span><span class="na">subList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">denoms</span><span class="o">.</span><span class="na">size</span><span class="o">()));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The same logic implemented in Scala looks like this:</p>
+
+<figure class='code'><figcaption><span>Counting change in Scala</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">import</span> <span class="nn">scala.compat.Platform</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">object</span> <span class="nc">Change</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">amt</span> <span class="k">=</span> <span class="n">args</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">toInt</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">start</span> <span class="k">=</span> <span class="nc">Platform</span><span class="o">.</span><span class="n">currentTime</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">ways</span> <span class="k">=</span> <span class="n">countChange</span><span class="o">(</span><span class="n">amt</span><span class="o">,</span> <span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">,</span> <span class="mi">50</span><span class="o">))</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">finish</span> <span class="k">=</span> <span class="nc">Platform</span><span class="o">.</span><span class="n">currentTime</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="s">&quot;Amount: &quot;</span> <span class="o">+</span> <span class="n">amt</span> <span class="o">+</span> <span class="s">&quot;\nWays to make change: &quot;</span> <span class="o">+</span> <span class="n">ways</span> <span class="o">+</span> <span class="s">&quot;\nTime: &quot;</span> <span class="o">+</span> <span class="o">(</span><span class="n">finish</span> <span class="o">-</span> <span class="n">start</span><span class="o">))</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">countChange</span><span class="o">(</span><span class="n">amt</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">denoms</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">amt</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>  <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">amt</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">denoms</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">else</span> <span class="n">countChange</span><span class="o">(</span><span class="n">amt</span><span class="o">,</span> <span class="n">denoms</span><span class="o">.</span><span class="n">tail</span><span class="o">)</span> <span class="o">+</span> <span class="n">countChange</span><span class="o">(</span><span class="n">amt</span> <span class="o">-</span> <span class="n">denoms</span><span class="o">.</span><span class="n">head</span><span class="o">,</span> <span class="n">denoms</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And finally, Clojure:</p>
+
+<figure class='code'><figcaption><span>Counting change in Clojure</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="kd">ns </span><span class="nv">change.core</span>
+</span><span class='line'>  <span class="p">(</span><span class="ss">:gen-class</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">count-change</span> <span class="p">[</span><span class="nv">amt</span> <span class="nv">denoms</span><span class="p">]</span>
+</span><span class='line'><span class="s">&quot;Returns the number of ways to make change for a given amount using a tree-recursive process&quot;</span>
+</span><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">f</span> <span class="p">(</span><span class="k">fn </span><span class="nv">inner</span> <span class="p">[</span><span class="nv">amt</span> <span class="nv">denoms</span><span class="p">]</span>
+</span><span class='line'>           <span class="p">(</span><span class="nb">cond </span><span class="p">(</span><span class="nb">zero? </span><span class="nv">amt</span><span class="p">)</span> <span class="mi">1</span>
+</span><span class='line'>                 <span class="p">(</span><span class="nb">or </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">amt</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">nil</span> <span class="p">(</span><span class="nb">seq </span><span class="nv">denoms</span><span class="p">)))</span> <span class="mi">0</span>
+</span><span class='line'>                 <span class="ss">:else</span> <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">less-amt</span> <span class="p">(</span><span class="nb">- </span><span class="nv">amt</span> <span class="p">(</span><span class="nb">first </span><span class="nv">denoms</span><span class="p">))</span>
+</span><span class='line'>                             <span class="nv">less-denoms</span> <span class="p">(</span><span class="nb">rest </span><span class="nv">denoms</span><span class="p">)]</span>
+</span><span class='line'>                         <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">inner</span> <span class="nv">amt</span> <span class="nv">less-denoms</span><span class="p">)</span>
+</span><span class='line'>                            <span class="p">(</span><span class="nf">inner</span> <span class="nv">less-amt</span> <span class="nv">denoms</span><span class="p">)))))]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">f</span> <span class="nv">amt</span> <span class="nv">denoms</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">-main</span>
+</span><span class='line'>  <span class="s">&quot;I don&#39;t do a whole lot ... yet.&quot;</span>
+</span><span class='line'>  <span class="p">[</span><span class="o">&amp;</span> <span class="nv">args</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">time </span><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">amt</span> <span class="p">(</span><span class="nf">read-string</span> <span class="p">(</span><span class="nb">first </span><span class="nv">args</span><span class="p">))</span>
+</span><span class='line'>              <span class="nv">ways</span> <span class="p">(</span><span class="nf">count-change</span> <span class="nv">amt</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">5</span> <span class="mi">10</span> <span class="mi">20</span> <span class="mi">50</span><span class="p">])]</span>
+</span><span class='line'>          <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="s">&quot;Amount: &quot;</span> <span class="nv">amt</span> <span class="s">&quot;\nWays: &quot;</span> <span class="nv">ways</span><span class="p">)))))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So how long does this process take to run for each implementation? Here are the compilations (first JDK Version):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>java version <span class="s2">&quot;1.7.0_25&quot;</span>
+</span><span class='line'>Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.7.0_25-b15<span class="o">)</span>
+</span><span class='line'>Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 23.25-b01, mixed mode<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Scala:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>scalac Change.scala <span class="o">&amp;&amp;</span> <span class="k">for </span>i in <span class="k">$(</span>cat sizes.txt<span class="k">)</span>; <span class="k">do </span>scala Change <span class="nv">$i</span>; <span class="k">done</span>
+</span><span class='line'><span class="c"># Note - Scala passess -Xmx256M -Xms32M to Java, so I did the same for the other two</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Java:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>javac Change.java <span class="o">&amp;&amp;</span> <span class="k">for </span>i in <span class="k">$(</span>cat sizes.txt<span class="k">)</span>; <span class="k">do </span>java -Xmx256M -Xms32M Change <span class="nv">$i</span>; <span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Clojure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>java -cp src/:/usr/local/Cellar/clojure/1.5.1/clojure-1.5.1.jar -Dclojure.compile.path<span class="o">=</span>classes clojure.lang.Compile change.core
+</span><span class='line'>Compiling change.core to classes
+</span><span class='line'><span class="k">for </span>i in <span class="k">$(</span>cat sizes.txt<span class="k">)</span>; <span class="k">do </span>java -Xmx256M -Xms32M -cp classes/:/usr/local/Cellar/clojure/1.5.1/clojure-1.5.1.jar change.core <span class="nv">$i</span>; <span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the results (in milliseconds):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'># Java
+</span><span class='line'>Amount: 128
+</span><span class='line'>Ways to make change: 658
+</span><span class='line'>Time: 14
+</span><span class='line'>Amount: 256
+</span><span class='line'>Ways to make change: 6630
+</span><span class='line'>Time: 25
+</span><span class='line'>Amount: 512
+</span><span class='line'>Ways to make change: 78694
+</span><span class='line'>Time: 162
+</span><span class='line'>Amount: 1024
+</span><span class='line'>Ways to make change: 1070685
+</span><span class='line'>Time: 3083
+</span><span class='line'>Amount: 2048
+</span><span class='line'>Ways to make change: 15894424
+</span><span class='line'>Time: 80155
+</span><span class='line'>Amount: 4096
+</span><span class='line'>Ways to make change: 244782054
+</span><span class='line'>Time: 2860846
+</span><span class='line'>
+</span><span class='line'># Scala
+</span><span class='line'>Amount: 128
+</span><span class='line'>Ways to make change: 658
+</span><span class='line'>Time: 12
+</span><span class='line'>Amount: 256
+</span><span class='line'>Ways to make change: 6630
+</span><span class='line'>Time: 16
+</span><span class='line'>Amount: 512
+</span><span class='line'>Ways to make change: 78694
+</span><span class='line'>Time: 89
+</span><span class='line'>Amount: 1024
+</span><span class='line'>Ways to make change: 1070685
+</span><span class='line'>Time: 1777
+</span><span class='line'>Amount: 2048
+</span><span class='line'>Ways to make change: 15894424
+</span><span class='line'>Time: 46779
+</span><span class='line'>Amount: 4096
+</span><span class='line'>Ways to make change: 244782054
+</span><span class='line'>Time: 1422710
+</span><span class='line'>
+</span><span class='line'># Clojure
+</span><span class='line'>Amount: 128
+</span><span class='line'>Ways: 658
+</span><span class='line'>&quot;Elapsed time: 104.863 msecs&quot;
+</span><span class='line'>Amount: 256
+</span><span class='line'>Ways: 6630
+</span><span class='line'>&quot;Elapsed time: 124.266 msecs&quot;
+</span><span class='line'>Amount: 512
+</span><span class='line'>Ways: 78694
+</span><span class='line'>&quot;Elapsed time: 561.276 msecs&quot;
+</span><span class='line'>Amount: 1024
+</span><span class='line'>Ways: 1070685
+</span><span class='line'>&quot;Elapsed time: 9900.2 msecs&quot;
+</span><span class='line'>Amount: 2048
+</span><span class='line'>Ways: 15894424
+</span><span class='line'>&quot;Elapsed time: 258364.033 msecs&quot;
+</span><span class='line'># I got tired of waiting for it to compute the answer for 4096, I&#39;ll just call it &quot;a long long time&quot;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Scala is 2x as fast as Java, Clojure is 3.2x slower than Java and 5.5x slower than Scala (for this problem), ouch! Maybe the bytecode will shed some light on things:</p>
+
+<figure class='code'><figcaption><span>Java bytecode</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>  public static int countChange(int, java.util.List&lt;java.lang.Integer&gt;);
+</span><span class='line'>    Signature: (ILjava/util/List;)I
+</span><span class='line'>    flags: ACC_PUBLIC, ACC_STATIC
+</span><span class='line'>    Code:
+</span><span class='line'>      stack=5, locals=2, args_size=2
+</span><span class='line'>         0: iload_0
+</span><span class='line'>         1: ifne          6
+</span><span class='line'>         4: iconst_1
+</span><span class='line'>         5: ireturn
+</span><span class='line'>         6: iload_0
+</span><span class='line'>         7: iflt          19
+</span><span class='line'>        10: aload_1
+</span><span class='line'>        11: invokeinterface #20,  1           // InterfaceMethod java/util/List.size:()I
+</span><span class='line'>        16: ifne          21
+</span><span class='line'>        19: iconst_0
+</span><span class='line'>        20: ireturn
+</span><span class='line'>        21: iload_0
+</span><span class='line'>        22: aload_1
+</span><span class='line'>        23: iconst_0
+</span><span class='line'>        24: invokeinterface #21,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+</span><span class='line'>        29: checkcast     #22                 // class java/lang/Integer
+</span><span class='line'>        32: invokevirtual #23                 // Method java/lang/Integer.intValue:()I
+</span><span class='line'>        35: isub
+</span><span class='line'>        36: aload_1
+</span><span class='line'>        37: invokestatic  #8                  // Method countChange:(ILjava/util/List;)I
+</span><span class='line'>        40: iload_0
+</span><span class='line'>        41: aload_1
+</span><span class='line'>        42: iconst_1
+</span><span class='line'>        43: aload_1
+</span><span class='line'>        44: invokeinterface #20,  1           // InterfaceMethod java/util/List.size:()I
+</span><span class='line'>        49: invokeinterface #24,  3           // InterfaceMethod java/util/List.subList:(II)Ljava/util/List;
+</span><span class='line'>        54: invokestatic  #8                  // Method countChange:(ILjava/util/List;)I
+</span><span class='line'>        57: iadd
+</span><span class='line'>        58: ireturn
+</span><span class='line'>      LineNumberTable:
+</span><span class='line'>        line 21: 0
+</span><span class='line'>        line 22: 4
+</span><span class='line'>        line 23: 6
+</span><span class='line'>        line 24: 19
+</span><span class='line'>        line 26: 21
+</span><span class='line'>      StackMapTable: number_of_entries = 3
+</span><span class='line'>           frame_type = 6 /* same */
+</span><span class='line'>           frame_type = 12 /* same */
+</span><span class='line'>           frame_type = 1 /* same */
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Scala bytecode</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'> public int countChange(int, scala.collection.immutable.List&lt;java.lang.Object&gt;);
+</span><span class='line'>    Signature: (ILscala/collection/immutable/List;)I
+</span><span class='line'>    flags: ACC_PUBLIC
+</span><span class='line'>    Code:
+</span><span class='line'>      stack=4, locals=3, args_size=3
+</span><span class='line'>         0: iload_1
+</span><span class='line'>         1: iconst_0
+</span><span class='line'>         2: if_icmpne     9
+</span><span class='line'>         5: iconst_1
+</span><span class='line'>         6: goto          53
+</span><span class='line'>         9: iload_1
+</span><span class='line'>        10: iconst_0
+</span><span class='line'>        11: if_icmplt     22
+</span><span class='line'>        14: aload_2
+</span><span class='line'>        15: invokevirtual #117                // Method scala/collection/immutable/List.length:()I
+</span><span class='line'>        18: iconst_0
+</span><span class='line'>        19: if_icmpne     26
+</span><span class='line'>        22: iconst_0
+</span><span class='line'>        23: goto          53
+</span><span class='line'>        26: aload_0
+</span><span class='line'>        27: iload_1
+</span><span class='line'>        28: aload_2
+</span><span class='line'>        29: invokevirtual #120                // Method scala/collection/immutable/List.tail:()Ljava/lang/Object;
+</span><span class='line'>        32: checkcast     #114                // class scala/collection/immutable/List
+</span><span class='line'>        35: invokevirtual #72                 // Method countChange:(ILscala/collection/immutable/List;)I
+</span><span class='line'>        38: aload_0
+</span><span class='line'>        39: iload_1
+</span><span class='line'>        40: aload_2
+</span><span class='line'>        41: invokevirtual #121                // Method scala/collection/immutable/List.head:()Ljava/lang/Object;
+</span><span class='line'>        44: invokestatic  #125                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+</span><span class='line'>        47: isub
+</span><span class='line'>        48: aload_2
+</span><span class='line'>        49: invokevirtual #72                 // Method countChange:(ILscala/collection/immutable/List;)I
+</span><span class='line'>        52: iadd
+</span><span class='line'>        53: ireturn
+</span><span class='line'>      LocalVariableTable:
+</span><span class='line'>        Start  Length  Slot  Name   Signature
+</span><span class='line'>               0      54     0  this   LChange$;
+</span><span class='line'>               0      54     1   amt   I
+</span><span class='line'>               0      54     2 denoms   Lscala/collection/immutable/List;
+</span><span class='line'>      LineNumberTable:
+</span><span class='line'>        line 14: 0
+</span><span class='line'>        line 15: 9
+</span><span class='line'>        line 16: 26
+</span><span class='line'>        line 14: 53
+</span><span class='line'>      StackMapTable: number_of_entries = 4
+</span><span class='line'>           frame_type = 9 /* same */
+</span><span class='line'>           frame_type = 12 /* same */
+</span><span class='line'>           frame_type = 3 /* same */
+</span><span class='line'>           frame_type = 90 /* same_locals_1_stack_item */
+</span><span class='line'>          stack = [ int ]
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Clojure, anonymous functions are compiled into their own class files, so I guess I should include the entire <code>javap</code> output for the fn I defined (inner):</p>
+
+<figure class='code'><figcaption><span>Clojure bytecode</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Compiled from &quot;core.clj&quot;
+</span><span class='line'>public final class change.core$count_change$inner__4 extends clojure.lang.AFunction {
+</span><span class='line'>  public static final clojure.lang.Var const__0;
+</span><span class='line'>    Signature: Lclojure/lang/Var;
+</span><span class='line'>
+</span><span class='line'>  public static final java.lang.Object const__1;
+</span><span class='line'>    Signature: Ljava/lang/Object;
+</span><span class='line'>
+</span><span class='line'>  public static final clojure.lang.Var const__2;
+</span><span class='line'>    Signature: Lclojure/lang/Var;
+</span><span class='line'>
+</span><span class='line'>  public static final java.lang.Object const__3;
+</span><span class='line'>    Signature: Ljava/lang/Object;
+</span><span class='line'>
+</span><span class='line'>  public static final clojure.lang.Var const__4;
+</span><span class='line'>    Signature: Lclojure/lang/Var;
+</span><span class='line'>
+</span><span class='line'>  public static final clojure.lang.Var const__5;
+</span><span class='line'>    Signature: Lclojure/lang/Var;
+</span><span class='line'>
+</span><span class='line'>  public static final clojure.lang.Keyword const__6;
+</span><span class='line'>    Signature: Lclojure/lang/Keyword;
+</span><span class='line'>
+</span><span class='line'>  public static final clojure.lang.Var const__7;
+</span><span class='line'>    Signature: Lclojure/lang/Var;
+</span><span class='line'>
+</span><span class='line'>  public static final clojure.lang.Var const__8;
+</span><span class='line'>    Signature: Lclojure/lang/Var;
+</span><span class='line'>
+</span><span class='line'>  public static final clojure.lang.Var const__9;
+</span><span class='line'>    Signature: Lclojure/lang/Var;
+</span><span class='line'>
+</span><span class='line'>  public static final clojure.lang.Var const__10;
+</span><span class='line'>    Signature: Lclojure/lang/Var;
+</span><span class='line'>
+</span><span class='line'>  public static {};
+</span><span class='line'>    Signature: ()V
+</span><span class='line'>    Code:
+</span><span class='line'>       0: ldc           #23                 // String clojure.core
+</span><span class='line'>       2: ldc           #25                 // String zero?
+</span><span class='line'>       4: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+</span><span class='line'>       7: checkcast     #33                 // class clojure/lang/Var
+</span><span class='line'>      10: putstatic     #35                 // Field const__0:Lclojure/lang/Var;
+</span><span class='line'>      13: lconst_1
+</span><span class='line'>      14: invokestatic  #41                 // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+</span><span class='line'>      17: putstatic     #43                 // Field const__1:Ljava/lang/Object;
+</span><span class='line'>      20: ldc           #23                 // String clojure.core
+</span><span class='line'>      22: ldc           #45                 // String &lt;
+</span><span class='line'>      24: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+</span><span class='line'>      27: checkcast     #33                 // class clojure/lang/Var
+</span><span class='line'>      30: putstatic     #47                 // Field const__2:Lclojure/lang/Var;
+</span><span class='line'>      33: lconst_0
+</span><span class='line'>      34: invokestatic  #41                 // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+</span><span class='line'>      37: putstatic     #49                 // Field const__3:Ljava/lang/Object;
+</span><span class='line'>      40: ldc           #23                 // String clojure.core
+</span><span class='line'>      42: ldc           #51                 // String =
+</span><span class='line'>      44: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+</span><span class='line'>      47: checkcast     #33                 // class clojure/lang/Var
+</span><span class='line'>      50: putstatic     #53                 // Field const__4:Lclojure/lang/Var;
+</span><span class='line'>      53: ldc           #23                 // String clojure.core
+</span><span class='line'>      55: ldc           #55                 // String seq
+</span><span class='line'>      57: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+</span><span class='line'>      60: checkcast     #33                 // class clojure/lang/Var
+</span><span class='line'>      63: putstatic     #57                 // Field const__5:Lclojure/lang/Var;
+</span><span class='line'>      66: aconst_null
+</span><span class='line'>      67: ldc           #59                 // String else
+</span><span class='line'>      69: invokestatic  #63                 // Method clojure/lang/RT.keyword:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Keyword;
+</span><span class='line'>      72: checkcast     #65                 // class clojure/lang/Keyword
+</span><span class='line'>      75: putstatic     #67                 // Field const__6:Lclojure/lang/Keyword;
+</span><span class='line'>      78: ldc           #23                 // String clojure.core
+</span><span class='line'>      80: ldc           #69                 // String -
+</span><span class='line'>      82: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+</span><span class='line'>      85: checkcast     #33                 // class clojure/lang/Var
+</span><span class='line'>      88: putstatic     #71                 // Field const__7:Lclojure/lang/Var;
+</span><span class='line'>      91: ldc           #23                 // String clojure.core
+</span><span class='line'>      93: ldc           #73                 // String first
+</span><span class='line'>      95: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+</span><span class='line'>      98: checkcast     #33                 // class clojure/lang/Var
+</span><span class='line'>     101: putstatic     #75                 // Field const__8:Lclojure/lang/Var;
+</span><span class='line'>     104: ldc           #23                 // String clojure.core
+</span><span class='line'>     106: ldc           #77                 // String rest
+</span><span class='line'>     108: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+</span><span class='line'>     111: checkcast     #33                 // class clojure/lang/Var
+</span><span class='line'>     114: putstatic     #79                 // Field const__9:Lclojure/lang/Var;
+</span><span class='line'>     117: ldc           #23                 // String clojure.core
+</span><span class='line'>     119: ldc           #81                 // String +
+</span><span class='line'>     121: invokestatic  #31                 // Method clojure/lang/RT.var:(Ljava/lang/String;Ljava/lang/String;)Lclojure/lang/Var;
+</span><span class='line'>     124: checkcast     #33                 // class clojure/lang/Var
+</span><span class='line'>     127: putstatic     #83                 // Field const__10:Lclojure/lang/Var;
+</span><span class='line'>     130: return
+</span><span class='line'>
+</span><span class='line'>  public change.core$count_change$inner__4();
+</span><span class='line'>    Signature: ()V
+</span><span class='line'>    Code:
+</span><span class='line'>       0: aload_0
+</span><span class='line'>       1: invokespecial #86                 // Method clojure/lang/AFunction.&quot;&lt;init&gt;&quot;:()V
+</span><span class='line'>       4: return
+</span><span class='line'>
+</span><span class='line'>  public java.lang.Object invoke(java.lang.Object, java.lang.Object);
+</span><span class='line'>    Signature: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+</span><span class='line'>    Code:
+</span><span class='line'>       0: aload_1
+</span><span class='line'>       1: invokestatic  #94                 // Method clojure/lang/Numbers.isZero:(Ljava/lang/Object;)Z
+</span><span class='line'>       4: ifeq          14
+</span><span class='line'>       7: getstatic     #43                 // Field const__1:Ljava/lang/Object;
+</span><span class='line'>      10: goto          148
+</span><span class='line'>      13: pop
+</span><span class='line'>      14: aload_1
+</span><span class='line'>      15: lconst_0
+</span><span class='line'>      16: invokestatic  #98                 // Method clojure/lang/Numbers.lt:(Ljava/lang/Object;J)Z
+</span><span class='line'>      19: istore_3
+</span><span class='line'>      20: iload_3
+</span><span class='line'>      21: ifeq          29
+</span><span class='line'>      24: iload_3
+</span><span class='line'>      25: goto          48
+</span><span class='line'>      28: pop
+</span><span class='line'>      29: aconst_null
+</span><span class='line'>      30: getstatic     #57                 // Field const__5:Lclojure/lang/Var;
+</span><span class='line'>      33: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
+</span><span class='line'>      36: checkcast     #104                // class clojure/lang/IFn
+</span><span class='line'>      39: aload_2
+</span><span class='line'>      40: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+</span><span class='line'>      45: invokestatic  #113                // Method clojure/lang/Util.equiv:(Ljava/lang/Object;Ljava/lang/Object;)Z
+</span><span class='line'>      48: ifeq          58
+</span><span class='line'>      51: getstatic     #49                 // Field const__3:Ljava/lang/Object;
+</span><span class='line'>      54: goto          148
+</span><span class='line'>      57: pop
+</span><span class='line'>      58: getstatic     #67                 // Field const__6:Lclojure/lang/Keyword;
+</span><span class='line'>      61: dup
+</span><span class='line'>      62: ifnull        146
+</span><span class='line'>      65: getstatic     #121                // Field java/lang/Boolean.FALSE:Ljava/lang/Boolean;
+</span><span class='line'>      68: if_acmpeq     147
+</span><span class='line'>      71: aload_1
+</span><span class='line'>      72: getstatic     #75                 // Field const__8:Lclojure/lang/Var;
+</span><span class='line'>      75: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
+</span><span class='line'>      78: checkcast     #104                // class clojure/lang/IFn
+</span><span class='line'>      81: aload_2
+</span><span class='line'>      82: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+</span><span class='line'>      87: invokestatic  #125                // Method clojure/lang/Numbers.minus:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Number;
+</span><span class='line'>      90: astore_3
+</span><span class='line'>      91: getstatic     #79                 // Field const__9:Lclojure/lang/Var;
+</span><span class='line'>      94: invokevirtual #102                // Method clojure/lang/Var.getRawRoot:()Ljava/lang/Object;
+</span><span class='line'>      97: checkcast     #104                // class clojure/lang/IFn
+</span><span class='line'>     100: aload_2
+</span><span class='line'>     101: invokeinterface #107,  2          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+</span><span class='line'>     106: astore        4
+</span><span class='line'>     108: aload_0
+</span><span class='line'>     109: checkcast     #104                // class clojure/lang/IFn
+</span><span class='line'>     112: aload_1
+</span><span class='line'>     113: aconst_null
+</span><span class='line'>     114: astore_1
+</span><span class='line'>     115: aload         4
+</span><span class='line'>     117: aconst_null
+</span><span class='line'>     118: astore        4
+</span><span class='line'>     120: invokeinterface #127,  3          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+</span><span class='line'>     125: aload_0
+</span><span class='line'>     126: checkcast     #104                // class clojure/lang/IFn
+</span><span class='line'>     129: aload_3
+</span><span class='line'>     130: aconst_null
+</span><span class='line'>     131: astore_3
+</span><span class='line'>     132: aload_2
+</span><span class='line'>     133: aconst_null
+</span><span class='line'>     134: astore_2
+</span><span class='line'>     135: invokeinterface #127,  3          // InterfaceMethod clojure/lang/IFn.invoke:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+</span><span class='line'>     140: invokestatic  #130                // Method clojure/lang/Numbers.add:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Number;
+</span><span class='line'>     143: goto          148
+</span><span class='line'>     146: pop
+</span><span class='line'>     147: aconst_null
+</span><span class='line'>     148: areturn
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Holy stromboli! Looks like Clojure generates a lot more bytecode.</p>
+
+<p> There&rsquo;s nothing exciting going on in either the Java or Scala bytecode, both make two calls to countChange, they use slightly different instructions when doing the comparisons in the if-else, but that is the most noticeable difference. I thought that maybe the Scala compiler had done something neat to optimize the recursive call, but that seems not to be the case. Scala can optimize for tail-recursive calls by converting them to loops (goto statement at the end of the instruction sequence which jumps to offset 0), but not for this type of algorithm. I am left wondering what magic is taking place to account for the vast difference in performance.</p>
+
+<p>Some thoughts:</p>
+
+<ul>
+<li>I could have used an array in Java instead of an ArrayList in the first example, but I did not feel like this would be the way most developers would approach the problem.</li>
+<li>Clojure is a dynamic language (which explains the slowness) and I did not provide type hints because, again, that is not &ldquo;idiomatic Clojure.&rdquo;</li>
+<li>Clojure is &lsquo;slow&rsquo;, but the syntax woos me, so I will probably learn it anyways.</li>
+<li>All of these languages run on the same ol&#8217; JVM, so one can think of this as comparing &ldquo;effort it takes to write the code&rdquo; vs. how performant it is.</li>
+</ul>
 
 ]]></content>
   </entry>

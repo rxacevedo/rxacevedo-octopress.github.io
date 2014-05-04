@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: meta | Roberto Acevedo]]></title>
+  <link href="http://rxacevedo.github.io/blog/categories/meta/atom.xml" rel="self"/>
+  <link href="http://rxacevedo.github.io/"/>
+  <updated>2014-05-03T23:43:12-04:00</updated>
+  <id>http://rxacevedo.github.io/</id>
+  <author>
+    <name><![CDATA[Roberto Acevedo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamic Binding and Being Meta]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/02/07/dynamic-binding-and-being-meta/"/>
+    <updated>2014-02-07T17:47:38-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/02/07/dynamic-binding-and-being-meta</id>
+    <content type="html"><![CDATA[<p>Yesterday at work I had the perverse urge to send an email to someone
+that contained the code used to generate the email itself. The concept
+is relatively similar to the below (initially incorrect) example:</p>
+
+<p><code>clojure
+(let [a '(println (str "Printing myself: " a))]
+  (eval a))
+;;-&gt; Printing myself: Unbound: #'user/a
+;;-&gt; nil
+</code>
+Clearly this doesn&rsquo;t work, but I would like to explore why exactly that is.
+First though, we should discuss how Clojure (and Lisps in general)
+treat and evaluate functions. When we call a function, we do it in
+this way:</p>
+
+<p><code>clojure
+(inc 1)
+;;-&gt; 2
+</code></p>
+
+<p>This is just a list of symbols; the Clojure reader will recognize
+this list as a call because:</p>
+
+<ol>
+<li>It is not empty.</li>
+<li>It is not quoted.</li>
+</ol>
+
+
+<p>The first item in the list is assumed to be a special form, a macro,
+or a function. This is why this works:</p>
+
+<p><code>clojure
+(+ 1 2 3 4 5)
+;;-&gt; 15
+</code></p>
+
+<p>But this does not:</p>
+
+<p><code>clojure
+(1 2 3 4 5)
+;;-&gt; ClassCastException java.lang.Long cannot be cast to
+;;-&gt; clojure.lang.IFn  user/eval12732 (form-init6247023468986614197.clj:1)
+</code></p>
+
+<p>The exception message sums it up nicely, 1 is not a function and therefore
+cannot be called, so we get an error. Many times though, we will want
+to create a list and not have it evaluated. We do this by quoting the
+list, either with the <code>quote</code> function or using a quote literal <code>'</code>.</p>
+
+<p>``` clojure
+&lsquo;(1 2 3 4 5)
+;;&ndash;> (1 2 3 4 5)</p>
+
+<p>&lsquo;(a list of words and stuff)
+;;&ndash;> (a list of words and stuff)</p>
+
+<p>(quote (0 1 1 2 3))
+;;&ndash;> (0 1 1 2 3)</p>
+
+<p>(quote (here have more words))
+;;&ndash;> (here have more words)
+```</p>
+
+<p>There&rsquo;s no difference between a quoted list and an unquoted
+list aside from the fact that one is evaluated and one is not.
+Likewise, there&rsquo;s no difference between the symbols in a list aside
+from how they are treated, which depends on whether or not the list is
+evaluted.</p>
+
+<p>``` clojure
+&lsquo;(println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> (println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> nil</p>
+
+<p>(println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> This is also a list of symbols!
+;;&ndash;> nil
+```</p>
+
+<p>If we want to evaluate a list, we can use the <code>eval</code> function:</p>
+
+<p><code>clojure
+(eval '(take 10 (iterate inc 0)))
+;;-&gt; (0 1 2 3 4 5 6 7 8 9)
+</code></p>
+
+<p>Going back to the example above:</p>
+
+<p><code>clojure
+(let [a '(println (str "Printing myself: " a))]
+  (eval a))
+;;-&gt; Printing myself: Unbound: #'user/a
+;;-&gt; nil
+</code></p>
+
+<p>This doesn&rsquo;t work because the <code>let</code> binding is lexically scoped,
+meaning that anything declared in the let is bound/accessible only in
+that scope, or the immediate textual region. The <code>eval</code> function,
+however, evaluates forms in a
+<a href="http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/glo_n.html#null_lexical_environment">null lexical environment</a>,
+so it cannot see our binding on <code>a</code>. That is why when we evaluate the
+s-expression using <code>eval</code>, we cannot access the binding on the Var &ndash; it
+is outside of our scope. By that same token, that is why we can have
+nested <code>let</code>s:</p>
+
+<p>``` clojure
+(let [a &ldquo;YOLO&rdquo;]
+  (let [b &ldquo;Don&rsquo;t kill my vibe&rdquo;]</p>
+
+<pre><code>(let [c "I'm my own woman"]
+  (let [d "Go fit or go home"]
+    (println (str "Instagram in a nutshell: \n" 
+                  (clojure.string/join "\n" [a b c d])))))))
+</code></pre>
+
+<p>;;&ndash;> Instagram in a nutshell:
+;;&ndash;> YOLO
+;;&ndash;> Don&rsquo;t kill my vibe
+;;&ndash;> I&rsquo;m my own woman
+;;&ndash;> Go fit or go home
+;;&ndash;> nil                    <br/>
+<code>``
+Each subsequent</code>let<code>is enclosed within the outer</code>let<code>, in which the
+call to</code>println` is evaluated. This is exactly what a closure is:</p>
+
+<p><code>clojure
+(def a "Hey I'm a Var and I'm accessible throughout this entire namespace!")
+;;-&gt; #'user/a
+(let [a "But not when we're in a lexical closure, ha!"]
+  a)
+;;-&gt; "But not when we're in a lexical closure, ha!"
+</code></p>
+
+<p>To get around this scope issue, we need to ensure that the Var we are trying
+to access can be resolved outside of the lexical scope of the call to
+<code>eval</code>. We can do this by either:</p>
+
+<ol>
+<li>Using <code>def</code> to declare the Var and bind a value to it.</li>
+<li>Using <code>declare</code> to declare the Var without a binding, and then use
+<code>binding</code> to bind a value to it.</li>
+</ol>
+
+
+<p>Whichever way we do it, we need to ensure that the Var is dynamically
+accessible, or all of our work will be for naught. This is done by
+declaring or defining the Var with dynamic <strong>metadata</strong>:</p>
+
+<p>``` clojure
+(do
+  (declare ^:dynamic a)
+  (binding [a &lsquo;(println (str &ldquo;Printing myself: &rdquo; a))]</p>
+
+<pre><code>(eval a)))
+</code></pre>
+
+<p> ;;&ndash;> Printing myself: (println (str &ldquo;Printing myself: &rdquo; a))
+ ;;&ndash;> nil
+```</p>
+
+<p>That&rsquo;s the ticket! Now we can be super cool/meta programmer kidz (if
+you have the amazazazing
+<a href="https://github.com/cemerick/pomegranate">pomegranate by Chas Emerick</a> on your classpath):</p>
+
+<p>``` clojure
+(require &lsquo;[cemerick.pomegranate :refer :all])
+;;&ndash;> nil</p>
+
+<p>(add-dependencies :coordinates &lsquo;[[com.draines/postal &ldquo;1.11.1&rdquo;]]</p>
+
+<pre><code>              :repositories {"clojars" "http://clojars.org/repo"})
+</code></pre>
+
+<p>;;&ndash;> {[javax.mail/mail &ldquo;1.4.4&rdquo; :exclusions [[javax.activation/activation]]] nil,
+;;&ndash;>  [commons-codec &ldquo;1.7&rdquo;] nil,
+;;&ndash;>  [com.draines/postal &ldquo;1.11.1&rdquo;]
+;;&ndash;>  #{[javax.mail/mail &ldquo;1.4.4&rdquo; :exclusions [[javax.activation/activation]]] [commons-codec &ldquo;1.7&rdquo;]}}</p>
+
+<p>(require &lsquo;[postal [core :as postal]])
+;;&ndash;> nil</p>
+
+<p>(do
+  (declare ^:dynamic codez)</p>
+
+<pre><code>(binding [codez '(postal/send-message ^{:host "smtp.neatwebsite.com"
+                                        :user "brogrammer@neatwebsite.com"
+                                        :pass "sekr3t!"
+                                        :ssl :damn-right!}
+                                      {:from "A really cool dude"
+                                       :to "you@yoursite.com"
+                                       :subject "Incoming: super meta email"
+                                       :body (str "Czech it out bby, this code generated this email: \n\n" 
+                                                   (binding [*out* (java.io.StringWriter.)]
+                                                     (pprint codez)
+                                                     (.toString *out*)))})]
+  (eval codez)))
+</code></pre>
+
+<p>;;&ndash;> {:error :SUCCESS, :code 0, :message &ldquo;messages sent&rdquo;}
+```</p>
+
+<p>Awesome! That generates an email that looks like this:</p>
+
+<p>``` text
+Czech it out bby, this code generated this email:</p>
+
+<p>(postal/send-message
+{:from &ldquo;A really cool dude&rdquo;,
+ :to &ldquo;<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x79;&#x6f;&#117;&#64;&#121;&#x6f;&#x75;&#114;&#115;&#x69;&#x74;&#x65;&#46;&#x63;&#111;&#x6d;">&#121;&#x6f;&#117;&#64;&#x79;&#x6f;&#x75;&#x72;&#115;&#105;&#116;&#101;&#x2e;&#99;&#111;&#109;</a>&rdquo;,
+ :subject &ldquo;Incoming: super meta email&rdquo;,
+ :body
+ (str
+ &ldquo;Czech it out bby, this code generated this email: \n\n&rdquo;
+ (binding
+ [<em>out</em> (java.io.StringWriter.)]
+ (pprint codez)
+ (.toString <em>out</em>)))})
+```
+Don&rsquo;t you feel a billion times cooler now?</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: fibonacci | Roberto Acevedo]]></title>
+  <link href="http://rxacevedo.github.io/blog/categories/fibonacci/atom.xml" rel="self"/>
+  <link href="http://rxacevedo.github.io/"/>
+  <updated>2014-05-03T23:43:12-04:00</updated>
+  <id>http://rxacevedo.github.io/</id>
+  <author>
+    <name><![CDATA[Roberto Acevedo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Approximating The Golden Ratio]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/02/09/approximating-the-golden-ratio/"/>
+    <updated>2014-02-09T12:47:20-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/02/09/approximating-the-golden-ratio</id>
+    <content type="html"><![CDATA[<p>This will be short post, inspired by a problem I encountered while
+working through chapter 3 of
+<a href="https://gustavus.edu/+max/concrete-abstractions.html">Concrete Abstractions</a>
+a few months back. We are tasked with writing a procedure that
+approximates the Golden Ratio within a certain tolerance. Recall that
+the Golden Ratio is defined as:</p>
+
+<p><code>text
+a/b = (a + b)/a
+</code></p>
+
+<p>With a little math, we can restate this as a recurrence relation,
+which provides the key for writing our procedure:</p>
+
+<p>``` text
+Φ = a/b</p>
+
+<p>a/b = (a + b)/a</p>
+
+<pre><code>= a/a + b/a
+= 1 + b/a
+= 1 + 1/(a/b)
+</code></pre>
+
+<p>a/b = 1 + 1/(a/b)</p>
+
+<p>Φ = 1 + 1/Φ
+```</p>
+
+<p>Now that we can state the Golden Ratio as a function of itself, we can
+write a procedure that will approxiate it within a certain tolerance.
+To know when to stop, we are given a valuable piece of information:
+the error of each approximation is less than 1 over the square of its
+denominator. This means that we can stop <code>recur</code>ring when 1/(b*b) is
+less than our acceptable tolerance. Our final function can be set up
+as:</p>
+
+<p>``` clojure
+(defn approximate-golden-ratio [tolerance]
+  (let [improve (fn [guess]</p>
+
+<pre><code>              (+ 1 (/ 1 guess)))]
+(loop [start 1]
+  (let [d (if (= clojure.lang.Ratio (type start))
+            (denominator start)
+            1)]
+    (if (&gt; tolerance (/ 1 (* d d)))
+      start
+      (recur (improve start)))))))
+</code></pre>
+
+<p>```</p>
+
+<p>The above check on the type of our start argument is necessary because
+in Clojure, 1/1 evaluates to 1 immediately, so calling <code>denominator</code>
+on it will throw a <code>ClassCastException</code> right off the bat. I could not
+find a way around this issue, not even with quoting:</p>
+
+<p>``` clojure
+&lsquo;1/1
+;;&ndash;> 1</p>
+
+<p>&lsquo;(1/1)
+;;&ndash;> (1)
+```</p>
+
+<p>Now with our function in place, we can approximate the Golden Ratio:</p>
+
+<p>``` clojure
+(approximate-golden-ratio 1/50000)
+;;&ndash;> 377/233</p>
+
+<p>(double (approximate-golden-ratio 1/50000))
+;;&ndash;> 1.618025751072961
+```</p>
+
+<p>While we&rsquo;re here, I&rsquo;d like to demonstrate something about the Golden
+Ratio that is pretty neat: each approximation (using this method of
+rational approximations) is a <strong>ratio of successive Fibonacci
+numbers</strong>. Let&rsquo;s modify our function to print these ratios as it
+loops:</p>
+
+<p>``` clojure
+(defn approximate-golden-ratio [tolerance]
+  (let [improve (fn [guess]</p>
+
+<pre><code>              (+ 1 (/ 1 guess)))]
+(loop [start 1]
+  (println (str "Current guess: " start))
+  (let [d (if (= clojure.lang.Ratio (type start))
+            (denominator start)
+            1)]
+    (if (&gt; tolerance (/ 1 (* d d)))
+      start
+      (recur (improve start)))))))
+</code></pre>
+
+<p>```</p>
+
+<p>Now when we call it, we will see successive ratios of the Fibonacci numbers:</p>
+
+<p><code>clojure
+(approximate-golden-ratio 1/50000)
+;;-&gt; Current guess: 1
+;;-&gt; Current guess: 2
+;;-&gt; Current guess: 3/2
+;;-&gt; Current guess: 5/3
+;;-&gt; Current guess: 8/5
+;;-&gt; Current guess: 13/8
+;;-&gt; Current guess: 21/13
+;;-&gt; Current guess: 34/21
+;;-&gt; Current guess: 55/34
+;;-&gt; Current guess: 89/55
+;;-&gt; Current guess: 144/89
+;;-&gt; Current guess: 233/144
+;;-&gt; Current guess: 377/233
+;;-&gt; 377/233
+</code></p>
+
+<p>Which matches the Fibonacci sequence shown below:</p>
+
+<p>``` clojure
+(def fibs (lazy-cat [0 1] (map + fibs (rest fibs))))
+;;&ndash;> #&lsquo;user/fibs</p>
+
+<p>(take 15 fibs)
+;;&ndash;> (0 1 1 2 3 5 8 13 21 34 55 89 144 233 377)
+```</p>
+
+<p>We can define this sequence of ratios in a way simmilar to how we
+define fibs itself (we drop 0 on the low end to avoid dividing by
+zero).</p>
+
+<p>``` clojure
+(def golden-ratios (map / (drop 2 fibs) (drop 1 fibs)))
+;;&ndash;> #&lsquo;user/golden-ratios</p>
+
+<p>(take 15 golden-ratios)
+;;&ndash;> (1 2 3/2 5/3 8/5 13/8 21/13 34/21 55/34 89/55 144/89 233/144
+;;&ndash;> 377/233 610/377 987/610</p>
+
+<p>;; Or
+(take 15 (iterate #(+ 1 (/ 1 %)) 1)))
+;;&ndash;> (1 2 3/2 5/3 8/5 13/8 21/13 34/21 55/34 89/55 144/89 233/144
+;;&ndash;> 377/233 610/377 987/610</p>
+
+<p>(map double (take 15 golden-ratios))
+;;&ndash;> (1.0 2.0 1.5 1.666666666666667 1.6 1.625 1.615384615384615
+;;&ndash;> 1.619047619047619 1.617647058823529 1.618181818181818
+;;&ndash;> 1.617977528089888 1.618055555555556 1.618025751072961
+;;&ndash;> 1.618037135278515 1.618032786885246)</p>
+
+<p>(map double (take 15 (iterate #(+ 1 (/ 1 %)) 1)))
+;;&ndash;> (1.0 2.0 1.5 1.666666666666667 1.6 1.625 1.615384615384615
+;;&ndash;> 1.619047619047619 1.617647058823529 1.618181818181818
+;;&ndash;> 1.617977528089888 1.618055555555556 1.618025751072961
+;;&ndash;> 1.618037135278515 1.618032786885246)</p>
+
+<p>```</p>
+
+<p>Now we can see that these statements are all true:</p>
+
+<p><code>text
+Φ = 1 + (1 / Φ)
+Φ = F(n) / F(n - 1)
+Φ = 1 + (1 / (F(n) / F(n - 1)))
+F(n) = Φ * F(n - 1)
+</code></p>
+
+<p>This last one is interesting &ndash; we can use the golden ratio to
+<strong>approximate</strong> the Fibonacci sequence:</p>
+
+<p>``` clojure
+(map #(* 1.61803 %) (take 15 fibs))
+;;&ndash;> (0.0 1.61803 1.61803 3.23606 4.85409 8.090150000000001 12.94424
+;;&ndash;> 21.034390000000002 33.97863 55.013020000000004 88.99165 144.00467
+;;&ndash;> 232.99632000000003 377.00099 609.9973100000001)</p>
+
+<p>(map #(int (* 1.61803 %)) (take 15 fibs))
+;;&ndash;> (0 1 1 3 4 8 12 21 33 55 88 144 232 377 609)</p>
+
+<p>(drop 1 (take 16 fibs))
+;;&ndash;> (1 1 2 3 5 8 13 21 34 55 89 144 233 377 610)</p>
+
+<p>```</p>
+
+<p>This is only an approximation and does not hold in all cases, but is
+interesting to observe nonetheless.</p>
+]]></content>
+  </entry>
+  
+</feed>

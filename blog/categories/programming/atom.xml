@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: programming, | Roberto Acevedo]]></title>
+  <title><![CDATA[Category: programming | Roberto Acevedo]]></title>
   <link href="http://rxacevedo.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://rxacevedo.github.io/"/>
-  <updated>2014-05-03T19:47:34-04:00</updated>
+  <updated>2014-05-03T23:43:12-04:00</updated>
   <id>http://rxacevedo.github.io/</id>
   <author>
     <name><![CDATA[Roberto Acevedo]]></name>
@@ -14,193 +14,1376 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Recursion in Scala]]></title>
-    <link href="http://rxacevedo.github.io/blog/2013/04/08/recursion-in-scala/"/>
-    <updated>2013-04-08T19:33:00-04:00</updated>
-    <id>http://rxacevedo.github.io/blog/2013/04/08/recursion-in-scala</id>
-    <content type="html"><![CDATA[<p>I&rsquo;ve been going through Martin Odersky&rsquo;s free course on Coursera, <a href="https://www.coursera.org/course/progfun">Functional
-Programming Principles in Scala</a>, and
-I must say that it&rsquo;s prompted me to think in ways that I&rsquo;ve never had to before.
-The course starts off teaching by teaching you how basic logic and arithmetic
-operators work in Scala, but then quickly dives into recursive functions and
-how to use them. In order to help me develop a more concrete
-understanding of the concept, and to help anyone else that may be
-struggling with it themselves, I&rsquo;ve decided to write this blog post to share
-what I have learned so far.</p>
+    <title type="html"><![CDATA[Sierpinski's Triangle]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/02/15/sierpinskis-triangle/"/>
+    <updated>2014-02-15T22:36:06-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/02/15/sierpinskis-triangle</id>
+    <content type="html"><![CDATA[<p>Fractal curves are frequently used to demonstrate recursion in many FP
+texts or tutorials. This post will run through the process of rendering
+<a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinksi&rsquo;s triangle</a>,
+one of the most well-known fractals, and also one of the most
+straightforward to generate.</p>
 
-<p>Recursive functions are functions that call themselves. This post will focus on
-what is called tail-recursion, altough there are also head-recursive functions.
-Basically (as far as I understand it), tail-recursion is when a function <em>does
-stuff</em> and then calls itself as the last step of it&rsquo;s defintion. Head
-recursion, on the other hand, is when a function calls itself at the beginning
-of its defition, saving that iterations state when the call is made, then
-executing any other instructions when the recursive call returns (this would
-then happen for each recursive call). A better explanation can be found
-<a href="http://www.cs.cmu.edu/~adamchik/15-121/lectures/Recursions/recursions.html">here</a>.</p>
+<p>We start by determining the coordinates of our outer triangle, as all other
+coordinates will be a function of these. This was a bit of a pain in
+the ass for me because the JFrame does not use a
+<a href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system">cartesian coordinate system</a>,
+but rather increases both x and y coordinates by advancing down/to the
+right. This means that there are no negative points on the grid. Using
+a 500x500 px plane, our triangle&rsquo;s points would be at (250 75), (25
+450), and (475 450) for the top, bottom left and bottom right,
+respectively.</p>
 
-<p>Consider the following function:</p>
+<p>``` clojure
+(def frame
+  &ldquo;java.awt.Frame instance&rdquo;
+  (doto (Frame.)</p>
 
-<p><code>scala
-def sum(a: Int, b: Int): Int = if(a == b) a else a + sum(a + 1, b)
-</code></p>
-
-<p>Note that the last thing that this function does is call itself. This is a
-recursive function in the sense that it is calling itself. As the name
-implies, this function will return the sum of parameters a and b. Since the
-execution of this wasn&rsquo;t initially evident to me, let&rsquo;s trace it out:</p>
-
-<pre><code>Call 1: a = 1, b = 5 =&gt; sum(1, 5) =&gt; (a == b) ? false =&gt; 1 + sum(1 + 1, 5) 
-Call 2: a = 2, b = 5 =&gt; sum(2, 5) =&gt; (a == b) ? false =&gt; 2 + sum(2 + 1, 5) 
-Call 3: a = 1, b = 5 =&gt; sum(3, 5) =&gt; (a == b) ? false =&gt; 3 + sum(3 + 1, 5) 
-Call 4: a = 1, b = 5 =&gt; sum(4, 5) =&gt; (a == b) ? false =&gt; 4 + sum(4 + 1, 5) 
-Call 5: a = 1, b = 5 =&gt; sum(5, 5) =&gt; (a == b) ? true =&gt; 5 
+<pre><code>(.setVisible true)
+(.setSize 500 500)
+(.setBackground Color/BLACK)))
 </code></pre>
 
-<p>The evaluation of a and b&rsquo;s equality is the exit condition, or <strong>base
-case</strong>. This is necessary with recursive functions, or else execution will go
-on forever. Try omitting that and see what happens if you&rsquo;d like (it&rsquo;ll blow up
-in your face). We can see that at the fifth call, our exit condition
-evaluates to true, so we return a itself, which is in this case 5. Where do we
-return it? To the previous call. Let&rsquo;s further simplify:</p>
+<p>;;&ndash;> nil</p>
 
-<p><code>scala
-sum(1,5)
-1 + sum(2, 5)
-1 + (2 + sum(3, 5))
-1 + (2 + (3 + sum(4, 5)))
-1 + (2 + (3 + (4 + sum(5, 5))))
-1 + (2 + (3 + (4 + (5)))) == 15 // True statement
-</code></p>
+<p>(def ^:dynamic gfx
+  &ldquo;java.awt.Graphics2D instance&rdquo;
+  (doto (.getGraphics frame)</p>
 
-<p>So now we have computed the sum of the numbers between 1 through 5. What if we
-wanted to compute the product of these numbers? The key here is that our
-function drills down until it reaches the termination condition, then it
-&ldquo;shoots back up&rdquo; and does an operation on the returned value for each call.
-Because we are already returning 5, 4 + (return), 3 + (return), 2 + (return),
-and 1 + (return), we already have the basic layout that we want. We want to get
-to here: 5, 4 * (return), 3 * (return), 2 * (return), 1 * (return). This is
-already starting to look like a factorial function, but we&rsquo;re not quite there
-yet. Let&rsquo;s redefine our function to calculate the <strong>product</strong> of the integers
-in range (a, b):</p>
-
-<p><code>scala
-def product(a: Int, b: Int): Int = if(a == b) a else a * product(a + 1, b)
-</code></p>
-
-<p>The same thing will happen, only when we reach our termination condition, we
-will multiply that by our current <em>a</em> value instead of adding it. Let&rsquo;s test that:</p>
-
-<p><code>
-scala&gt; product(1, 5)
-res21: Int = 120
-</code></p>
-
-<p>So now we have the product, and we only had to change the operator that we
-used. Since we are so close, let&rsquo;s go ahead implement a factorial function. We want our
-factorial function to take one argument instead of two, we&rsquo;ll call it x:</p>
-
-<p><code>scala
-def factorial(x: Int): Int = ???
-</code></p>
-
-<p>Some caveats here, we want to give the function our maxiumum argument, and
-calculate recursively going <strong>down</strong>. We&rsquo;ll have to tweak the function a little
-bit to do that. We know that:</p>
-
-<ul>
-<li>We have to decrement our argument for each recursive call</li>
-<li>We&rsquo;ll want to terminate at some point</li>
-</ul>
-
-
-<p><code>scala
-def factorial(x: Int): Int = if(???) ??? else x * factorial(x - 1)
-</code></p>
-
-<p>We want to multiply our inital value by what is returned by the recursive call,
-that call being on the current argument decremented by 1. When should we
-terminate though, and what should we return? I have a habit of checking if a
-value is 0, and one <em>could</em> return 1 when this is met , but that would give us
-an extra one, 5 * 4 * 3 * 2 * 1 * 1, which is an innocuous value to multiply
-by, but increases the depth of our call stack nonetheless. In this case it&rsquo;s not
-necessary, since 5 * 4 * 3 * 2 * 1 will give us our answer. We should check
-when we have reached 1 (and that our input is not negative), and return 1 (to multiply by) in that case. Our new
-definition looks like this:</p>
-
-<p><code>scala
-def factorial(x: Int): Int = if(x &gt;= 1) 1 else x * factorial(x - 1)
-</code></p>
-
-<p>Now let&rsquo;s run that puppy:</p>
-
-<p><code>
-scala&gt; factorial(5)
-res22: Int = 120
-</code></p>
-
-<p>And we get what we expected.</p>
-
-<p>Now, this <em>looks</em> very elegant, doesn&rsquo;t it? Well, we can further simplify.
-If you look back up at the execution of the method, you&rsquo;ll see that we have to
-remember the value of every single iteration, all the way up the
-chain. Our expression grows with each execution, not so much for the sum of 15,
-but you can imagine how quickly it would grow for factorial(200) (well, that returns
-infinity using type Double). What we need is a function that doesn&rsquo;t depend on
-all previous iterations, one that is given every value that it needs to compute
-the value for that iteration, instead of having to run all the way up the
-heirarchy, doing a sum (or multiplication) for each call (within the arguments).
-We can do this by defining an inner function and supplying it with a seed value.
-Lets start with our sum function:</p>
-
-<p>``` scala
-def sum(a: Int, b: Int) = {
-  def inner(acc: Int, a: Int, b: Int): Int = if (a > b) acc else inner(acc + a, a + 1, b)</p>
-
-<pre><code>inner(0, a, b)
+<pre><code>(.setColor Color/WHITE)))
 </code></pre>
 
-<p>}
+<p>;;&ndash;> nil</p>
+
+<p>(do
+  (.drawLine gfx 250 75 25 450)
+  (.drawLine gfx 250 75 475 450)
+  (.drawLine gfx 25 450 475 450))
 ```</p>
 
-<p>In this implementation, we define an inner function that takes three arguments:
-our two previous arguments, and an accumulator. Accumulator is your friend,
-because by passing him into the function each time, we avoid having to keep
-track of what&rsquo;s going on in the call hierarchy above us, we have everything we
-need because accumulator is storing a running total. Also notice that our
-function does not have to do any calculations upon returning, unlike the
-previous implementation that needed to add a to the return value. This function
-is <strong>tail recursive</strong>. We can take advantage of the accumulator and use the
-same approach with our product and factorial functions:</p>
+<p>You should have a white triangle outline on a black background.</p>
 
-<p>``` scala
-def product(a: Int, b: Int) = {
-  def inner(acc: Int, a: Int, b: Int): Int = if (a > b) acc else inner(acc * a, a + 1, b)</p>
+<p><img class="left" src="/images/posts/sierpinski_triangle_fractal/sierpinski_0.png"></p>
 
-<pre><code>inner(1, a, b)
+<p>The next thing that we need to do is figure out what to do
+each time we <code>recur</code>, since our procedure will keep doing that
+until it terminates. If we look at the progression of the drawing from
+the outside in, we see that there is a
+<a href="http://en.wikipedia.org/wiki/Self-similarity">self-similarity</a>
+between the outer triangle and those inside of it. For every triangle,
+there are three more triangles inside of it. This is the key to our
+recursive procedure: <strong>for every one unit of work, we do three units of
+work.</strong> What constitutes a unit of work in this case? Well, the most
+easily observable thing would be drawing a triangle. If we look
+at Sierpinski&rsquo;s triangle, we can see that there are two types of triangles,
+the upright (outer) ones, and the inverted (inner) ones. Let&rsquo;s quickly
+establish how these two types of triangles should be represented in
+our program:</p>
+
+<p>``` clojure
+(defn triangle [p1 p2 p3 t-type]
+  (condp = t-type</p>
+
+<pre><code>:outer {:top p1 :b-left p2 :b-right p3}
+:inner {:t-left p1 :t-right p2 :bottom p3}))
 </code></pre>
 
-<p>}
-```</p>
+<p>```</p>
 
-<p>Note that we seed 1 to this function instead of 0 since we don&rsquo;t want to
-multiply by zero.</p>
+<p>Each triangle is made up of three points. Depending on the <code>t-type</code> we
+pass in, our points will be labeled a certain way. This allows us to
+specify the type of triangle we are passing to another function.
+Looking back at our initial triangle, we can think about what we need
+to do in one of two ways:</p>
 
-<p>Factorial is just as easy:</p>
+<ol>
+<li>We need to draw three new triangles, the outer triangles.</li>
+<li>We need to draw one inverted triangle, the inner triangle.</li>
+</ol>
 
-<p>``` scala
-def factorial(a: Int) = {
-  def inner(acc: Int, a: Int): Int = if (a == 0) acc else inner(acc * a, a &ndash; 1)</p>
 
-<pre><code>inner(1, a)
+<p>We will need to do this three times for every one, so it would be wise
+to choose the least expensive of the two. This makes our decision
+straightforward: for every outer triangle, we need to paint its
+corresponding inner triangle. Our work still increases as a power of
+three each time, but now we are only painting one inner triangle per
+unit of work, instead of three outer triangles per unit of work. Since
+we know that each recursion requires us to do three more units of
+work, this becomes a matter of drawing three inverted triangles per
+recursive call, instead of nine outer triangles.</p>
+
+<p>In order to draw the inner triangle for a triangle, we need to
+determine its coordinates. We can write a convenience method to do
+that for us:</p>
+
+<p>``` clojure
+(defn inner [t]
+  (let [{:keys [top b-left b-right]} t</p>
+
+<pre><code>    [x1 y1] top
+    [x2 y2] b-left
+    [x3 y3] b-right]
+(triangle (map double [(+ x2 (/ (- x1 x2) 2))
+                       (+ y1 (/ (- y2 y1) 2))])
+          (map double [(+ x1 (/ (- x3 x1) 2))
+                       (+ y1 (/ (- y3 y1) 2))])
+          (map double [(+ x2 (/ (- x3 x2) 2))
+                       (/ (+ y2 y3) 2)]) :inner)))
 </code></pre>
 
-<p>}
+<p>```</p>
+
+<p>This function takes a triangle t, and returns a new triangle map for
+the inner triangle with its points labeled. The points are calculated
+relative to the points of the outer triangle, which reduces our effort
+to that of calculating midpoints. Now we can draw the inner triangle
+inside of of the outer triangle that we drew before:</p>
+
+<p><code>clojure
+(draw-triangle (inner (triangle [250 75] [25 450] [475 450] :outer)))
+</code></p>
+
+<p>The last crucial bit is determining the coordinates of the outer
+triangles, since we will need to draw the corresponding inner triangle
+for each. Each of these three new triangles is composed of points from
+the outer triangle and the inner triangle. This makes it easy for us
+to write another convenience method, this time to return three
+triangle maps, one for each triangle:</p>
+
+<p>``` clojure
+(defn outers [t]
+  (let [{[x1 y1] :top</p>
+
+<pre><code>     [x2 y2] :b-left
+     [x3 y3] :b-right} t
+    {[ix1 iy1] :t-left
+     [ix2 iy2] :t-right
+     [ix3 iy3] :bottom} (inner t)]
+{:top (triangle [x1 y1] [ix1 iy1] [ix2 iy2] :outer)
+ :b-left (triangle [ix1 iy1] [x2 y2] [ix3 iy3] :outer)
+ :b-right (triangle [ix2 iy2] [ix3 iy3] [x3 y3] :outer)}))
+</code></pre>
+
+<p>```</p>
+
+<p>This function takes a triangle t, and returns a map of triangle maps,
+each keyed according to which triangle it represents. It takes
+advantage of the procedure <code>inner</code> that we just wrote in order to
+determine the coordinates of each triangle. Now for each of
+these, we can draw its inner:</p>
+
+<p><code>clojure
+(doseq [sub-t (vals (outers (triangle [250 75] [25 450] [475 450] :outer)))]
+  (draw-triangle (inner sub-t)))
+</code></p>
+
+<p>Now that we have a method in place for doing this, we just need to
+recursively tie it together. We can write one last function,
+<code>sierpinski</code>, that will handle the recursion for us:</p>
+
+<p>``` clojure
+(defn sierpinski
+  ([]</p>
+
+<pre><code> (sierpinski 10))
+</code></pre>
+
+<p>  ([lvl] (sierpinski (triangle [250 75] [25 450] [475 450] :outer) lvl true))
+  ([t lvl]</p>
+
+<pre><code> (when (&gt; lvl 0)
+   (do
+     (draw-triangle (inner t))
+     (doseq [sub-t (vals (outers t))]
+       (sierpinski sub-t (dec lvl))))))
+</code></pre>
+
+<p>  ([t lvl first?]</p>
+
+<pre><code> (if first?
+   (do
+     (draw-triangle t)
+     (sierpinski t lvl false))
+   (sierpinski t lvl))))
+</code></pre>
+
+<p>```</p>
+
+<p>This function, when invoked with no arguments, defaults to a 10-level
+Sierpinski triangle. It assumes our JFrame is of size 500x500 and sets
+the initial coordinates accordingly. Since we only want to draw the
+first outer triangle, we use a boolean argument to control whether the
+triangle is drawn, or just its inner triangle. This is only true for
+the first iteration. Each time we <code>recur</code>, we paint our current
+triangle&rsquo;s inner triangle, as well as calling the <code>sierpinski</code> method
+again on each of the three outer triangles, while decrementing our
+level, to do the same thing. These tree-recursive calls to
+<code>sierpinski</code> mirror the recursive nature of the image itself. Here is
+the full source code for the final program:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (sierpinski.clj)</span> <a href='/downloads/code/clojure/sierpinski.clj'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="kd">ns </span><span class="nv">sierpinski</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">import </span><span class="p">[</span><span class="nv">java.awt</span> <span class="nv">Color</span><span class="p">]</span>
+</span><span class='line'>          <span class="p">[</span><span class="nv">java.awt.image</span> <span class="nv">BufferedImage</span><span class="p">]</span>
+</span><span class='line'>          <span class="p">[</span><span class="nv">javax.imageio</span> <span class="nv">ImageIO</span><span class="p">]</span>
+</span><span class='line'>          <span class="p">[</span><span class="nv">javax.swing</span> <span class="nv">JFrame</span><span class="p">])</span>
+</span><span class='line'>  <span class="p">(</span><span class="ss">:gen-class</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">frame</span>
+</span><span class='line'>  <span class="s">&quot;java.awt.JFrame instance&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">doto </span><span class="p">(</span><span class="nf">JFrame.</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">.setVisible</span> <span class="nv">true</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">.setSize</span> <span class="mi">500</span> <span class="mi">500</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">.setBackground</span> <span class="nv">Color/BLACK</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="o">^</span><span class="ss">:dynamic</span> <span class="nv">gfx</span>
+</span><span class='line'>  <span class="s">&quot;java.awt.Graphics2D instance&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">doto </span><span class="p">(</span><span class="nf">.getGraphics</span> <span class="nv">frame</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">.setColor</span> <span class="nv">Color/WHITE</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">triangle</span> <span class="p">[</span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">t-type</span><span class="p">]</span>
+</span><span class='line'>  <span class="s">&quot;Takes three points p1, p2, and p3 and returns</span>
+</span><span class='line'><span class="s">   a triangle map of type t-type. t-type is used</span>
+</span><span class='line'><span class="s">   to specify the ordering/labeling of the input</span>
+</span><span class='line'><span class="s">   coordinates:</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">   :outer {:top p1 :b-left p2 :b-right p3}</span>
+</span><span class='line'><span class="s">   :inner {:t-left p1 :t-right p2 :bottom p3}&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">condp</span> <span class="nb">= </span><span class="nv">t-type</span>
+</span><span class='line'>    <span class="ss">:outer</span> <span class="p">{</span><span class="ss">:top</span> <span class="nv">p1</span> <span class="ss">:b-left</span> <span class="nv">p2</span> <span class="ss">:b-right</span> <span class="nv">p3</span><span class="p">}</span>
+</span><span class='line'>    <span class="ss">:inner</span> <span class="p">{</span><span class="ss">:t-left</span> <span class="nv">p1</span> <span class="ss">:t-right</span> <span class="nv">p2</span> <span class="ss">:bottom</span> <span class="nv">p3</span><span class="p">}))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">inner</span> <span class="p">[</span><span class="nv">t</span><span class="p">]</span>
+</span><span class='line'>  <span class="s">&quot;Takes an :outer triangle t and returns a map of</span>
+</span><span class='line'><span class="s">   coordinates for its inner (inverse) triangle.&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">top</span> <span class="nv">b-left</span> <span class="nv">b-right</span><span class="p">]}</span> <span class="nv">t</span>
+</span><span class='line'>        <span class="p">[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="nv">top</span>
+</span><span class='line'>        <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="nv">b-left</span>
+</span><span class='line'>        <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="nv">b-right</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">triangle</span> <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x2</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>                           <span class="p">(</span><span class="nb">+ </span><span class="nv">y1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">y2</span> <span class="nv">y1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))])</span>
+</span><span class='line'>              <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x3</span> <span class="nv">x1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>                           <span class="p">(</span><span class="nb">+ </span><span class="nv">y1</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">y3</span> <span class="nv">y1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))])</span>
+</span><span class='line'>              <span class="p">(</span><span class="nb">map double </span><span class="p">[(</span><span class="nb">+ </span><span class="nv">x2</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">x3</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>                           <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">y2</span> <span class="nv">y3</span><span class="p">)</span> <span class="mi">2</span><span class="p">)])</span> <span class="ss">:inner</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">outers</span> <span class="p">[</span><span class="nv">t</span><span class="p">]</span>
+</span><span class='line'>  <span class="s">&quot;Takes an :outer triangle t and returns a map of triangle</span>
+</span><span class='line'><span class="s">   maps labeled :top :b-left and :b-right that represent</span>
+</span><span class='line'><span class="s">   the triangle&#39;s three outer triangles.&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[{[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="ss">:top</span>
+</span><span class='line'>         <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="ss">:b-left</span>
+</span><span class='line'>         <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="ss">:b-right</span><span class="p">}</span> <span class="nv">t</span>
+</span><span class='line'>        <span class="p">{[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="ss">:t-left</span>
+</span><span class='line'>         <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="ss">:t-right</span>
+</span><span class='line'>         <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="ss">:bottom</span><span class="p">}</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">t</span><span class="p">)]</span>
+</span><span class='line'>    <span class="p">{</span><span class="ss">:top</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span>
+</span><span class='line'>     <span class="ss">:b-left</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">ix1</span> <span class="nv">iy1</span><span class="p">]</span> <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span>
+</span><span class='line'>     <span class="ss">:b-right</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="nv">ix2</span> <span class="nv">iy2</span><span class="p">]</span> <span class="p">[</span><span class="nv">ix3</span> <span class="nv">iy3</span><span class="p">]</span> <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)}))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">draw-triangle</span> <span class="p">[</span><span class="nv">t</span><span class="p">]</span>
+</span><span class='line'>  <span class="s">&quot;Takes a triangle t and draws it.&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[[[</span><span class="nv">x1</span> <span class="nv">y1</span><span class="p">]</span>
+</span><span class='line'>         <span class="p">[</span><span class="nv">x2</span> <span class="nv">y2</span><span class="p">]</span>
+</span><span class='line'>         <span class="p">[</span><span class="nv">x3</span> <span class="nv">y3</span><span class="p">]]</span> <span class="p">(</span><span class="nb">vals </span><span class="nv">t</span><span class="p">)]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">do</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="nv">x1</span> <span class="nv">y1</span> <span class="nv">x2</span> <span class="nv">y2</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="nv">x1</span> <span class="nv">y1</span> <span class="nv">x3</span> <span class="nv">y3</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">.drawLine</span> <span class="nv">gfx</span> <span class="nv">x2</span> <span class="nv">y2</span> <span class="nv">x3</span> <span class="nv">y3</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;; Entry method</span>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">sierpinski</span>
+</span><span class='line'>  <span class="p">([]</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">sierpinski</span> <span class="mi">10</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">([</span><span class="nv">lvl</span><span class="p">]</span> <span class="p">(</span><span class="nf">sierpinski</span> <span class="p">(</span><span class="nf">triangle</span> <span class="p">[</span><span class="mi">250</span> <span class="mi">75</span><span class="p">]</span> <span class="p">[</span><span class="mi">25</span> <span class="mi">450</span><span class="p">]</span> <span class="p">[</span><span class="mi">475</span> <span class="mi">450</span><span class="p">]</span> <span class="ss">:outer</span><span class="p">)</span> <span class="nv">lvl</span> <span class="nv">true</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">([</span><span class="nv">t</span> <span class="nv">lvl</span><span class="p">]</span>
+</span><span class='line'>     <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">lvl</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">(</span><span class="nf">draw-triangle</span> <span class="p">(</span><span class="nf">inner</span> <span class="nv">t</span><span class="p">))</span>
+</span><span class='line'>       <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">sub-t</span> <span class="p">(</span><span class="nb">vals </span><span class="p">(</span><span class="nf">outers</span> <span class="nv">t</span><span class="p">))]</span>
+</span><span class='line'>         <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">sub-t</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">lvl</span><span class="p">)))))</span>
+</span><span class='line'>  <span class="p">([</span><span class="nv">t</span> <span class="nv">lvl</span> <span class="nv">first?</span><span class="p">]</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">if </span><span class="nv">first?</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">do </span>
+</span><span class='line'>         <span class="p">(</span><span class="nf">draw-triangle</span> <span class="nv">t</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">t</span> <span class="nv">lvl</span> <span class="nv">false</span><span class="p">))</span>
+</span><span class='line'>       <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">t</span> <span class="nv">lvl</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">clear</span> <span class="p">[</span><span class="nv">gfx</span><span class="p">]</span>
+</span><span class='line'>  <span class="s">&quot;Clears the Graphics2D context&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">.clearRect</span> <span class="nv">gfx</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">500</span> <span class="mi">500</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">save</span> <span class="p">[</span><span class="nv">lvl</span> <span class="nv">path</span><span class="p">]</span>
+</span><span class='line'>  <span class="s">&quot;Binds gfx to the Graphics context of a new</span>
+</span><span class='line'><span class="s">   BufferedImage, calls sierpinski to draw on it,</span>
+</span><span class='line'><span class="s">   and then writes the BufferedImage contents to a</span>
+</span><span class='line'><span class="s">   png file at path.&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">c</span> <span class="p">(</span><span class="nf">.getContentPane</span> <span class="nv">frame</span><span class="p">)</span>
+</span><span class='line'>        <span class="nv">bi</span> <span class="p">(</span><span class="nf">BufferedImage.</span> <span class="p">(</span><span class="nf">.getWidth</span> <span class="nv">c</span><span class="p">)</span> <span class="p">(</span><span class="nf">.getHeight</span> <span class="nv">c</span><span class="p">)</span> <span class="nv">BufferedImage/TYPE_INT_RGB</span><span class="p">)</span>
+</span><span class='line'>        <span class="nv">new-gfx</span> <span class="p">(</span><span class="nf">.createGraphics</span> <span class="nv">bi</span><span class="p">)]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">binding </span><span class="p">[</span><span class="nv">gfx</span> <span class="nv">new-gfx</span><span class="p">]</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">clear</span> <span class="nv">gfx</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">sierpinski</span> <span class="nv">lvl</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">ImageIO/write</span> <span class="nv">bi</span> <span class="s">&quot;PNG&quot;</span> <span class="p">(</span><span class="nf">java.io.File.</span> <span class="nv">path</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="o">&amp;</span> <span class="nv">args</span><span class="p">]</span>
+</span><span class='line'>  <span class="s">&quot;Main method&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">clear</span> <span class="nv">gfx</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">sierpinski</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You can suck that into your REPL and run it:</p>
+
+<p>``` clojure
+(load-file &ldquo;/path/to/sierpinski.clj&rdquo;)
+;;&ndash;> nil</p>
+
+<p>(ns sierpinski)
+;;&ndash;> nil</p>
+
+<p>(-main)
+;;&ndash;> nil
 ```</p>
 
-<p>By doing this, we can reuse the same stack frame for each call. This is in
-contrast to our previous approaches, which required that we push onto the stack
-for each consecutive calculation and call, then pop each return off the
-stack in order to arrive at our final value. The first approach is a <strong>recursive process</strong>, whereas the second is called an <strong>iterative process.</strong></p>
+<p>Or just run this from the same directory as the script:</p>
+
+<p><code>bash
+java -cp .:/path/to/clojure.jar clojure.main -m sierpinski sierpinski.clj
+</code></p>
+
+<p>You should see this output:</p>
+
+<p><img src="/images/posts/sierpinski_triangle_fractal/sierpinski_10.png"></p>
+
+<p>P.S. You can call <code>save</code> with a level and a supplied path string to
+save an image for the corresponding Sierpinski triangle (it needs to
+repaint it to a new graphics context).</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Approximating The Golden Ratio]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/02/09/approximating-the-golden-ratio/"/>
+    <updated>2014-02-09T12:47:20-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/02/09/approximating-the-golden-ratio</id>
+    <content type="html"><![CDATA[<p>This will be short post, inspired by a problem I encountered while
+working through chapter 3 of
+<a href="https://gustavus.edu/+max/concrete-abstractions.html">Concrete Abstractions</a>
+a few months back. We are tasked with writing a procedure that
+approximates the Golden Ratio within a certain tolerance. Recall that
+the Golden Ratio is defined as:</p>
+
+<p><code>text
+a/b = (a + b)/a
+</code></p>
+
+<p>With a little math, we can restate this as a recurrence relation,
+which provides the key for writing our procedure:</p>
+
+<p>``` text
+Φ = a/b</p>
+
+<p>a/b = (a + b)/a</p>
+
+<pre><code>= a/a + b/a
+= 1 + b/a
+= 1 + 1/(a/b)
+</code></pre>
+
+<p>a/b = 1 + 1/(a/b)</p>
+
+<p>Φ = 1 + 1/Φ
+```</p>
+
+<p>Now that we can state the Golden Ratio as a function of itself, we can
+write a procedure that will approxiate it within a certain tolerance.
+To know when to stop, we are given a valuable piece of information:
+the error of each approximation is less than 1 over the square of its
+denominator. This means that we can stop <code>recur</code>ring when 1/(b*b) is
+less than our acceptable tolerance. Our final function can be set up
+as:</p>
+
+<p>``` clojure
+(defn approximate-golden-ratio [tolerance]
+  (let [improve (fn [guess]</p>
+
+<pre><code>              (+ 1 (/ 1 guess)))]
+(loop [start 1]
+  (let [d (if (= clojure.lang.Ratio (type start))
+            (denominator start)
+            1)]
+    (if (&gt; tolerance (/ 1 (* d d)))
+      start
+      (recur (improve start)))))))
+</code></pre>
+
+<p>```</p>
+
+<p>The above check on the type of our start argument is necessary because
+in Clojure, 1/1 evaluates to 1 immediately, so calling <code>denominator</code>
+on it will throw a <code>ClassCastException</code> right off the bat. I could not
+find a way around this issue, not even with quoting:</p>
+
+<p>``` clojure
+&lsquo;1/1
+;;&ndash;> 1</p>
+
+<p>&lsquo;(1/1)
+;;&ndash;> (1)
+```</p>
+
+<p>Now with our function in place, we can approximate the Golden Ratio:</p>
+
+<p>``` clojure
+(approximate-golden-ratio 1/50000)
+;;&ndash;> 377/233</p>
+
+<p>(double (approximate-golden-ratio 1/50000))
+;;&ndash;> 1.618025751072961
+```</p>
+
+<p>While we&rsquo;re here, I&rsquo;d like to demonstrate something about the Golden
+Ratio that is pretty neat: each approximation (using this method of
+rational approximations) is a <strong>ratio of successive Fibonacci
+numbers</strong>. Let&rsquo;s modify our function to print these ratios as it
+loops:</p>
+
+<p>``` clojure
+(defn approximate-golden-ratio [tolerance]
+  (let [improve (fn [guess]</p>
+
+<pre><code>              (+ 1 (/ 1 guess)))]
+(loop [start 1]
+  (println (str "Current guess: " start))
+  (let [d (if (= clojure.lang.Ratio (type start))
+            (denominator start)
+            1)]
+    (if (&gt; tolerance (/ 1 (* d d)))
+      start
+      (recur (improve start)))))))
+</code></pre>
+
+<p>```</p>
+
+<p>Now when we call it, we will see successive ratios of the Fibonacci numbers:</p>
+
+<p><code>clojure
+(approximate-golden-ratio 1/50000)
+;;-&gt; Current guess: 1
+;;-&gt; Current guess: 2
+;;-&gt; Current guess: 3/2
+;;-&gt; Current guess: 5/3
+;;-&gt; Current guess: 8/5
+;;-&gt; Current guess: 13/8
+;;-&gt; Current guess: 21/13
+;;-&gt; Current guess: 34/21
+;;-&gt; Current guess: 55/34
+;;-&gt; Current guess: 89/55
+;;-&gt; Current guess: 144/89
+;;-&gt; Current guess: 233/144
+;;-&gt; Current guess: 377/233
+;;-&gt; 377/233
+</code></p>
+
+<p>Which matches the Fibonacci sequence shown below:</p>
+
+<p>``` clojure
+(def fibs (lazy-cat [0 1] (map + fibs (rest fibs))))
+;;&ndash;> #&lsquo;user/fibs</p>
+
+<p>(take 15 fibs)
+;;&ndash;> (0 1 1 2 3 5 8 13 21 34 55 89 144 233 377)
+```</p>
+
+<p>We can define this sequence of ratios in a way simmilar to how we
+define fibs itself (we drop 0 on the low end to avoid dividing by
+zero).</p>
+
+<p>``` clojure
+(def golden-ratios (map / (drop 2 fibs) (drop 1 fibs)))
+;;&ndash;> #&lsquo;user/golden-ratios</p>
+
+<p>(take 15 golden-ratios)
+;;&ndash;> (1 2 3/2 5/3 8/5 13/8 21/13 34/21 55/34 89/55 144/89 233/144
+;;&ndash;> 377/233 610/377 987/610</p>
+
+<p>;; Or
+(take 15 (iterate #(+ 1 (/ 1 %)) 1)))
+;;&ndash;> (1 2 3/2 5/3 8/5 13/8 21/13 34/21 55/34 89/55 144/89 233/144
+;;&ndash;> 377/233 610/377 987/610</p>
+
+<p>(map double (take 15 golden-ratios))
+;;&ndash;> (1.0 2.0 1.5 1.666666666666667 1.6 1.625 1.615384615384615
+;;&ndash;> 1.619047619047619 1.617647058823529 1.618181818181818
+;;&ndash;> 1.617977528089888 1.618055555555556 1.618025751072961
+;;&ndash;> 1.618037135278515 1.618032786885246)</p>
+
+<p>(map double (take 15 (iterate #(+ 1 (/ 1 %)) 1)))
+;;&ndash;> (1.0 2.0 1.5 1.666666666666667 1.6 1.625 1.615384615384615
+;;&ndash;> 1.619047619047619 1.617647058823529 1.618181818181818
+;;&ndash;> 1.617977528089888 1.618055555555556 1.618025751072961
+;;&ndash;> 1.618037135278515 1.618032786885246)</p>
+
+<p>```</p>
+
+<p>Now we can see that these statements are all true:</p>
+
+<p><code>text
+Φ = 1 + (1 / Φ)
+Φ = F(n) / F(n - 1)
+Φ = 1 + (1 / (F(n) / F(n - 1)))
+F(n) = Φ * F(n - 1)
+</code></p>
+
+<p>This last one is interesting &ndash; we can use the golden ratio to
+<strong>approximate</strong> the Fibonacci sequence:</p>
+
+<p>``` clojure
+(map #(* 1.61803 %) (take 15 fibs))
+;;&ndash;> (0.0 1.61803 1.61803 3.23606 4.85409 8.090150000000001 12.94424
+;;&ndash;> 21.034390000000002 33.97863 55.013020000000004 88.99165 144.00467
+;;&ndash;> 232.99632000000003 377.00099 609.9973100000001)</p>
+
+<p>(map #(int (* 1.61803 %)) (take 15 fibs))
+;;&ndash;> (0 1 1 3 4 8 12 21 33 55 88 144 232 377 609)</p>
+
+<p>(drop 1 (take 16 fibs))
+;;&ndash;> (1 1 2 3 5 8 13 21 34 55 89 144 233 377 610)</p>
+
+<p>```</p>
+
+<p>This is only an approximation and does not hold in all cases, but is
+interesting to observe nonetheless.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamic Binding and Being Meta]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/02/07/dynamic-binding-and-being-meta/"/>
+    <updated>2014-02-07T17:47:38-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/02/07/dynamic-binding-and-being-meta</id>
+    <content type="html"><![CDATA[<p>Yesterday at work I had the perverse urge to send an email to someone
+that contained the code used to generate the email itself. The concept
+is relatively similar to the below (initially incorrect) example:</p>
+
+<p><code>clojure
+(let [a '(println (str "Printing myself: " a))]
+  (eval a))
+;;-&gt; Printing myself: Unbound: #'user/a
+;;-&gt; nil
+</code>
+Clearly this doesn&rsquo;t work, but I would like to explore why exactly that is.
+First though, we should discuss how Clojure (and Lisps in general)
+treat and evaluate functions. When we call a function, we do it in
+this way:</p>
+
+<p><code>clojure
+(inc 1)
+;;-&gt; 2
+</code></p>
+
+<p>This is just a list of symbols; the Clojure reader will recognize
+this list as a call because:</p>
+
+<ol>
+<li>It is not empty.</li>
+<li>It is not quoted.</li>
+</ol>
+
+
+<p>The first item in the list is assumed to be a special form, a macro,
+or a function. This is why this works:</p>
+
+<p><code>clojure
+(+ 1 2 3 4 5)
+;;-&gt; 15
+</code></p>
+
+<p>But this does not:</p>
+
+<p><code>clojure
+(1 2 3 4 5)
+;;-&gt; ClassCastException java.lang.Long cannot be cast to
+;;-&gt; clojure.lang.IFn  user/eval12732 (form-init6247023468986614197.clj:1)
+</code></p>
+
+<p>The exception message sums it up nicely, 1 is not a function and therefore
+cannot be called, so we get an error. Many times though, we will want
+to create a list and not have it evaluated. We do this by quoting the
+list, either with the <code>quote</code> function or using a quote literal <code>'</code>.</p>
+
+<p>``` clojure
+&lsquo;(1 2 3 4 5)
+;;&ndash;> (1 2 3 4 5)</p>
+
+<p>&lsquo;(a list of words and stuff)
+;;&ndash;> (a list of words and stuff)</p>
+
+<p>(quote (0 1 1 2 3))
+;;&ndash;> (0 1 1 2 3)</p>
+
+<p>(quote (here have more words))
+;;&ndash;> (here have more words)
+```</p>
+
+<p>There&rsquo;s no difference between a quoted list and an unquoted
+list aside from the fact that one is evaluated and one is not.
+Likewise, there&rsquo;s no difference between the symbols in a list aside
+from how they are treated, which depends on whether or not the list is
+evaluted.</p>
+
+<p>``` clojure
+&lsquo;(println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> (println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> nil</p>
+
+<p>(println (str &ldquo;This is also&rdquo; &ldquo; a list of symbols!&rdquo;))
+;;&ndash;> This is also a list of symbols!
+;;&ndash;> nil
+```</p>
+
+<p>If we want to evaluate a list, we can use the <code>eval</code> function:</p>
+
+<p><code>clojure
+(eval '(take 10 (iterate inc 0)))
+;;-&gt; (0 1 2 3 4 5 6 7 8 9)
+</code></p>
+
+<p>Going back to the example above:</p>
+
+<p><code>clojure
+(let [a '(println (str "Printing myself: " a))]
+  (eval a))
+;;-&gt; Printing myself: Unbound: #'user/a
+;;-&gt; nil
+</code></p>
+
+<p>This doesn&rsquo;t work because the <code>let</code> binding is lexically scoped,
+meaning that anything declared in the let is bound/accessible only in
+that scope, or the immediate textual region. The <code>eval</code> function,
+however, evaluates forms in a
+<a href="http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/glo_n.html#null_lexical_environment">null lexical environment</a>,
+so it cannot see our binding on <code>a</code>. That is why when we evaluate the
+s-expression using <code>eval</code>, we cannot access the binding on the Var &ndash; it
+is outside of our scope. By that same token, that is why we can have
+nested <code>let</code>s:</p>
+
+<p>``` clojure
+(let [a &ldquo;YOLO&rdquo;]
+  (let [b &ldquo;Don&rsquo;t kill my vibe&rdquo;]</p>
+
+<pre><code>(let [c "I'm my own woman"]
+  (let [d "Go fit or go home"]
+    (println (str "Instagram in a nutshell: \n" 
+                  (clojure.string/join "\n" [a b c d])))))))
+</code></pre>
+
+<p>;;&ndash;> Instagram in a nutshell:
+;;&ndash;> YOLO
+;;&ndash;> Don&rsquo;t kill my vibe
+;;&ndash;> I&rsquo;m my own woman
+;;&ndash;> Go fit or go home
+;;&ndash;> nil                    <br/>
+<code>``
+Each subsequent</code>let<code>is enclosed within the outer</code>let<code>, in which the
+call to</code>println` is evaluated. This is exactly what a closure is:</p>
+
+<p><code>clojure
+(def a "Hey I'm a Var and I'm accessible throughout this entire namespace!")
+;;-&gt; #'user/a
+(let [a "But not when we're in a lexical closure, ha!"]
+  a)
+;;-&gt; "But not when we're in a lexical closure, ha!"
+</code></p>
+
+<p>To get around this scope issue, we need to ensure that the Var we are trying
+to access can be resolved outside of the lexical scope of the call to
+<code>eval</code>. We can do this by either:</p>
+
+<ol>
+<li>Using <code>def</code> to declare the Var and bind a value to it.</li>
+<li>Using <code>declare</code> to declare the Var without a binding, and then use
+<code>binding</code> to bind a value to it.</li>
+</ol>
+
+
+<p>Whichever way we do it, we need to ensure that the Var is dynamically
+accessible, or all of our work will be for naught. This is done by
+declaring or defining the Var with dynamic <strong>metadata</strong>:</p>
+
+<p>``` clojure
+(do
+  (declare ^:dynamic a)
+  (binding [a &lsquo;(println (str &ldquo;Printing myself: &rdquo; a))]</p>
+
+<pre><code>(eval a)))
+</code></pre>
+
+<p> ;;&ndash;> Printing myself: (println (str &ldquo;Printing myself: &rdquo; a))
+ ;;&ndash;> nil
+```</p>
+
+<p>That&rsquo;s the ticket! Now we can be super cool/meta programmer kidz (if
+you have the amazazazing
+<a href="https://github.com/cemerick/pomegranate">pomegranate by Chas Emerick</a> on your classpath):</p>
+
+<p>``` clojure
+(require &lsquo;[cemerick.pomegranate :refer :all])
+;;&ndash;> nil</p>
+
+<p>(add-dependencies :coordinates &lsquo;[[com.draines/postal &ldquo;1.11.1&rdquo;]]</p>
+
+<pre><code>              :repositories {"clojars" "http://clojars.org/repo"})
+</code></pre>
+
+<p>;;&ndash;> {[javax.mail/mail &ldquo;1.4.4&rdquo; :exclusions [[javax.activation/activation]]] nil,
+;;&ndash;>  [commons-codec &ldquo;1.7&rdquo;] nil,
+;;&ndash;>  [com.draines/postal &ldquo;1.11.1&rdquo;]
+;;&ndash;>  #{[javax.mail/mail &ldquo;1.4.4&rdquo; :exclusions [[javax.activation/activation]]] [commons-codec &ldquo;1.7&rdquo;]}}</p>
+
+<p>(require &lsquo;[postal [core :as postal]])
+;;&ndash;> nil</p>
+
+<p>(do
+  (declare ^:dynamic codez)</p>
+
+<pre><code>(binding [codez '(postal/send-message ^{:host "smtp.neatwebsite.com"
+                                        :user "brogrammer@neatwebsite.com"
+                                        :pass "sekr3t!"
+                                        :ssl :damn-right!}
+                                      {:from "A really cool dude"
+                                       :to "you@yoursite.com"
+                                       :subject "Incoming: super meta email"
+                                       :body (str "Czech it out bby, this code generated this email: \n\n" 
+                                                   (binding [*out* (java.io.StringWriter.)]
+                                                     (pprint codez)
+                                                     (.toString *out*)))})]
+  (eval codez)))
+</code></pre>
+
+<p>;;&ndash;> {:error :SUCCESS, :code 0, :message &ldquo;messages sent&rdquo;}
+```</p>
+
+<p>Awesome! That generates an email that looks like this:</p>
+
+<p>``` text
+Czech it out bby, this code generated this email:</p>
+
+<p>(postal/send-message
+{:from &ldquo;A really cool dude&rdquo;,
+ :to &ldquo;<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x79;&#111;&#x75;&#64;&#x79;&#x6f;&#117;&#x72;&#115;&#x69;&#x74;&#101;&#46;&#x63;&#111;&#109;">&#121;&#x6f;&#117;&#x40;&#x79;&#111;&#117;&#x72;&#115;&#105;&#x74;&#101;&#46;&#99;&#111;&#x6d;</a>&rdquo;,
+ :subject &ldquo;Incoming: super meta email&rdquo;,
+ :body
+ (str
+ &ldquo;Czech it out bby, this code generated this email: \n\n&rdquo;
+ (binding
+ [<em>out</em> (java.io.StringWriter.)]
+ (pprint codez)
+ (.toString <em>out</em>)))})
+```
+Don&rsquo;t you feel a billion times cooler now?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Predicting Algorithm Running Times]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times/"/>
+    <updated>2014-01-26T19:47:29-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/01/26/predicting-algorithm-running-times</id>
+    <content type="html"><![CDATA[<p>In the first week of the <a href="https://www.coursera.org/course/algs4partI">Algorithms I</a>
+course on <a href="https://www.coursera.org/">Coursera</a>, we are walked through the process
+of doing some mathematical analysis on an algorithm to arrive at an equation that
+allows the prediction of the running time over a larger data set. This seems like
+an incredibly valuable skill to me, so I wanted to walk through the example myself
+so that I could fully understand the process. I started by figuring out how to
+spawn system processes from within Clojure:</p>
+
+<p>``` clojure
+;; Using Java:
+;;
+(&ndash;> (ProcessBuilder. [&ldquo;java&rdquo; &ldquo;-cp&rdquo; &ldquo;.:stdlib.jar&rdquo; &ldquo;ThreeSum&rdquo;</p>
+
+<pre><code>                  "http://algs4.cs.princeton.edu/14analysis/1Kints.txt"])
+(.directory (java.io.File. "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+(.start)
+(.getInputStream)
+slurp)
+</code></pre>
+
+<p>;; More simply, using Clojure constructs:
+;;
+(let [p (sh &ldquo;java&rdquo; &ldquo;-cp&rdquo; &ldquo;.:stdlib.jar&rdquo; &ldquo;ThreeSum&rdquo;</p>
+
+<pre><code>        "http://algs4.cs.princeton.edu/14analysis/1Kints.txt"
+        :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/")]
+</code></pre>
+
+<p>  (:out p))</p>
+
+<p>```</p>
+
+<p>With that out of the way, all that&rsquo;s left is parse the numbers from
+the output and run the same procedure over a variety of inputs. Once
+we&rsquo;ve acquired the data, we can tabulate and/or plot it in Incanter:</p>
+
+<p>Using this command, we can get a lazy sequence of vectors, each
+containing the filename and the amount of time it took for the process
+to run:</p>
+
+<p>```  clojure
+(for [f [&ldquo;1Kints.txt&rdquo;</p>
+
+<pre><code>     "2Kints.txt"
+     "4Kints.txt"]
+  :let [t (-&gt;&gt; (:out (sh "java" "-cp"
+                         ".:stdlib.jar"
+                         "ThreeSum"
+                         (str "http://algs4.cs.princeton.edu/14analysis/" f)
+                         :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+               (re-find #"\d+.\d+")
+               Double/parseDouble)]]
+</code></pre>
+
+<p>  [f t])
+;; ([&ldquo;1Kints.txt&rdquo; 0.294] [&ldquo;2Kints.txt&rdquo; 2.357] [&ldquo;4Kints.txt&rdquo; 18.424])
+```</p>
+
+<p>Now that we have the data, we can create an Incanter dataset from it
+that can be used for plotting purposes.</p>
+
+<p><code>clojure
+(to-dataset
+ [[1000 0.294]
+  [2000 2.357]
+  [4000 18.424]])
+;; | :col-0 | :col-1 |
+;; |--------+--------|
+;; |   1000 |  0.294 |
+;; |   2000 |  2.357 |
+;; |   4000 | 18.424 |
+</code></p>
+
+<p>If we draw a log-log plot, we get a straight line, here are the
+log-log data points (log base 2):</p>
+
+<p>``` clojure
+(with-data (to-dataset (log2 (to-matrix (to-dataset</p>
+
+<pre><code>                                     [[1000 0.294]
+                                      [2000 2.357]
+                                      [4000 18.424]]))))
+</code></pre>
+
+<p>  $data)
+;; |             :col-0 |              :col-1 |
+;; |&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+;; |  9.965784284662087 | -1.7661119398257226 |
+;; | 10.965784284662087 |  1.2369517585880805 |
+;; | 11.965784284662087 |   4.203514411130758 |
+```</p>
+
+<p>Now we set up our equation as follows:</p>
+
+<pre><code>T(n) = ?
+
+Since applying log/log yields a straight line, we can apply the
+power law. The power law states that:
+
+y = a (x^k) (we omit the deviation term in this example)
+
+This can be rewritten as:
+
+T(n) = a(n ^ b)
+
+and after taking the lg of both sides, can be expressed as:
+
+lg(T(n)) = b lg(n) + c
+
+This looks a lot like the slope-intercept form of a line, does it
+not? If we set up out equation as:
+
+y = mx + b
+</code></pre>
+
+<p>The slope of the line (b in our original equation) is:</p>
+
+<p><code>clojure
+(/ (- 4.203514411130758 1.2369517585880805)
+   (- 11.965784284662087 10.965784284662087))
+;; 2.9665626525426774
+</code>
+So now we can write:</p>
+
+<pre><code>lg(T(n) = 2.97 lg(n) + c
+</code></pre>
+
+<p>We can plug in some data points to solve for c:</p>
+
+<pre><code>4.203514411130758 = 2.97 (11.965784284662087) + c
+</code></pre>
+
+<p><code>clojure
+(- 4.203514411130758 (* 2.97 11.965784284662087))
+;; -31.33486491431564
+</code></p>
+
+<p>So b = 2.97, c = -31.33</p>
+
+<p>The final equation is then:</p>
+
+<pre><code>lg(T(n)) = 2.97 lg(n) - 31.33
+</code></pre>
+
+<p>We now want to get back to the form T(n) = a(n ^ b). We can use two
+rules of logarithms to do that:</p>
+
+<pre><code>1. a^(b + c) = (a^b)(a^c)
+2. a^(b * c) = (a^b)^c == (a^c)^b
+</code></pre>
+
+<p>We can raise 2 to the power of each side:</p>
+
+<pre><code>2^lg(T(n)) = 2^(2.97 lg(n) - 31.33)
+</code></pre>
+
+<p>Using rule 1:</p>
+
+<pre><code>T(n) = 2^(2.97 lg(n)) * 2^-31.33
+</code></pre>
+
+<p>And using rule 2:</p>
+
+<pre><code>T(n) = (2^(lg(n)))^2.97 * 2^-31.33
+    = n^2.97 * 2^-31.33
+    = 3.705E-10 * n^2.97
+</code></pre>
+
+<p>Finally:</p>
+
+<pre><code>T(n) = 3.7045054312558825E-10 (n ^ 2.97)
+</code></pre>
+
+<p>With this, we should be able to plug in 8000 and get an approximation
+of the running time:</p>
+
+<pre><code>T(8000) = 3.7045054312558825E-10 (8000 ^ 2.97)
+</code></pre>
+
+<p>``` clojure
+(* 3.7045054312558825E-10 (pow 8000 2.97))
+;; 144.84633044665534 (seconds)</p>
+
+<p>```
+And when we run it to test our theory:</p>
+
+<p>``` clojure
+(for [f [&ldquo;8Kints.txt&rdquo;]</p>
+
+<pre><code>  :let [t (-&gt;&gt; (:out (sh "java" "-cp"
+                         ".:stdlib.jar"
+                         "ThreeSum"
+                         (str "http://algs4.cs.princeton.edu/14analysis/" f)
+                         :dir "/Users/Roberto/git/working/algorithms_1/ThreeSum/"))
+               (re-find #"\d+.\d+")
+               Double/parseDouble)]]
+</code></pre>
+
+<p>  [f t])
+;; ([&ldquo;8Kints.txt&rdquo; 147.342])
+```</p>
+
+<p>We get what approximately what we expected.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[First-class Functions]]></title>
+    <link href="http://rxacevedo.github.io/blog/2014/01/07/first-class-functions/"/>
+    <updated>2014-01-07T19:25:44-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2014/01/07/first-class-functions</id>
+    <content type="html"><![CDATA[<p>Functions that take functions as arguments and functions that return functions
+as their results can be a somewhat tricky concept to grasp coming from a
+purely object-oriented style of programming. I will say up front that higher-order
+functions are mostly useful for list-processing, but we will soon see
+that this enables us to affect changes on data (or data structures) without
+actually modifying state, which comes in quite handy when writing threaded code.</p>
+
+<p><code>clojure Le map
+map
+;; #&lt;core$map clojure.core$map@17448423&gt;
+</code></p>
+
+<p>Map? That&rsquo;s it? Yes, map is a function that takes a function and a number of
+collections and will apply that function in one of two ways</p>
+
+<ol>
+<li>To each element of the collection &ndash; f(element)</li>
+<li>To the group of elements that are at equal positions in the collections &ndash;
+f(element1, element2, element3)</li>
+</ol>
+
+
+<p>One can easily observe the usefulness of higher-order functions (or HOFs) in this sense.
+Here is a contrived example of mapping an anonymous function:</p>
+
+<p>``` clojure Our first HOF
+(map #(assoc % :cry (condp = (:type %)</p>
+
+<pre><code>                  :cat "Meow"
+                  :dog "Woof"
+                  "HELP"))
+ [{:name "Spot" :type :dog} 
+  {:name "Whiskers" :type :cat}                                     
+  {:name "Leila" :type :dog} 
+  {:name "Geronimo" :type :cat}
+  {:name "Izolda the Russian mail-order bride"}])
+</code></pre>
+
+<p>;; ({:cry &ldquo;Woof&rdquo;, :name &ldquo;Spot&rdquo;, :type :dog}
+;;  {:cry &ldquo;Meow&rdquo;, :name &ldquo;Whiskers&rdquo;, :type :cat}
+;;  {:cry &ldquo;Woof&rdquo;, :name &ldquo;Leila&rdquo;, :type :dog}
+;;  {:cry &ldquo;Meow&rdquo;, :name &ldquo;Geronimo&rdquo;, :type :cat}
+;;  {:cry &ldquo;HELP&rdquo;, :name &ldquo;Izolda the Russian mail-order bride&rdquo;})
+```</p>
+
+<p><em>Ok, we get it Roberto, there are some neat functions available in Scala and
+Clojure that let us pass functions in, but why would we ever want to write our
+own?</em></p>
+
+<p>We need to think about our functions not just in terms of what they do, but how
+they do it, the order that it&rsquo;s done in, and the types returned by each function
+application. Let&rsquo;s write a function to obfuscate text as an example:</p>
+
+<p>``` clojure Not so HOF
+(defn obfuscate [text]
+  (clojure.string/join (interleave (rest (iterate rand-int 42))</p>
+
+<pre><code>(reverse (seq text)))))
+</code></pre>
+
+<p>```</p>
+
+<p>Or, using a threading macro for clarity (hey, some people don&rsquo;t like
+the parentheses):</p>
+
+<p>``` clojure Still not so HOF
+(defn obfuscate [text]
+  (&ndash;>> text</p>
+
+<pre><code>    seq
+    reverse
+    (interleave (rest (iterate rand-int 42)))
+    clojure.string/join))
+</code></pre>
+
+<p>```</p>
+
+<p>There are some components to this function that we would like to keep, i.e. the
+call to seq to convert the string into a list of chars. But what about about the
+call to reverse? We could easily omit this or replace it with another function.
+We might also want to join the string back together using a character, and we
+might not want to interleave with numbers, but rather with symbols. How could
+we do this? We can remove these components and replace them with variables, and
+then pass functions in that will be bound to those variables.</p>
+
+<p>``` clojure A higher-order function that takes a String and returns a function
+(defn make-obfuscator [text]
+  (ƒ [f g h]</p>
+
+<pre><code>  (f (g (h (seq text))))))
+</code></pre>
+
+<p>```</p>
+
+<p>There are a variety of ways that one can achieve this in Scala, I am using function
+currying here (each function takes a single parameter).</p>
+
+<p><code>scala A higher-order function that takes a String and returns a function
+def makeObfuscator(f: String =&gt; List[Char])(g: List[Char] =&gt; String)(s:String) = {
+  val lambda = (a: String) =&gt; g(f(a))
+  lambda(s)
+}
+</code></p>
+
+<p>We can call this function and directly pass in the functions that we want like
+this:</p>
+
+<p><code>clojure Passing functions as arguments
+((make-obfuscator clojure.string/join #(interleave (rest (iterate rand-int 42))
+%) reverse) "Hello")
+;; "12o7l2l1e0H"
+</code></p>
+
+<p>We can also harness the power of this higher-order function now, to define
+multiple obfuscation functions (note: these are just examples, they are not meant to provide any sort of security):</p>
+
+<p>``` clojure MOAR OBFUSCATORS!
+(defn scramble [text]
+  ((make-obfuscator clojure.string/join #(interleave (rest (iterate rand-int 42)) %) reverse) text))</p>
+
+<p>(defn jumble [text]
+  ((make-obfuscator #(clojure.string/join &ldquo;_&rdquo; %) #(shuffle (seq %)) clojure.string/upper-case) text))</p>
+
+<p>(defn move-yo-chars-every-every-char [text]
+  ((make-obfuscator #(apply str (shuffle %)) #(interleave (map char (iterate inc 33)) %) reverse) text))
+```</p>
+
+<p>Let&rsquo;s test that they work:</p>
+
+<p>``` clojure I&rsquo;m writing stuff
+(scramble &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;27.11o1t0u0l0a0s0 0e0t0 0s0u0r0u0t0i0r0o0M&rdquo;</p>
+
+<p>(jumble &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;S<em> _ </em>\<em>\</em>P_P<em> </em>\<em>C</em> _ <em>E</em> <em>E</em> _ <em>\</em> <em>U</em> <em>S_A</em>)<em> </em>.<em>\</em>\<em>R</em>\<em>U</em>\<em>L__S</em>\<em>\</em>O_A<em>\</em> _ <em>\</em> <em>E_R</em> <em>O_C</em>\<em>T</em>\<em>T_T</em>\<em>\</em>U<em> </em>\<em>I</em>(<em>S</em>\<em>\</em>M_A_\__ &rdquo;</p>
+
+<p>(move-yo-chars-every-every-char &ldquo;Moriturus te saluto.&rdquo;)
+;; &ldquo;a1t # $o2ie30%.u)sr!*&ndash;,tu&amp;.Mu/t4o'\"r(sl+&rdquo;
+```
+As you can see, higher-order functions can be used to generate many new
+functions that share a common behavior pattern.</p>
+
+<p>Here is less complex version in Scala that uses case classes to switch on message
+types:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (Obfuscate.scala)</span> <a href='/downloads/code/scala/Obfuscate.scala'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">object</span> <span class="nc">Obfuscate</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">case</span> <span class="k">class</span> <span class="nc">WikiLeaks</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="k">class</span> <span class="nc">NSA</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="k">class</span> <span class="nc">InstantMessage</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="k">class</span> <span class="nc">Password</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="n">scramble</span><span class="o">(</span><span class="s">&quot;Hello!&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="n">jumble</span><span class="o">(</span><span class="s">&quot;Moriturus te saluto.&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="n">mungeString</span><span class="o">(</span><span class="s">&quot;I&#39;m typing words&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="s">&quot;Case classes\n&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">val</span> <span class="o">(</span><span class="n">wklks</span><span class="o">,</span> <span class="n">nsa</span><span class="o">,</span> <span class="n">im</span><span class="o">,</span> <span class="n">pw</span><span class="o">)</span> <span class="k">=</span> <span class="o">(</span><span class="nc">WikiLeaks</span><span class="o">(</span><span class="s">&quot;Julian Assange&quot;</span><span class="o">),</span> <span class="c1">// This is a tuple</span>
+</span><span class='line'>                                <span class="nc">NSA</span><span class="o">(</span><span class="s">&quot;Edward Snowden&quot;</span><span class="o">),</span>
+</span><span class='line'>                                <span class="nc">InstantMessage</span><span class="o">(</span><span class="s">&quot;OMG GUESS WHO SAID WHAT&quot;</span><span class="o">),</span>
+</span><span class='line'>                                <span class="nc">Password</span><span class="o">(</span><span class="s">&quot;puppyKisses123&quot;</span><span class="o">))</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">println</span><span class="o">(</span><span class="s">&quot;The secrets are: \n&quot;</span> <span class="o">+</span>
+</span><span class='line'>      <span class="n">dispatch</span><span class="o">(</span><span class="n">wklks</span><span class="o">)</span> <span class="o">+</span>
+</span><span class='line'>      <span class="s">&quot;\n&quot;</span> <span class="o">+</span>
+</span><span class='line'>      <span class="n">dispatch</span><span class="o">(</span><span class="n">nsa</span><span class="o">)</span> <span class="o">+</span>
+</span><span class='line'>      <span class="s">&quot;\n&quot;</span> <span class="o">+</span>
+</span><span class='line'>      <span class="n">dispatch</span><span class="o">(</span><span class="n">im</span><span class="o">)</span> <span class="o">+</span>
+</span><span class='line'>      <span class="s">&quot;\n&quot;</span> <span class="o">+</span> <span class="n">dispatch</span><span class="o">(</span><span class="n">pw</span><span class="o">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">dispatch</span><span class="o">(</span><span class="n">message</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span><span class="k">=</span> <span class="n">message</span> <span class="k">match</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nc">WikiLeaks</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">scramble</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">toString</span><span class="o">)</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nc">NSA</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">jumble</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">toString</span><span class="o">)</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nc">InstantMessage</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">mungeString</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">toString</span><span class="o">)</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nc">Password</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">scramble</span><span class="o">(</span><span class="n">jumble</span><span class="o">(</span><span class="n">scramble</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">toString</span><span class="o">)))</span>
+</span><span class='line'>      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="s">&quot;None&quot;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Old and boring</span>
+</span><span class='line'>  <span class="c1">// def obfuscate(text: String): String = {</span>
+</span><span class='line'>  <span class="c1">//   util.Random.shuffle(List.concat(text)).mkString</span>
+</span><span class='line'>  <span class="c1">// }</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">makeObfuscator</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=&gt;</span> <span class="nc">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">])(</span><span class="n">g</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">composed</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">g</span><span class="o">(</span><span class="n">f</span><span class="o">(</span><span class="n">a</span><span class="o">))</span>
+</span><span class='line'>    <span class="n">composed</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">scramble</span><span class="o">(</span><span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">f</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">util</span><span class="o">.</span><span class="nc">Random</span><span class="o">.</span><span class="n">shuffle</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="n">concat</span><span class="o">(</span><span class="n">a</span><span class="o">))</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">mkString</span>
+</span><span class='line'>    <span class="n">makeObfuscator</span><span class="o">(</span><span class="n">f</span><span class="o">)(</span><span class="n">g</span><span class="o">)(</span><span class="n">text</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">jumble</span><span class="o">(</span><span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">f</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">List</span><span class="o">.</span><span class="n">concat</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">mkString</span><span class="o">(</span><span class="s">&quot;:&gt;&gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">makeObfuscator</span><span class="o">(</span><span class="n">f</span><span class="o">)(</span><span class="n">g</span><span class="o">)(</span><span class="n">text</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">mungeString</span><span class="o">(</span><span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">f</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">List</span><span class="o">.</span><span class="n">concat</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Char</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">mkString</span><span class="o">(</span><span class="s">&quot;666&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">makeObfuscator</span><span class="o">(</span><span class="n">f</span><span class="o">)(</span><span class="n">g</span><span class="o">)(</span><span class="n">text</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

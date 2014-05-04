@@ -1,99 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Multi-threaded Socket Server - Roberto Acevedo</title>
-  <meta name="author" content="Roberto Acevedo">
-
-  
-  <meta name="description" content="This a multi-threaded socket server/client system I put together for school using POSIX threads &ndash; it was also my C primer. I&rsquo;m sure that &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://rxacevedo.github.io/blog/2012/12/03/socket-server">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Roberto Acevedo" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-
-  
-
-</head>
-
-<body   class="collapse-sidebar sidebar-footer" >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Roberto Acevedo</a></h1>
-  
-    <h2>Navel-gazing</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:rxacevedo.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
+  <title><![CDATA[Category: c | Roberto Acevedo]]></title>
+  <link href="http://rxacevedo.github.io/blog/categories/c/atom.xml" rel="self"/>
+  <link href="http://rxacevedo.github.io/"/>
+  <updated>2014-05-03T23:43:12-04:00</updated>
+  <id>http://rxacevedo.github.io/</id>
+  <author>
+    <name><![CDATA[Roberto Acevedo]]></name>
     
-      <h1 class="entry-title">Multi-threaded Socket Server</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-12-03T11:34:00-05:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>This a multi-threaded socket server/client system I put together for school using POSIX threads &ndash; it was also my C primer. I&rsquo;m sure that there are much more efficient ways of doing this, but I figured I&rsquo;d post it for anyone looking for an example to work off of (I make no guarantees regarding this code, I have much more to learn about multi-threading and C in general).</p>
+  <entry>
+    <title type="html"><![CDATA[Multi-threaded Socket Server]]></title>
+    <link href="http://rxacevedo.github.io/blog/2012/12/03/socket-server/"/>
+    <updated>2012-12-03T11:34:00-05:00</updated>
+    <id>http://rxacevedo.github.io/blog/2012/12/03/socket-server</id>
+    <content type="html"><![CDATA[<p>This a multi-threaded socket server/client system I put together for school using POSIX threads &ndash; it was also my C primer. I&rsquo;m sure that there are much more efficient ways of doing this, but I figured I&rsquo;d post it for anyone looking for an example to work off of (I make no guarantees regarding this code, I have much more to learn about multi-threading and C in general).</p>
 
 <p>In the screenshot below, you can see 16 threads in queue while the main thread continues to handle requests, spawning new threads to serve each one (they exit too quickly to be seen in htop/the screenshot). I tested the server with some help from <a href="http://terite.com">my friend David</a>, who wrote a quick test case in Node to send a connection request every 5ms, writing the string &ldquo;data&rdquo; to the socket upon success.</p>
 
@@ -101,7 +26,7 @@
 
 <h3>Server program</h3>
 
-<figure class='code'><figcaption><span> (server.c)</span> <a href='/downloads/code/server/server.c'>download</a></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (server.c)</span> <a href='/downloads/code/server/server.c'>download</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -424,12 +349,11 @@
 </span><span class='line'>
 </span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Client program</h3>
 
-<figure class='code'><figcaption><span> (client.c)</span> <a href='/downloads/code/server/client.c'>download</a></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (client.c)</span> <a href='/downloads/code/server/client.c'>download</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -580,12 +504,11 @@
 </span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Node test</h3>
 
-<figure class='code'><figcaption><span> (stress.js)</span> <a href='/downloads/code/server/stress.js'>download</a></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (stress.js)</span> <a href='/downloads/code/server/stress.js'>download</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -640,136 +563,8 @@
 </span><span class='line'>  <span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;\u001B[2J\u001B[0;0f&#39;</span><span class="p">);</span>
 </span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Open&quot;</span><span class="p">,</span> <span class="nx">open</span><span class="p">);</span>
 </span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
   
-
-<span class="byline author vcard">Posted by <span class="fn">Roberto Acevedo</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-03T11:34:00-05:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/c/'>c</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://rxacevedo.github.io/blog/2012/12/03/socket-server/" data-via="rxacevedo" data-counturl="http://rxacevedo.github.io/blog/2012/12/03/socket-server/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/04/08/recursion-in-scala/" title="Next Post: Recursion in Scala">Recursion in Scala &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>About Me</h1>
-  <p>A little something about me.</p>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/rxacevedo">@rxacevedo</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'rxacevedo',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Roberto Acevedo -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
