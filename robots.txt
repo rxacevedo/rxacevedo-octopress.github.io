@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: http://rxacevedo.github.io/sitemap.xml
+Sitemap: http://robertoacevedo.net/sitemap.xml
