@@ -1,9 +1,0 @@
-#!/bin/bash
-# Usage: prett_print <data in quotes>
-
-data=$1
-
-lines=$(echo $data | tr ',' '\n' | tr ' ' '_')
-# lines=$(echo $data | tr ',' '\n')
-
-for i in $lines; do echo "[$i]"; done
